@@ -1,78 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Moonvine Forge Studios</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #1d2240 0%, #090a12 55%, #030305 100%);
-      color: #f5f0e8;
-      font-family: Georgia, 'Times New Roman', serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-    }
+  <meta
+    name="description"
+    content="Moonvine Forge Studios is an independent game studio creating atmospheric video games. Strange worlds forged in moonlight."
+  />
 
-    main {
-      max-width: 720px;
-    }
-
-    .symbol {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      font-size: clamp(2.4rem, 7vw, 5rem);
-      margin: 0;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    p {
-      font-size: 1.25rem;
-      line-height: 1.6;
-      color: #d8d0c4;
-    }
-
-    .tagline {
-      margin-top: 1.5rem;
-      font-style: italic;
-    }
-
-    .footer {
-      margin-top: 3rem;
-      font-size: 0.95rem;
-      color: #a69b8e;
-    }
-
-    a {
-      color: #f1d18a;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <main>
-    <div class="symbol">☾ ✦ ⚒</div>
-    <h1>Moonvine Forge Studios</h1>
-    <p class="tagline">Independent game studio crafting atmospheric worlds.</p>
-    <p>First projects soon to be released.</p>
 
-    <div class="footer">
-      <a href="mailto:contact@moonvineforge.com">contact@moonvineforge.com</a>
-      <br><br>
-      Impressum and privacy policy coming soon.
-    </div>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Moonvine Forge Studios home">
+      <span class="brand-mark">MVF</span>
+      <span class="brand-text">Moonvine Forge</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#project">Project</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Independent Game Studio</p>
+
+        <h1>Moonvine Forge Studios</h1>
+
+        <p class="tagline">Strange worlds forged in moonlight.</p>
+
+        <p class="hero-text">
+          We create atmospheric video games shaped by memorable worlds,
+          strong systems, and carefully crafted player experiences.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button primary" href="#project">View first project</a>
+          <a class="button secondary" href="mailto:contact@moonvineforge.com">Contact us</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="sigil">
+          <div class="moon"></div>
+          <div class="anvil">
+            <span class="anvil-horn"></span>
+            <span class="anvil-body"></span>
+            <span class="anvil-foot"></span>
+          </div>
+          <div class="vine vine-one"></div>
+          <div class="vine vine-two"></div>
+          <div class="grapes grapes-one"></div>
+          <div class="grapes grapes-two"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="section-label">About</div>
+
+      <div class="section-content">
+        <h2>Small studio. Careful craft. Unusual worlds.</h2>
+
+        <p>
+          Moonvine Forge Studios is an independent game studio focused on
+          creating atmospheric video games with a distinct identity.
+        </p>
+
+        <p>
+          Our work draws inspiration from moonlit places, strange growth,
+          old tools, hidden rituals, and the quiet tension between beauty
+          and decay.
+        </p>
+      </div>
+    </section>
+
+    <section id="project" class="section project-card">
+      <div class="section-label">First Project</div>
+
+      <div class="section-content">
+        <h2>Currently in development</h2>
+
+        <p>
+          Our first game is currently in development.
+        </p>
+
+        <p>
+          More details will be revealed as the project takes shape. For now,
+          Moonvine Forge is focused on building a strong foundation:
+          distinctive gameplay, a clear visual identity, and a world worth
+          returning to.
+        </p>
+
+        <p class="status-note">More information coming soon.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="section-label">Contact</div>
+
+      <div class="section-content">
+        <h2>Get in touch</h2>
+
+        <p>
+          For business inquiries, press, or general contact, please reach out to:
+        </p>
+
+        <p>
+          <a class="mail-link" href="mailto:contact@moonvineforge.com">
+            contact@moonvineforge.com
+          </a>
+        </p>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year">2026</span> Moonvine Forge Studios. All rights reserved.</p>
+
+    <nav aria-label="Legal navigation">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </nav>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
