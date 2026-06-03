@@ -150,12 +150,13 @@ a:hover {
 
 .hero {
   width: min(var(--max-width), calc(100% - 40px));
-  margin: 42px auto 90px;
+  margin: 72px auto 110px;
   min-height: 620px;
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.85fr);
   align-items: center;
-  gap: 60px;
+  gap: 56px;
+  overflow: hidden;
 }
 
 .hero-content {
@@ -260,19 +261,21 @@ h2 {
 .hero-visual {
   display: grid;
   place-items: center;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .studio-logo {
-  width: min(460px, 82vw);
+  width: clamp(240px, 30vw, 380px);
+  max-width: 100%;
   height: auto;
   display: block;
-  border-radius: 28px;
+  border-radius: 24px;
   border: 1px solid rgba(216, 221, 232, 0.16);
   box-shadow:
-    0 30px 90px rgba(0, 0, 0, 0.62),
-    0 0 70px rgba(216, 221, 232, 0.10),
-    inset 0 0 40px rgba(255, 255, 255, 0.03);
-  background: rgba(0, 0, 0, 0.45);
+    0 26px 80px rgba(0, 0, 0, 0.58),
+    0 0 54px rgba(216, 221, 232, 0.10);
+  background: rgba(0, 0, 0, 0.42);
 }
 
 .section {
@@ -417,8 +420,8 @@ h2 {
   }
 
   .studio-logo {
-    width: min(330px, 82vw);
-    border-radius: 22px;
+    width: min(280px, 72vw);
+    border-radius: 20px;
   }
 
   .section {
