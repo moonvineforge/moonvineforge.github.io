@@ -1,8 +1,9 @@
 :root {
   --bg: #090a0f;
   --bg-soft: #11131c;
-  --panel: rgba(20, 23, 34, 0.78);
-  --panel-border: rgba(225, 229, 238, 0.12);
+  --panel: rgba(15, 17, 24, 0.78);
+  --panel-strong: rgba(10, 11, 16, 0.88);
+  --panel-border: rgba(225, 229, 238, 0.14);
 
   --text: #f3f0e8;
   --muted: #b9b3a7;
@@ -17,7 +18,7 @@
   --max-width: 1120px;
   --radius-large: 28px;
   --radius-medium: 18px;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
 }
 
 * {
@@ -37,22 +38,40 @@ body {
     "Segoe UI", sans-serif;
   line-height: 1.6;
   background:
-    radial-gradient(circle at 78% 12%, rgba(216, 221, 232, 0.16), transparent 25%),
-    radial-gradient(circle at 15% 20%, rgba(110, 31, 60, 0.22), transparent 28%),
-    radial-gradient(circle at 50% 95%, rgba(201, 163, 106, 0.08), transparent 34%),
-    linear-gradient(145deg, #08090d 0%, #0c0f18 44%, #08070a 100%);
+    linear-gradient(
+      145deg,
+      rgba(5, 6, 9, 0.92) 0%,
+      rgba(8, 9, 14, 0.78) 42%,
+      rgba(5, 5, 7, 0.95) 100%
+    ),
+    radial-gradient(circle at 78% 12%, rgba(216, 221, 232, 0.14), transparent 26%),
+    radial-gradient(circle at 15% 20%, rgba(110, 31, 60, 0.18), transparent 30%),
+    url("assets/starchart-bg.png") center top / cover fixed no-repeat,
+    #090a0f;
 }
 
 body::before {
   content: "";
   position: fixed;
   inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.48) 78%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.42));
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: linear-gradient(to bottom, black, transparent 82%);
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 90px 90px;
+  mask-image: linear-gradient(to bottom, black, transparent 86%);
 }
 
 a {
@@ -83,8 +102,8 @@ a:hover {
 }
 
 .brand-mark {
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
   border: 1px solid rgba(216, 221, 232, 0.35);
@@ -95,6 +114,20 @@ a:hover {
   color: var(--silver);
   font-size: 0.76rem;
   box-shadow: 0 0 34px rgba(216, 221, 232, 0.08);
+}
+
+.image-mark {
+  overflow: hidden;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.image-mark img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
 }
 
 .brand-text {
@@ -149,7 +182,10 @@ h2 {
 
 h1 {
   max-width: 760px;
-  font-size: clamp(3.4rem, 8vw, 7.8rem);
+  font-size: clamp(3.2rem, 8vw, 7.8rem);
+  text-shadow:
+    0 2px 18px rgba(0, 0, 0, 0.85),
+    0 0 38px rgba(216, 221, 232, 0.08);
 }
 
 h2 {
@@ -163,6 +199,9 @@ h2 {
   color: var(--silver);
   font-size: clamp(1.35rem, 2.8vw, 2.35rem);
   line-height: 1.25;
+  text-shadow:
+    0 2px 16px rgba(0, 0, 0, 0.9),
+    0 0 28px rgba(216, 221, 232, 0.12);
 }
 
 .hero-text {
@@ -170,6 +209,7 @@ h2 {
   margin: 28px 0 0;
   color: var(--muted);
   font-size: 1.08rem;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9);
 }
 
 .hero-actions {
@@ -191,7 +231,8 @@ h2 {
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
-    background 0.2s ease;
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .button:hover {
@@ -201,12 +242,19 @@ h2 {
 .button.primary {
   color: #090a0f;
   background: linear-gradient(135deg, var(--moon), #bfc7d8);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.32);
 }
 
 .button.secondary {
   color: var(--silver);
-  border: 1px solid rgba(216, 221, 232, 0.22);
-  background: rgba(216, 221, 232, 0.04);
+  border: 1px solid rgba(216, 221, 232, 0.26);
+  background: rgba(8, 9, 14, 0.54);
+  backdrop-filter: blur(12px);
+}
+
+.button.secondary:hover {
+  border-color: rgba(216, 221, 232, 0.48);
+  background: rgba(216, 221, 232, 0.08);
 }
 
 .hero-visual {
@@ -214,136 +262,17 @@ h2 {
   place-items: center;
 }
 
-.sigil {
-  position: relative;
-  width: min(420px, 80vw);
-  aspect-ratio: 1;
-  border: 1px solid rgba(216, 221, 232, 0.14);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 36%, rgba(216, 221, 232, 0.12), transparent 29%),
-    radial-gradient(circle at 50% 100%, rgba(110, 31, 60, 0.18), transparent 46%),
-    rgba(10, 12, 18, 0.7);
-  box-shadow:
-    var(--shadow),
-    inset 0 0 90px rgba(216, 221, 232, 0.04);
-  overflow: hidden;
-}
-
-.sigil::before {
-  content: "";
-  position: absolute;
-  inset: 9%;
-  border: 1px solid rgba(216, 221, 232, 0.1);
-  border-radius: 50%;
-}
-
-.moon {
-  position: absolute;
-  top: 14%;
-  left: 50%;
-  width: 180px;
-  height: 180px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 32% 32%, rgba(255, 255, 255, 0.96), transparent 4%),
-    radial-gradient(circle at 62% 45%, rgba(120, 128, 142, 0.42), transparent 6%),
-    radial-gradient(circle at 48% 68%, rgba(120, 128, 142, 0.28), transparent 9%),
-    radial-gradient(circle at 50% 50%, #eef2f7 0%, #cfd5df 52%, #8d95a6 100%);
-  opacity: 0.78;
-  filter: drop-shadow(0 0 34px rgba(216, 221, 232, 0.26));
-}
-
-.anvil {
-  position: absolute;
-  left: 50%;
-  bottom: 26%;
-  width: 210px;
-  height: 116px;
-  transform: translateX(-50%);
-}
-
-.anvil-body,
-.anvil-foot,
-.anvil-horn {
-  position: absolute;
+.studio-logo {
+  width: min(460px, 82vw);
+  height: auto;
   display: block;
-  background: linear-gradient(180deg, #d8dde8, #717783);
-  box-shadow: inset 0 -12px 20px rgba(0, 0, 0, 0.28);
-}
-
-.anvil-body {
-  left: 32px;
-  top: 24px;
-  width: 136px;
-  height: 46px;
-  clip-path: polygon(0 0, 100% 0, 86% 100%, 12% 100%);
-}
-
-.anvil-horn {
-  left: 2px;
-  top: 20px;
-  width: 80px;
-  height: 36px;
-  clip-path: polygon(0 46%, 100% 0, 100% 100%);
-}
-
-.anvil-foot {
-  left: 58px;
-  top: 76px;
-  width: 94px;
-  height: 28px;
-  clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
-}
-
-.vine {
-  position: absolute;
-  border: 2px solid rgba(93, 137, 86, 0.72);
-  border-left-color: transparent;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  filter: drop-shadow(0 0 10px rgba(93, 137, 86, 0.2));
-}
-
-.vine-one {
-  left: 27%;
-  top: 35%;
-  width: 190px;
-  height: 170px;
-  transform: rotate(32deg);
-}
-
-.vine-two {
-  left: 32%;
-  top: 38%;
-  width: 170px;
-  height: 150px;
-  transform: rotate(205deg);
-}
-
-.grapes-one,
-.grapes-two {
-  position: absolute;
-  width: 42px;
-  height: 48px;
-  background:
-    radial-gradient(circle at 30% 25%, #8a3154 0 22%, transparent 23%),
-    radial-gradient(circle at 62% 24%, #6e1f3c 0 22%, transparent 23%),
-    radial-gradient(circle at 45% 55%, #572039 0 24%, transparent 25%),
-    radial-gradient(circle at 72% 58%, #7d294b 0 20%, transparent 21%);
-  opacity: 0.86;
-}
-
-.grapes-one {
-  right: 27%;
-  top: 54%;
-}
-
-.grapes-two {
-  left: 29%;
-  top: 60%;
-  transform: scale(0.82);
+  border-radius: 28px;
+  border: 1px solid rgba(216, 221, 232, 0.16);
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.62),
+    0 0 70px rgba(216, 221, 232, 0.10),
+    inset 0 0 40px rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .section {
@@ -356,9 +285,9 @@ h2 {
   border: 1px solid var(--panel-border);
   border-radius: var(--radius-large);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.018)),
     var(--panel);
-  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(18px);
 }
 
@@ -372,7 +301,7 @@ h2 {
 .project-card {
   background:
     radial-gradient(circle at 85% 10%, rgba(110, 31, 60, 0.24), transparent 34%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.018)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.018)),
     var(--panel);
 }
 
@@ -380,10 +309,10 @@ h2 {
   display: inline-flex;
   margin-top: 30px !important;
   padding: 10px 14px;
-  border: 1px solid rgba(201, 163, 106, 0.26);
+  border: 1px solid rgba(201, 163, 106, 0.28);
   border-radius: 999px;
   color: var(--gold) !important;
-  background: rgba(201, 163, 106, 0.06);
+  background: rgba(201, 163, 106, 0.07);
   font-size: 0.92rem !important;
 }
 
@@ -416,7 +345,11 @@ h2 {
   padding: 54px;
   border: 1px solid var(--panel-border);
   border-radius: var(--radius-large);
-  background: var(--panel);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.018)),
+    var(--panel-strong);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.46);
+  backdrop-filter: blur(18px);
 }
 
 .legal-page h1 {
@@ -447,6 +380,20 @@ h2 {
 }
 
 @media (max-width: 860px) {
+  body {
+    background:
+      linear-gradient(
+        145deg,
+        rgba(5, 6, 9, 0.94) 0%,
+        rgba(8, 9, 14, 0.84) 42%,
+        rgba(5, 5, 7, 0.96) 100%
+      ),
+      radial-gradient(circle at 78% 12%, rgba(216, 221, 232, 0.12), transparent 26%),
+      radial-gradient(circle at 15% 20%, rgba(110, 31, 60, 0.16), transparent 30%),
+      url("assets/starchart-bg.png") center top / cover scroll no-repeat,
+      #090a0f;
+  }
+
   .site-header,
   .site-footer {
     align-items: flex-start;
@@ -462,23 +409,16 @@ h2 {
     min-height: auto;
     margin-top: 28px;
     grid-template-columns: 1fr;
+    gap: 42px;
   }
 
   .hero-visual {
     order: -1;
   }
 
-  .sigil {
-    width: min(320px, 82vw);
-  }
-
-  .moon {
-    width: 136px;
-    height: 136px;
-  }
-
-  .anvil {
-    transform: translateX(-50%) scale(0.78);
+  .studio-logo {
+    width: min(330px, 82vw);
+    border-radius: 22px;
   }
 
   .section {
@@ -504,6 +444,19 @@ h2 {
     display: none;
   }
 
+  .brand-mark {
+    width: 44px;
+    height: 44px;
+  }
+
+  h1 {
+    font-size: clamp(2.7rem, 15vw, 4.4rem);
+  }
+
+  .tagline {
+    font-size: 1.28rem;
+  }
+
   .hero-actions {
     flex-direction: column;
     align-items: stretch;
@@ -515,5 +468,9 @@ h2 {
 
   .section {
     padding: 28px;
+  }
+
+  .site-footer nav {
+    flex-wrap: wrap;
   }
 }
