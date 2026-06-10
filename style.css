@@ -759,3 +759,83 @@ h2 {
     border-radius: 18px;
   }
 }
+
+
+/* GitHub follow banner */
+
+.github-follow-banner {
+  position: fixed;
+  top: 92px;
+  right: 28px;
+  z-index: 20;
+  width: min(300px, calc(100% - 56px));
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 20px;
+  border: 1px solid rgba(215, 215, 210, 0.24);
+  border-radius: 24px;
+  color: var(--silver);
+  background:
+    radial-gradient(circle at 88% 18%, rgba(240, 239, 234, 0.18), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.025)),
+    rgba(5, 6, 9, 0.82);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.48),
+    0 0 34px rgba(215, 215, 210, 0.08);
+  backdrop-filter: blur(18px);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.github-follow-banner:hover {
+  transform: translateY(-3px);
+  border-color: rgba(240, 239, 234, 0.48);
+  background:
+    radial-gradient(circle at 88% 18%, rgba(240, 239, 234, 0.24), transparent 36%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.035)),
+    rgba(5, 6, 9, 0.9);
+  box-shadow:
+    0 24px 74px rgba(0, 0, 0, 0.58),
+    0 0 42px rgba(215, 215, 210, 0.12);
+}
+
+.github-follow-kicker {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.github-follow-banner strong {
+  font-size: 1.18rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.github-follow-banner span:last-child {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+/* Prevent the floating banner from covering content on narrower screens */
+@media (max-width: 1180px) {
+  .github-follow-banner {
+    position: static;
+    width: min(var(--max-width), calc(100% - 40px));
+    margin: 8px auto 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .github-follow-banner {
+    width: min(100% - 28px, var(--max-width));
+    padding: 16px 18px;
+    border-radius: 20px;
+  }
+}
