@@ -1,1 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>Community Card Forge | Moonvine Forge Studios</title>
+
+  <meta
+    name="description"
+    content="Submit your own roguelike-inspired card, ability, item, enemy move or game effect for the Moonvine Forge community design experiment."
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Moonvine Forge Studios homepage">
+      <span class="brand-mark">MVF</span>
+      <span class="brand-text">Moonvine Forge</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#project">Project</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="card-forge-main">
+    <section class="card-forge-hero">
+      <p class="section-label">Community design experiment</p>
+
+      <h1>Community Card Forge</h1>
+
+      <p class="forge-tagline">
+        Design a card, ability, item, enemy move or strange little game mechanic
+        for a roguelike-inspired system.
+      </p>
+
+      <p class="forge-copy">
+        This is a small open design experiment by Moonvine Forge Studios.
+        The goal is to understand what kinds of effects, costs, drawbacks,
+        synergies and balance problems players naturally imagine when they are
+        allowed to build their own content.
+      </p>
+
+      <div class="hero-actions">
+        <a class="button primary" href="#submit">Submit a design</a>
+        <a
+          class="button secondary"
+          href="https://github.com/Paranoidgrinch/RogueDeck-Core"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View the core engine
+        </a>
+      </div>
+    </section>
+
+    <section class="forge-info-grid" aria-label="Submission information">
+      <article class="forge-info-card">
+        <span class="forge-card-number">01</span>
+        <h2>Build freely</h2>
+        <p>
+          Your idea does not have to follow one specific game. It can be a card,
+          passive ability, item, relic, spell, enemy action, curse, status effect
+          or any other turn-based roguelike mechanic.
+        </p>
+      </article>
+
+      <article class="forge-info-card">
+        <span class="forge-card-number">02</span>
+        <h2>Think in systems</h2>
+        <p>
+          You can define costs, resources, drawbacks, numbers, targets, scaling,
+          rarity, intended power level and the kind of build the design should
+          support.
+        </p>
+      </article>
+
+      <article class="forge-info-card">
+        <span class="forge-card-number">03</span>
+        <h2>Help with balance</h2>
+        <p>
+          Submissions may be used as design and balancing data for a modular
+          roguelike deckbuilding core engine. Weird, risky and broken ideas are
+          useful too.
+        </p>
+      </article>
+    </section>
+
+    <section class="forge-form-panel" id="submit">
+      <div class="forge-form-intro">
+        <p class="section-label">Submit your idea</p>
+
+        <h2>Forge a mechanic</h2>
+
+        <p>
+          Text-only submissions are enough. No artwork is required. If you leave
+          a Reddit username, it will only be shown publicly if you allow credit
+          in the form.
+        </p>
+      </div>
+
+      <div class="tally-wrapper">
+        <iframe
+          data-tally-src="https://tally.so/embed/zxd98a?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+          loading="lazy"
+          width="100%"
+          height="7824"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          title="Moonvine Community Card Forge">
+        </iframe>
+
+        <script>
+          var d = document;
+          var w = "https://tally.so/widgets/embed.js";
+
+          var v = function () {
+            if ("undefined" != typeof Tally) {
+              Tally.loadEmbeds();
+            } else {
+              d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function (e) {
+                e.src = e.dataset.tallySrc;
+              });
+            }
+          };
+
+          if ("undefined" != typeof Tally) {
+            v();
+          } else if (d.querySelector('script[src="' + w + '"]') == null) {
+            var s = d.createElement("script");
+            s.src = w;
+            s.onload = v;
+            s.onerror = v;
+            d.body.appendChild(s);
+          }
+        </script>
+      </div>
+    </section>
+
+    <section class="forge-result-panel">
+      <p class="section-label">What happens next?</p>
+
+      <h2>From community ideas to balancing data</h2>
+
+      <p>
+        Once enough designs have been submitted, the results can be grouped by
+        cost type, effect type, intended power level, drawback style and balance
+        risk. The long-term goal is to use these patterns to inform a flexible
+        engine where players and designers can create content without hardcoding
+        every single effect.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Moonvine Forge Studios. All rights reserved.</p>
+
+    <nav aria-label="Legal navigation">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </nav>
+  </footer>
+</body>
+</html>
