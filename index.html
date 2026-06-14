@@ -5,14 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Moonvine Forge Studios</title>
+
   <meta
     name="description"
     content="Moonvine Forge Studios is an independent game studio creating atmospheric video games. Strange worlds forged in moonlight."
   />
 
   <link rel="stylesheet" href="style.css" />
-</head>
 
+  <style>
+    .footer-information {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-information p {
+      margin: 0;
+    }
+
+    .visitor-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 8px 13px;
+      border: 1px solid rgba(215, 215, 210, 0.16);
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.05),
+          rgba(255, 255, 255, 0.01)
+        ),
+        rgba(0, 0, 0, 0.25);
+    }
+
+    .visitor-counter-label {
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .visitor-counter strong {
+      min-width: 24px;
+      color: var(--silver);
+      font-size: 0.95rem;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
 <body>
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="Moonvine Forge Studios home">
@@ -28,7 +72,7 @@
     </nav>
   </header>
 
-    <a
+  <a
     class="github-follow-banner"
     href="https://github.com/Paranoidgrinch"
     target="_blank"
@@ -44,9 +88,7 @@
     <section class="hero">
       <div class="hero-content">
         <p class="eyebrow">Independent Game Studio</p>
-
         <h1>Moonvine Forge Studios</h1>
-
         <p class="tagline">Strange worlds forged in moonlight.</p>
 
         <p class="hero-text">
@@ -68,13 +110,19 @@
             Open Card Forge
           </a>
 
-          <a class="button secondary" href="mailto:contact@moonvineforge.com">
+          <a
+            class="button secondary"
+            href="mailto:contact@moonvineforge.com"
+          >
             Contact us
           </a>
         </div>
       </div>
 
-      <aside class="hero-logo-card" aria-label="Moonvine Forge Studios emblem">
+      <aside
+        class="hero-logo-card"
+        aria-label="Moonvine Forge Studios emblem"
+      >
         <img
           class="studio-logo"
           src="assets/moonvine-forge-logo.jpg"
@@ -96,8 +144,8 @@
 
         <p>
           Our work draws inspiration from moonlit places, strange growth,
-          old stories, hidden rituals, and the 
-          quiet tension between delicate worlds and brutal power systems.
+          old stories, hidden rituals, and the quiet tension between delicate
+          worlds and brutal power systems.
         </p>
       </div>
     </section>
@@ -135,17 +183,26 @@
         </p>
 
         <div class="contact-grid">
-          <a class="contact-card contact-card-primary" href="mailto:contact@moonvineforge.com">
+          <a
+            class="contact-card contact-card-primary"
+            href="mailto:contact@moonvineforge.com"
+          >
             <span class="contact-card-label">General contact</span>
             <strong>contact@moonvineforge.com</strong>
+
             <span class="contact-card-text">
-              General questions, first contact, and anything that does not fit another category.
+              General questions, first contact, and anything that does not fit
+              another category.
             </span>
           </a>
 
-          <a class="contact-card" href="mailto:business@moonvineforge.com">
+          <a
+            class="contact-card"
+            href="mailto:business@moonvineforge.com"
+          >
             <span class="contact-card-label">Business</span>
             <strong>business@moonvineforge.com</strong>
+
             <span class="contact-card-text">
               Publishing, partnerships, store pages, and commercial inquiries.
             </span>
@@ -154,24 +211,30 @@
           <a class="contact-card" href="mailto:press@moonvineforge.com">
             <span class="contact-card-label">Press</span>
             <strong>press@moonvineforge.com</strong>
+
             <span class="contact-card-text">
-              Press requests, media contact, keys, statements, and future announcements.
+              Press requests, media contact, keys, statements, and future
+              announcements.
             </span>
           </a>
 
           <a class="contact-card" href="mailto:support@moonvineforge.com">
             <span class="contact-card-label">Support</span>
             <strong>support@moonvineforge.com</strong>
+
             <span class="contact-card-text">
-              Player support, account questions, technical issues, and general help.
+              Player support, account questions, technical issues, and general
+              help.
             </span>
           </a>
 
           <a class="contact-card" href="mailto:bugs@moonvineforge.com">
             <span class="contact-card-label">Bug reports</span>
             <strong>bugs@moonvineforge.com</strong>
+
             <span class="contact-card-text">
-              Bugs, crashes, errors, broken features, and reproducible problems.
+              Bugs, crashes, errors, broken features, and reproducible
+              problems.
             </span>
           </a>
         </div>
@@ -180,7 +243,17 @@
   </main>
 
   <footer class="site-footer">
-    <p>© <span id="year">2026</span> Moonvine Forge Studios. All rights reserved.</p>
+    <div class="footer-information">
+      <p>
+        © <span id="year">2026</span> Moonvine Forge Studios.
+        All rights reserved.
+      </p>
+
+      <p class="visitor-counter">
+        <span class="visitor-counter-label">Visitors to the Forge</span>
+        <strong id="visitor-count" aria-live="polite">—</strong>
+      </p>
+    </div>
 
     <nav aria-label="Legal navigation">
       <a href="impressum.html">Impressum</a>
@@ -189,15 +262,42 @@
   </footer>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
   </script>
 
   <script
-  data-goatcounter="https://moonvineforge.goatcounter.com/count"
-  async
-  src="https://gc.zgo.at/count.js">
-  </script>
+    data-goatcounter="https://moonvineforge.goatcounter.com/count"
+    async
+    src="https://gc.zgo.at/count.js"
+  ></script>
 
-  
+  <script>
+    async function loadVisitorCount() {
+      const visitorCount = document.getElementById("visitor-count");
+
+      if (!visitorCount) {
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "https://moonvineforge.goatcounter.com/counter/TOTAL.json"
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        visitorCount.textContent = data.count ?? "—";
+      } catch (error) {
+        visitorCount.textContent = "—";
+        console.error("Could not load visitor count:", error);
+      }
+    }
+
+    loadVisitorCount();
+  </script>
 </body>
 </html>
