@@ -1,0 +1,89 @@
+name: Update visitor count
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-visitor-count
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the website repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read the public GoatCounter total
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          response_file="$(mktemp)"
+
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --location \
+            --retry 3 \
+            --retry-all-errors \
+            --header "Accept: application/json" \
+            "https://moonvineforge.goatcounter.com/counter/TOTAL.json" \
+            --output "$response_file"
+
+          python3 - "$response_file" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          response_path = Path(sys.argv[1])
+          output_path = Path("visitor-count.json")
+
+          with response_path.open("r", encoding="utf-8") as source:
+              payload = json.load(source)
+
+          count = payload.get("count")
+
+          if isinstance(count, bool) or count is None:
+              raise SystemExit("GoatCounter response has no valid count field")
+
+          if isinstance(count, (int, float)):
+              count = f"{int(count):,}"
+          else:
+              count = str(count).strip()
+
+          if not count:
+              raise SystemExit("GoatCounter returned an empty count")
+
+          output_path.write_text(
+              json.dumps({"count": count}, indent=2, ensure_ascii=False) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Commit the count only when it changed
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git add visitor-count.json
+
+          if git diff --cached --quiet; then
+            echo "Visitor count is unchanged."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: update visitor count"
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
