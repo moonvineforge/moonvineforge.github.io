@@ -293,7 +293,7 @@
       </p>
 <div class="visitor-counter" aria-label="Moonvine Forge visitor counter">
         <span class="visitor-counter-label">Visitors to the Forge</span>
-        <span class="visitor-count-value" id="visitor-count" aria-live="polite">Loading</span>
+        <span class="visitor-count-value" id="visitor-count" data-visitor-count aria-live="polite">16</span>
       </div>
 </div>
 <nav aria-label="Legal navigation">
@@ -301,7 +301,8 @@
 <a href="datenschutz.html">Datenschutz</a>
 </nav>
 </footer>
-<script async="" data-goatcounter="https://moonvineforge.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script>
+<script async data-goatcounter="https://moonvineforge.goatcounter.com/count" src="assets/count.js"></script>
+<script defer src="assets/visitor-counter.js"></script>
 <script>
     document.getElementById("year").textContent =
       new Date().getFullYear();
@@ -631,51 +632,6 @@
       });
     }
 
-    function loadVisitorCount() {
-      var visitorCount = document.getElementById("visitor-count");
-      var attempts = 0;
-      var maximumAttempts = 100;
-
-      if (!visitorCount) {
-        return;
-      }
-
-      var waitForGoatCounter = window.setInterval(function () {
-        attempts += 1;
-
-        if (
-          window.goatcounter &&
-          typeof window.goatcounter.visit_count === "function"
-        ) {
-          window.clearInterval(waitForGoatCounter);
-          visitorCount.textContent = "";
-
-          window.goatcounter.visit_count({
-            append: "#visitor-count",
-            path: "TOTAL",
-            type: "html",
-            no_branding: true,
-            style:
-              "div { border: 0; padding: 0; margin: 0; min-width: 0; " +
-              "width: auto; height: auto; display: inline; background: transparent; " +
-              "color: #a8c88a; font-family: inherit; font-size: 15px; " +
-              "font-weight: 800; line-height: 1; } " +
-              "#gcvc-for, #gcvc-by { display: none; } " +
-              "#gcvc-views { color: #a8c88a; font-family: inherit; " +
-              "font-size: 15px; font-weight: 800; line-height: 1; }"
-          });
-
-          return;
-        }
-
-        if (attempts >= maximumAttempts) {
-          window.clearInterval(waitForGoatCounter);
-          visitorCount.textContent = "Unavailable";
-        }
-      }, 100);
-    }
-
-    loadVisitorCount();
   </script>
 </body>
 </html>
