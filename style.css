@@ -326,28 +326,6 @@ h2 {
   line-height: 1;
 }
 
-.visitor-count-value > div {
-  width: auto !important;
-  height: auto !important;
-  min-width: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: inline !important;
-  border: 0 !important;
-  background: transparent !important;
-  color: var(--forge-green) !important;
-  font: inherit !important;
-}
-
-.visitor-count-value #gcvc-for,
-.visitor-count-value #gcvc-by {
-  display: none !important;
-}
-
-.visitor-count-value #gcvc-views {
-  color: var(--forge-green) !important;
-  font: inherit !important;
-}
 
 /* Shared reveal animation */
 
