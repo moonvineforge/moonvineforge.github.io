@@ -288,10 +288,10 @@
         © <span id="year">2026</span> Moonvine Forge Studios.
         All rights reserved.
       </p>
-<p class="visitor-counter">
-<span class="visitor-counter-label">Visitors to the Forge</span>
-<strong aria-live="polite" id="visitor-count">—</strong>
-</p>
+<div class="visitor-counter" aria-label="Moonvine Forge visitor counter">
+        <span class="visitor-counter-label">Visitors to the Forge</span>
+        <span class="visitor-count-value" id="visitor-count" aria-live="polite">Loading</span>
+      </div>
 </div>
 <nav aria-label="Legal navigation">
 <a href="impressum.html">Impressum</a>
@@ -664,28 +664,48 @@
       });
     }
 
-    async function loadVisitorCount() {
+    function loadVisitorCount() {
       var visitorCount = document.getElementById("visitor-count");
+      var attempts = 0;
+      var maximumAttempts = 100;
 
       if (!visitorCount) {
         return;
       }
 
-      try {
-        var response = await fetch(
-          "https://moonvineforge.goatcounter.com/counter/TOTAL.json"
-        );
+      var waitForGoatCounter = window.setInterval(function () {
+        attempts += 1;
 
-        if (!response.ok) {
-          throw new Error("HTTP error: " + response.status);
+        if (
+          window.goatcounter &&
+          typeof window.goatcounter.visit_count === "function"
+        ) {
+          window.clearInterval(waitForGoatCounter);
+          visitorCount.textContent = "";
+
+          window.goatcounter.visit_count({
+            append: "#visitor-count",
+            path: "TOTAL",
+            type: "html",
+            no_branding: true,
+            style:
+              "div { border: 0; padding: 0; margin: 0; min-width: 0; " +
+              "width: auto; height: auto; display: inline; background: transparent; " +
+              "color: #a8c88a; font-family: inherit; font-size: 15px; " +
+              "font-weight: 800; line-height: 1; } " +
+              "#gcvc-for, #gcvc-by { display: none; } " +
+              "#gcvc-views { color: #a8c88a; font-family: inherit; " +
+              "font-size: 15px; font-weight: 800; line-height: 1; }"
+          });
+
+          return;
         }
 
-        var data = await response.json();
-        visitorCount.textContent = data.count || "—";
-      } catch (error) {
-        visitorCount.textContent = "—";
-        console.error("Could not load visitor count:", error);
-      }
+        if (attempts >= maximumAttempts) {
+          window.clearInterval(waitForGoatCounter);
+          visitorCount.textContent = "Unavailable";
+        }
+      }, 100);
     }
 
     loadVisitorCount();
