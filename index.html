@@ -1,27 +1,31 @@
-```html
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Moonvine Forge Studios | Modular Roguelike Systems</title>
-  <meta
-    name="description"
-    content="Moonvine Forge Studios builds modular roguelike systems, unusual mechanics, and atmospheric worlds shaped by player-driven experiments."
-  />
+
+<meta
+ name="description"
+ content="Moonvine Forge Studios builds modular roguelike systems, unusual mechanics, and atmospheric worlds shaped by player-driven experiments."
+/>
 
   <meta property="og:title" content="Moonvine Forge Studios" />
-  <meta
-    property="og:description"
-    content="Build strange mechanics. Break predictable worlds. Enter the Community Card Forge and follow the development of RogueDeck Core."
-  />
+
+<meta
+ property="og:description"
+ content="Build strange mechanics. Break predictable worlds. Enter the Community Card Forge and follow the development of RogueDeck Core."
+/>
+
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://moonvineforge.com/" />
-  <meta
-    property="og:image"
-    content="https://moonvineforge.com/assets/moonvine-forge-logo.jpg"
-  />
+
+<meta
+ property="og:image"
+ content="https://moonvineforge.com/assets/moonvine-forge-logo.jpg"
+/>
 
   <link rel="stylesheet" href="style.css" />
 
@@ -32,6 +36,8 @@
   <style>
     :root {
       --forge-green: #a8c88a;
+      --forge-green-light: #d7efc3;
+      --forge-green-dark: #779a5d;
       --forge-green-soft: rgba(168, 200, 138, 0.13);
       --forge-green-border: rgba(168, 200, 138, 0.28);
       --forge-violet: #aaa2c7;
@@ -49,6 +55,50 @@
     button:focus-visible {
       outline: 2px solid var(--forge-green);
       outline-offset: 4px;
+    }
+
+    .site-header {
+      min-height: 92px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand-logo {
+      width: 66px;
+      height: 66px;
+      flex: 0 0 66px;
+      object-fit: cover;
+      border: 1px solid rgba(215, 215, 210, 0.32);
+      border-radius: 50%;
+      background: #090a0c;
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.48),
+        0 0 26px rgba(168, 200, 138, 0.08);
+      transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+    }
+
+    .brand:hover .brand-logo {
+      transform: translateY(-2px) scale(1.025);
+      border-color: rgba(168, 200, 138, 0.55);
+      box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.56),
+        0 0 32px rgba(168, 200, 138, 0.14);
+    }
+
+    .brand-text {
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .site-nav a {
@@ -113,7 +163,7 @@
 
     .landing-hero {
       min-height: 720px;
-      padding: 92px 0 76px;
+      padding: 76px 0;
       display: grid;
       grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.72fr);
       align-items: center;
@@ -176,29 +226,102 @@
 
     .hero-actions {
       margin-top: 38px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 14px;
     }
 
-    .hero-actions .button.primary {
-      border-color: var(--forge-green-border);
+    .hero-actions .hero-forge-button {
+      position: relative;
+      isolation: isolate;
+      min-width: 282px;
+      min-height: 72px;
+      padding: 13px 26px;
+      overflow: hidden;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 3px;
+      border: 1px solid rgba(229, 255, 208, 0.82);
+      border-radius: 16px;
+      color: #0b0e09 !important;
       background:
         linear-gradient(
-          145deg,
-          rgba(168, 200, 138, 0.22),
-          rgba(168, 200, 138, 0.06)
-        ),
-        rgba(7, 9, 8, 0.88);
-      box-shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
+          135deg,
+          var(--forge-green-light),
+          #b7d99a 48%,
+          #93b876
+        );
+      box-shadow:
+        0 17px 45px rgba(0, 0, 0, 0.48),
+        0 0 30px rgba(168, 200, 138, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.56);
+      transform: translateY(0);
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        filter 180ms ease;
+      animation: forge-button-pulse 3.8s ease-in-out infinite;
     }
 
-    .hero-actions .button.primary:hover {
-      border-color: rgba(168, 200, 138, 0.58);
+    .hero-actions .hero-forge-button::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -40%;
+      left: -55%;
+      width: 38%;
+      height: 190%;
+      background: rgba(255, 255, 255, 0.34);
+      transform: rotate(18deg);
+      transition: left 420ms ease;
+    }
+
+    .hero-actions .hero-forge-button:hover {
+      color: #070907 !important;
+      filter: brightness(1.08);
+      transform: translateY(-4px) scale(1.015);
       box-shadow:
-        0 18px 54px rgba(0, 0, 0, 0.48),
-        0 0 34px rgba(168, 200, 138, 0.1);
+        0 23px 58px rgba(0, 0, 0, 0.58),
+        0 0 48px rgba(168, 200, 138, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.68);
+    }
+
+    .hero-actions .hero-forge-button:hover::before {
+      left: 125%;
+    }
+
+    .hero-forge-label {
+      color: rgba(11, 14, 9, 0.7);
+      font-size: 0.62rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .hero-forge-title {
+      color: #090c07;
+      font-size: 1.08rem;
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+    }
+
+    .hero-actions .hero-secondary-button {
+      min-height: 72px;
+      padding-right: 24px;
+      padding-left: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
     }
 
     .hero-note {
-      margin: 22px 0 0;
+      margin: 20px 0 0;
       color: var(--dim);
       font-size: 0.83rem;
       letter-spacing: 0.04em;
@@ -452,7 +575,7 @@
         var(--panel);
       box-shadow: 0 18px 70px rgba(0, 0, 0, 0.34);
       backdrop-filter: blur(18px);
-      scroll-margin-top: 110px;
+      scroll-margin-top: 120px;
     }
 
     .landing-section::after {
@@ -643,6 +766,25 @@
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+    }
+
+    .community-actions .button.primary {
+      border-color: rgba(229, 255, 208, 0.65);
+      color: #0b0e09;
+      background: linear-gradient(
+        135deg,
+        var(--forge-green-light),
+        #9fc47f
+      );
+      box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.4),
+        0 0 28px rgba(168, 200, 138, 0.2);
+    }
+
+    .community-actions .button.primary:hover {
+      color: #070907;
+      filter: brightness(1.07);
+      transform: translateY(-2px);
     }
 
     .challenge-stack {
@@ -863,6 +1005,23 @@
       transform: translateY(0);
     }
 
+    @keyframes forge-button-pulse {
+      0%,
+      100% {
+        box-shadow:
+          0 17px 45px rgba(0, 0, 0, 0.48),
+          0 0 25px rgba(168, 200, 138, 0.18),
+          inset 0 1px 0 rgba(255, 255, 255, 0.56);
+      }
+
+      50% {
+        box-shadow:
+          0 19px 48px rgba(0, 0, 0, 0.52),
+          0 0 43px rgba(168, 200, 138, 0.34),
+          inset 0 1px 0 rgba(255, 255, 255, 0.62);
+      }
+    }
+
     @keyframes moon-pulse {
       0%,
       100% {
@@ -927,7 +1086,21 @@
       }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 760px) {
+      .site-header {
+        min-height: 78px;
+      }
+
+      .brand-logo {
+        width: 54px;
+        height: 54px;
+        flex-basis: 54px;
+      }
+
+      .brand-text {
+        font-size: 0.78rem;
+      }
+
       .forge-status-strip {
         grid-template-columns: auto 1fr;
       }
@@ -942,6 +1115,46 @@
 
       .about-emblem {
         width: 132px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .site-header {
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      .brand {
+        gap: 10px;
+      }
+
+      .brand-logo {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+      }
+
+      .site-nav {
+        gap: 12px;
+      }
+
+      .site-nav a {
+        font-size: 0.73rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-actions .hero-forge-button,
+      .hero-actions .hero-secondary-button {
+        width: 100%;
+      }
+
+      .hero-actions .hero-forge-button {
+        align-items: center;
+        text-align: center;
       }
     }
 
@@ -1023,6 +1236,7 @@
       }
     }
   </style>
+
 </head>
 
 <body>
@@ -1032,363 +1246,399 @@
       href="index.html"
       aria-label="Moonvine Forge Studios home"
     >
-      <span class="brand-mark">MVF</span>
-      <span class="brand-text">Moonvine Forge</span>
-    </a>
+      <img
+        class="brand-logo"
+        src="assets/moonvine-forge-logo.jpg"
+        alt=""
+      />
 
-    <nav class="site-nav" aria-label="Main navigation">
-      <a href="#project">Projects</a>
-      <a href="#community">Card Forge</a>
-      <a href="#principles">Approach</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
+```
+  <span class="brand-text">Moonvine Forge</span>
+</a>
+
+<nav class="site-nav" aria-label="Main navigation">
+  <a href="#project">Projects</a>
+  <a href="#community">Card Forge</a>
+  <a href="#principles">Approach</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+</nav>
+```
+
   </header>
 
   <main class="landing-main">
     <section class="landing-hero" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="hero-kicker">A modular roguelike is being forged</p>
-
-        <h1 id="hero-title">
-          Build strange mechanics.
-          <span>Break predictable worlds.</span>
-        </h1>
-
-        <p class="hero-intro">
-          Moonvine Forge builds
-          <strong>modular roguelike systems</strong>,
-          unusual classes, and atmospheric worlds where mechanics create
-          stories. The forge is open—and curious ideas are welcome.
+        <p class="hero-kicker">
+          A modular roguelike is being forged
         </p>
 
-        <div class="hero-actions">
-          <a
-            class="button primary"
-            href="card-forge.html"
-            data-goatcounter-click="landing-open-card-forge"
-          >
-            Forge your own card
-          </a>
+```
+    <h1 id="hero-title">
+      Build strange mechanics.
+      <span>Break predictable worlds.</span>
+    </h1>
 
-          <a
-            class="button secondary"
-            href="#project"
-            data-goatcounter-click="landing-explore-projects"
-          >
-            Explore the projects
-          </a>
-        </div>
+    <p class="hero-intro">
+      Moonvine Forge builds
+      <strong>modular roguelike systems</strong>,
+      unusual classes, and atmospheric worlds where mechanics create
+      stories. The forge is open—and curious ideas are welcome.
+    </p>
 
-        <p class="hero-note">
-          No artwork required. Balanced ideas welcome. Broken ideas encouraged.
-        </p>
-      </div>
+    <div class="hero-actions">
+      <a
+        class="button primary hero-forge-button"
+        href="card-forge.html"
+        data-goatcounter-click="landing-open-card-forge"
+      >
+        <span class="hero-forge-label">
+          Community Card Forge
+        </span>
 
-      <div class="idea-stage" aria-label="Interactive roguelike card idea">
-        <article class="idea-card" id="idea-card">
-          <div class="idea-card-topline">
-            <span class="idea-type" id="idea-type">Skill</span>
-            <span
-              class="idea-cost"
-              id="idea-cost"
-              aria-label="Card cost"
-            >
-              1
-            </span>
-          </div>
-
-          <div class="idea-sigil" id="idea-sigil" aria-hidden="true">⌁</div>
-
-          <div class="idea-card-content" aria-live="polite">
-            <h2 id="idea-name">Unauthorized Shortcut</h2>
-
-            <p class="idea-effect" id="idea-effect">
-              Gain 2 Momentum. The next card you play costs 0, then becomes
-              Banished.
-            </p>
-
-            <p class="idea-flavour" id="idea-flavour">
-              “The approved route was taking too long.”
-            </p>
-          </div>
-
-          <div class="idea-card-footer">
-            <button
-              class="draw-idea-button"
-              id="draw-idea"
-              type="button"
-              data-goatcounter-click="landing-draw-card-idea"
-            >
-              Draw another strange idea ↻
-            </button>
-
-            <span class="idea-card-number" id="idea-card-number">
-              01 / 08
-            </span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <aside
-      class="forge-status-strip reveal"
-      aria-label="Current development status"
-    >
-      <span class="status-light" aria-hidden="true"></span>
-
-      <p>
-        <strong>Currently forging:</strong>
-        RogueDeck Core, a deterministic and modular C# combat engine.
-      </p>
+        <span class="hero-forge-title">
+          Forge your own card →
+        </span>
+      </a>
 
       <a
+        class="button secondary hero-secondary-button"
+        href="#project"
+        data-goatcounter-click="landing-explore-projects"
+      >
+        Explore the projects
+      </a>
+    </div>
+
+    <p class="hero-note">
+      No artwork required. Balanced ideas welcome. Broken ideas encouraged.
+    </p>
+  </div>
+
+  <div class="idea-stage" aria-label="Interactive roguelike card idea">
+    <article class="idea-card" id="idea-card">
+      <div class="idea-card-topline">
+        <span class="idea-type" id="idea-type">Skill</span>
+
+        <span
+          class="idea-cost"
+          id="idea-cost"
+          aria-label="Card cost"
+        >
+          1
+        </span>
+      </div>
+
+      <div class="idea-sigil" id="idea-sigil" aria-hidden="true">
+        ⌁
+      </div>
+
+      <div class="idea-card-content" aria-live="polite">
+        <h2 id="idea-name">Unauthorized Shortcut</h2>
+
+        <p class="idea-effect" id="idea-effect">
+          Gain 2 Momentum. The next card you play costs 0, then becomes
+          Banished.
+        </p>
+
+        <p class="idea-flavour" id="idea-flavour">
+          “The approved route was taking too long.”
+        </p>
+      </div>
+
+      <div class="idea-card-footer">
+        <button
+          class="draw-idea-button"
+          id="draw-idea"
+          type="button"
+          data-goatcounter-click="landing-draw-card-idea"
+        >
+          Draw another strange idea ↻
+        </button>
+
+        <span class="idea-card-number" id="idea-card-number">
+          01 / 08
+        </span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<aside
+  class="forge-status-strip reveal"
+  aria-label="Current development status"
+>
+  <span class="status-light" aria-hidden="true"></span>
+
+  <p>
+    <strong>Currently forging:</strong>
+    RogueDeck Core, a deterministic and modular C# combat engine.
+  </p>
+
+  <a
+    href="https://github.com/Paranoidgrinch/RogueDeck-Core"
+    target="_blank"
+    rel="noopener noreferrer"
+    data-goatcounter-click="landing-status-github"
+  >
+    Follow development →
+  </a>
+</aside>
+
+<section id="project" class="landing-section reveal">
+  <div class="section-heading">
+    <p class="section-kicker">Currently forging</p>
+
+    <h2>One engine. Many strange worlds.</h2>
+
+    <p class="section-lead">
+      Moonvine Forge began with a playable fantasy roguelike prototype.
+      Its limits led to a larger goal: a reusable engine where new
+      mechanics extend the game instead of forcing the combat system to
+      be rewritten.
+    </p>
+  </div>
+
+  <div class="project-grid">
+    <article class="project-panel primary-project">
+      <span class="project-state">Active development</span>
+
+      <h3>RogueDeck Core</h3>
+
+      <p>
+        A deterministic C# engine for roguelike deckbuilders, designed
+        around reusable effects, event-driven triggers, modular content,
+        and UI-independent game logic.
+      </p>
+
+      <ul class="project-tags" aria-label="RogueDeck Core features">
+        <li>C# / .NET</li>
+        <li>Modular effects</li>
+        <li>Seeded runs</li>
+        <li>Automated tests</li>
+      </ul>
+
+      <a
+        class="project-link"
         href="https://github.com/Paranoidgrinch/RogueDeck-Core"
         target="_blank"
         rel="noopener noreferrer"
-        data-goatcounter-click="landing-status-github"
+        data-goatcounter-click="landing-rogue-deck-core"
       >
-        Follow development →
+        Inspect the engine on GitHub →
       </a>
-    </aside>
+    </article>
 
-    <section id="project" class="landing-section reveal">
-      <div class="section-heading">
-        <p class="section-kicker">Currently forging</p>
+    <article class="project-panel">
+      <span class="project-state">Playable origin</span>
 
-        <h2>One engine. Many strange worlds.</h2>
+      <h3>Bureaucrats &amp; Broomsticks</h3>
 
-        <p class="section-lead">
-          Moonvine Forge began with a playable fantasy roguelike prototype.
-          Its limits led to a larger goal: a reusable engine where new
-          mechanics extend the game instead of forcing the combat system to
-          be rewritten.
-        </p>
-      </div>
+      <p>
+        A fantasy roguelike where magic has been consumed by
+        administration. Its cards, classes, enemies, and questionable
+        paperwork exposed the limits of hardcoded combat logic—and
+        inspired RogueDeck Core.
+      </p>
 
-      <div class="project-grid">
-        <article class="project-panel primary-project">
-          <span class="project-state">Active development</span>
+      <ul
+        class="project-tags"
+        aria-label="Bureaucrats and Broomsticks features"
+      >
+        <li>Nine classes</li>
+        <li>Five acts</li>
+        <li>Relics &amp; events</li>
+        <li>Balance bots</li>
+      </ul>
 
-          <h3>RogueDeck Core</h3>
+      <a
+        class="project-link"
+        href="https://github.com/Paranoidgrinch/bureaucrats-and-broomsticks-v2"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-goatcounter-click="landing-bureaucrats-broomsticks"
+      >
+        Visit the original project →
+      </a>
+    </article>
+  </div>
+</section>
 
-          <p>
-            A deterministic C# engine for roguelike deckbuilders, designed
-            around reusable effects, event-driven triggers, modular content,
-            and UI-independent game logic.
-          </p>
+<section
+  id="community"
+  class="landing-section community-section reveal"
+>
+  <div class="section-heading">
+    <p class="section-kicker">Community Card Forge</p>
 
-          <ul class="project-tags" aria-label="RogueDeck Core features">
-            <li>C# / .NET</li>
-            <li>Modular effects</li>
-            <li>Seeded runs</li>
-            <li>Automated tests</li>
-          </ul>
+    <h2>Your strange idea becomes a real design challenge.</h2>
 
-          <a
-            class="project-link"
-            href="https://github.com/Paranoidgrinch/RogueDeck-Core"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-goatcounter-click="landing-rogue-deck-core"
-          >
-            Inspect the engine on GitHub →
-          </a>
-        </article>
+    <p class="section-lead">
+      Submit a card, relic, spell, status, enemy action, resource,
+      passive ability, or turn-based mechanic. No existing game and no
+      artwork are required. Each idea can become a test of what the
+      engine is capable of.
+    </p>
 
-        <article class="project-panel">
-          <span class="project-state">Playable origin</span>
+    <div class="community-actions">
+      <a
+        class="button primary"
+        href="card-forge.html"
+        data-goatcounter-click="landing-community-open-forge"
+      >
+        Enter the Card Forge
+      </a>
 
-          <h3>Bureaucrats &amp; Broomsticks</h3>
+      <a
+        class="button secondary"
+        href="https://github.com/Paranoidgrinch"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-goatcounter-click="landing-community-follow-github"
+      >
+        Follow the experiments
+      </a>
+    </div>
+  </div>
 
-          <p>
-            A fantasy roguelike where magic has been consumed by
-            administration. Its cards, classes, enemies, and questionable
-            paperwork exposed the limits of hardcoded combat logic—and
-            inspired RogueDeck Core.
-          </p>
+  <div class="challenge-stack" aria-label="Example design challenges">
+    <div class="challenge-card">
+      <span>Design challenge 01</span>
 
-          <ul
-            class="project-tags"
-            aria-label="Bureaucrats and Broomsticks features"
-          >
-            <li>Nine classes</li>
-            <li>Five acts</li>
-            <li>Relics &amp; events</li>
-            <li>Balance bots</li>
-          </ul>
+      <strong>
+        A relic that changes what “paying a cost” means.
+      </strong>
+    </div>
 
-          <a
-            class="project-link"
-            href="https://github.com/Paranoidgrinch/bureaucrats-and-broomsticks-v2"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-goatcounter-click="landing-bureaucrats-broomsticks"
-          >
-            Visit the original project →
-          </a>
-        </article>
-      </div>
-    </section>
+    <div class="challenge-card">
+      <span>Design challenge 02</span>
 
-    <section
-      id="community"
-      class="landing-section community-section reveal"
+      <strong>
+        An enemy action that becomes stronger whenever you heal.
+      </strong>
+    </div>
+
+    <div class="challenge-card">
+      <span>Design challenge 03</span>
+
+      <strong>
+        A resource that helps now—and causes trouble next turn.
+      </strong>
+    </div>
+  </div>
+</section>
+
+<section id="principles" class="landing-section reveal">
+  <div class="section-heading">
+    <p class="section-kicker">How the forge works</p>
+
+    <h2>Systems first. Personality always.</h2>
+
+    <p class="section-lead">
+      The goal is not to produce interchangeable deckbuilders. It is to
+      build flexible foundations that still leave room for unusual
+      mechanics, memorable worlds, and meaningful player experiments.
+    </p>
+  </div>
+
+  <div class="principles-grid">
+    <article class="principle">
+      <span class="principle-number">01</span>
+
+      <h3>Modular by design</h3>
+
+      <p>
+        Cards, statuses, resources, triggers, and targets are assembled
+        from reusable systems instead of being locked into one game.
+      </p>
+    </article>
+
+    <article class="principle">
+      <span class="principle-number">02</span>
+
+      <h3>Deterministic at the core</h3>
+
+      <p>
+        Seeded runs and explicit effect resolution make complex
+        interactions reproducible, testable, and easier to understand.
+      </p>
+    </article>
+
+    <article class="principle">
+      <span class="principle-number">03</span>
+
+      <h3>Built for strange ideas</h3>
+
+      <p>
+        Community concepts are not decoration. They are architecture
+        tests that reveal where the engine must become more flexible.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section id="about" class="landing-section about-compact reveal">
+  <div class="about-emblem" aria-hidden="true">
+    <img src="assets/moonvine-forge-logo.jpg" alt="" />
+  </div>
+
+  <div class="about-copy">
+    <p class="section-kicker">Moonvine Forge Studios</p>
+
+    <h2>Small studio. Careful craft. Unusual worlds.</h2>
+
+    <p>
+      Moonvine Forge is an independent game-development project focused
+      on systemic roguelike design, atmospheric fantasy, reusable
+      architecture, and mechanics that make players ask:
+      “What happens if I try this?”
+    </p>
+  </div>
+</section>
+
+<section id="contact" class="landing-section contact-compact reveal">
+  <div>
+    <p class="section-kicker">Contact</p>
+
+    <h2>Questions, ideas, or unusual proposals?</h2>
+
+    <p>
+      Use the general address for first contact. More specific channels
+      remain available for business, press, support, and reproducible bug
+      reports.
+    </p>
+  </div>
+
+  <div class="contact-link-group">
+    <a
+      class="contact-email"
+      href="mailto:contact@moonvineforge.com"
     >
-      <div class="section-heading">
-        <p class="section-kicker">Community Card Forge</p>
+      contact@moonvineforge.com
+    </a>
 
-        <h2>Your strange idea becomes a real design challenge.</h2>
+    <div class="contact-small-links">
+      <a href="mailto:business@moonvineforge.com">
+        Business
+      </a>
 
-        <p class="section-lead">
-          Submit a card, relic, spell, status, enemy action, resource,
-          passive ability, or turn-based mechanic. No existing game and no
-          artwork are required. Each idea can become a test of what the
-          engine is capable of.
-        </p>
+      <a href="mailto:press@moonvineforge.com">
+        Press
+      </a>
 
-        <div class="community-actions">
-          <a
-            class="button primary"
-            href="card-forge.html"
-            data-goatcounter-click="landing-community-open-forge"
-          >
-            Enter the Card Forge
-          </a>
+      <a href="mailto:support@moonvineforge.com">
+        Support
+      </a>
 
-          <a
-            class="button secondary"
-            href="https://github.com/Paranoidgrinch"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-goatcounter-click="landing-community-follow-github"
-          >
-            Follow the experiments
-          </a>
-        </div>
-      </div>
+      <a href="mailto:bugs@moonvineforge.com">
+        Bug reports
+      </a>
+    </div>
+  </div>
+</section>
+```
 
-      <div class="challenge-stack" aria-label="Example design challenges">
-        <div class="challenge-card">
-          <span>Design challenge 01</span>
-          <strong>
-            A relic that changes what “paying a cost” means.
-          </strong>
-        </div>
-
-        <div class="challenge-card">
-          <span>Design challenge 02</span>
-          <strong>
-            An enemy action that becomes stronger whenever you heal.
-          </strong>
-        </div>
-
-        <div class="challenge-card">
-          <span>Design challenge 03</span>
-          <strong>
-            A resource that helps now—and causes trouble next turn.
-          </strong>
-        </div>
-      </div>
-    </section>
-
-    <section id="principles" class="landing-section reveal">
-      <div class="section-heading">
-        <p class="section-kicker">How the forge works</p>
-
-        <h2>Systems first. Personality always.</h2>
-
-        <p class="section-lead">
-          The goal is not to produce interchangeable deckbuilders. It is to
-          build flexible foundations that still leave room for unusual
-          mechanics, memorable worlds, and meaningful player experiments.
-        </p>
-      </div>
-
-      <div class="principles-grid">
-        <article class="principle">
-          <span class="principle-number">01</span>
-
-          <h3>Modular by design</h3>
-
-          <p>
-            Cards, statuses, resources, triggers, and targets are assembled
-            from reusable systems instead of being locked into one game.
-          </p>
-        </article>
-
-        <article class="principle">
-          <span class="principle-number">02</span>
-
-          <h3>Deterministic at the core</h3>
-
-          <p>
-            Seeded runs and explicit effect resolution make complex
-            interactions reproducible, testable, and easier to understand.
-          </p>
-        </article>
-
-        <article class="principle">
-          <span class="principle-number">03</span>
-
-          <h3>Built for strange ideas</h3>
-
-          <p>
-            Community concepts are not decoration. They are architecture
-            tests that reveal where the engine must become more flexible.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <section id="about" class="landing-section about-compact reveal">
-      <div class="about-emblem" aria-hidden="true">
-        <img src="assets/moonvine-forge-logo.jpg" alt="" />
-      </div>
-
-      <div class="about-copy">
-        <p class="section-kicker">Moonvine Forge Studios</p>
-
-        <h2>Small studio. Careful craft. Unusual worlds.</h2>
-
-        <p>
-          Moonvine Forge is an independent game-development project focused
-          on systemic roguelike design, atmospheric fantasy, reusable
-          architecture, and mechanics that make players ask:
-          “What happens if I try this?”
-        </p>
-      </div>
-    </section>
-
-    <section id="contact" class="landing-section contact-compact reveal">
-      <div>
-        <p class="section-kicker">Contact</p>
-
-        <h2>Questions, ideas, or unusual proposals?</h2>
-
-        <p>
-          Use the general address for first contact. More specific channels
-          remain available for business, press, support, and reproducible bug
-          reports.
-        </p>
-      </div>
-
-      <div class="contact-link-group">
-        <a
-          class="contact-email"
-          href="mailto:contact@moonvineforge.com"
-        >
-          contact@moonvineforge.com
-        </a>
-
-        <div class="contact-small-links">
-          <a href="mailto:business@moonvineforge.com">Business</a>
-          <a href="mailto:press@moonvineforge.com">Press</a>
-          <a href="mailto:support@moonvineforge.com">Support</a>
-          <a href="mailto:bugs@moonvineforge.com">Bug reports</a>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
@@ -1398,16 +1648,22 @@
         All rights reserved.
       </p>
 
-      <p class="visitor-counter">
-        <span class="visitor-counter-label">Visitors to the Forge</span>
-        <strong id="visitor-count" aria-live="polite">—</strong>
-      </p>
-    </div>
+```
+  <p class="visitor-counter">
+    <span class="visitor-counter-label">
+      Visitors to the Forge
+    </span>
 
-    <nav aria-label="Legal navigation">
-      <a href="impressum.html">Impressum</a>
-      <a href="datenschutz.html">Datenschutz</a>
-    </nav>
+    <strong id="visitor-count" aria-live="polite">—</strong>
+  </p>
+</div>
+
+<nav aria-label="Legal navigation">
+  <a href="impressum.html">Impressum</a>
+  <a href="datenschutz.html">Datenschutz</a>
+</nav>
+```
+
   </footer>
 
   <script
@@ -1516,11 +1772,21 @@
       ideaCard.classList.add("is-changing");
 
       window.setTimeout(() => {
-        document.getElementById("idea-type").textContent = idea.type;
-        document.getElementById("idea-cost").textContent = idea.cost;
-        document.getElementById("idea-sigil").textContent = idea.sigil;
-        document.getElementById("idea-name").textContent = idea.name;
-        document.getElementById("idea-effect").textContent = idea.effect;
+        document.getElementById("idea-type").textContent =
+          idea.type;
+
+        document.getElementById("idea-cost").textContent =
+          idea.cost;
+
+        document.getElementById("idea-sigil").textContent =
+          idea.sigil;
+
+        document.getElementById("idea-name").textContent =
+          idea.name;
+
+        document.getElementById("idea-effect").textContent =
+          idea.effect;
+
         document.getElementById("idea-flavour").textContent =
           idea.flavour;
 
@@ -1534,7 +1800,9 @@
       let nextIndex = currentIdeaIndex;
 
       while (nextIndex === currentIdeaIndex) {
-        nextIndex = Math.floor(Math.random() * cardIdeas.length);
+        nextIndex = Math.floor(
+          Math.random() * cardIdeas.length
+        );
       }
 
       currentIdeaIndex = nextIndex;
@@ -1570,7 +1838,8 @@
       });
     }
 
-    const revealElements = document.querySelectorAll(".reveal");
+    const revealElements =
+      document.querySelectorAll(".reveal");
 
     if (
       reducedMotion ||
@@ -1615,13 +1884,18 @@
         );
 
         if (!response.ok) {
-          throw new Error(`HTTP error: ${response.status}`);
+          throw new Error(
+            `HTTP error: ${response.status}`
+          );
         }
 
         const data = await response.json();
-        visitorCount.textContent = data.count ?? "—";
+
+        visitorCount.textContent =
+          data.count ?? "—";
       } catch (error) {
         visitorCount.textContent = "—";
+
         console.error(
           "Could not load visitor count:",
           error
@@ -1631,6 +1905,6 @@
 
     loadVisitorCount();
   </script>
+
 </body>
 </html>
-```
