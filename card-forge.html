@@ -2,1712 +2,303 @@
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Community Card Forge | Moonvine Forge Studios</title>
-
-<meta
- name="description"
- content="Submit a card, relic, enemy action, resource, status, or unusual roguelike mechanic to the Moonvine Forge Community Card Forge."
-/>
-
-  <meta property="og:title" content="Community Card Forge | Moonvine Forge Studios" />
-  <meta
-    property="og:description"
-    content="Forge something the engine was not prepared for. Submit an unusual roguelike mechanic to Moonvine Forge."
-  />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://moonvineforge.com/card-forge.html" />
-  <meta
-    property="og:image"
-    content="https://moonvineforge.com/assets/moonvine-forge-logo.jpg"
-  />
-
-  <link rel="stylesheet" href="style.css" />
-
-  <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community Card Forge | Moonvine Forge Studios</title>
+<meta content="Submit a card, relic, enemy action, resource, status, or unusual roguelike mechanic to the Moonvine Forge Community Card Forge." name="description"/>
+<meta content="Community Card Forge | Moonvine Forge Studios" property="og:title"/>
+<meta content="Forge something the engine was not prepared for. Submit an unusual roguelike mechanic to Moonvine Forge." property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://moonvineforge.com/card-forge.html" property="og:url"/>
+<meta content="https://moonvineforge.com/assets/moonvine-forge-logo.jpg" property="og:image"/>
+<link href="style.css" rel="stylesheet"/>
+<script>
     document.documentElement.classList.add("js");
   </script>
 
-  <style>
-    :root {
-      --forge-green: #a8c88a;
-      --forge-green-light: #d7efc3;
-      --forge-green-dark: #76965f;
-      --forge-green-soft: rgba(168, 200, 138, 0.13);
-      --forge-green-border: rgba(168, 200, 138, 0.3);
-      --forge-violet: #aaa2c7;
-      --forge-warm: #d4c49a;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      overflow-x: hidden;
-    }
-
-    a:focus-visible,
-    button:focus-visible {
-      outline: 2px solid var(--forge-green-light);
-      outline-offset: 4px;
-    }
-
-    .site-header {
-      min-height: 92px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .brand-logo {
-      width: 66px;
-      height: 66px;
-      flex: 0 0 66px;
-      object-fit: cover;
-      border: 1px solid rgba(215, 215, 210, 0.32);
-      border-radius: 50%;
-      background: #090a0c;
-      box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.48),
-        0 0 26px rgba(168, 200, 138, 0.08);
-      transition:
-        transform 180ms ease,
-        border-color 180ms ease,
-        box-shadow 180ms ease;
-    }
-
-    .brand:hover .brand-logo {
-      transform: translateY(-2px) scale(1.025);
-      border-color: rgba(168, 200, 138, 0.55);
-      box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.56),
-        0 0 32px rgba(168, 200, 138, 0.14);
-    }
-
-    .brand-text {
-      font-size: 0.92rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .site-nav a {
-      position: relative;
-    }
-
-    .site-nav a::after {
-      content: "";
-      position: absolute;
-      right: 0;
-      bottom: -7px;
-      left: 0;
-      height: 1px;
-      background: var(--forge-green);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform 180ms ease;
-    }
-
-    .site-nav a:hover::after,
-    .site-nav a:focus-visible::after,
-    .site-nav a[aria-current="page"]::after {
-      transform: scaleX(1);
-    }
-
-    .site-nav a[aria-current="page"] {
-      color: var(--silver);
-    }
-
-    .forge-main {
-      position: relative;
-      isolation: isolate;
-    }
-
-    .forge-main::before,
-    .forge-main::after {
-      content: "";
-      position: absolute;
-      z-index: -1;
-      width: 560px;
-      height: 560px;
-      border-radius: 50%;
-      filter: blur(100px);
-      pointer-events: none;
-      opacity: 0.16;
-    }
-
-    .forge-main::before {
-      top: 60px;
-      right: -300px;
-      background: var(--forge-green);
-    }
-
-    .forge-main::after {
-      top: 1150px;
-      left: -360px;
-      background: var(--forge-violet);
-    }
-
-    .forge-hero,
-    .forge-section,
-    .forge-principles {
-      width: min(var(--max-width), calc(100% - 40px));
-      margin-right: auto;
-      margin-left: auto;
-    }
-
-    .forge-hero {
-      min-height: 760px;
-      padding: 72px 0 88px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(390px, 0.72fr);
-      align-items: center;
-      gap: clamp(48px, 7vw, 92px);
-    }
-
-    .forge-eyebrow,
-    .forge-section-label {
-      margin: 0 0 18px;
-      color: var(--forge-green);
-      font-size: 0.72rem;
-      font-weight: 850;
-      letter-spacing: 0.17em;
-      text-transform: uppercase;
-    }
-
-    .forge-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .forge-eyebrow::before {
-      content: "";
-      width: 28px;
-      height: 1px;
-      background: currentColor;
-      box-shadow: 0 0 14px currentColor;
-    }
-
-    .forge-hero h1 {
-      max-width: 760px;
-      margin: 0;
-      font-size: clamp(3.45rem, 7.4vw, 7rem);
-      line-height: 0.92;
-      letter-spacing: -0.064em;
-      text-wrap: balance;
-    }
-
-    .forge-hero h1 span {
-      display: block;
-      color: var(--silver);
-      font-size: 0.52em;
-      line-height: 1.08;
-      letter-spacing: -0.045em;
-    }
-
-    .forge-hero-copy {
-      max-width: 690px;
-      margin: 30px 0 0;
-      color: var(--muted);
-      font-size: clamp(1.04rem, 1.7vw, 1.2rem);
-      line-height: 1.7;
-    }
-
-    .forge-hero-copy strong {
-      color: var(--text);
-      font-weight: 700;
-    }
-
-    .forge-hero-actions {
-      margin-top: 36px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .forge-primary-button,
-    .forge-secondary-button {
-      min-height: 60px;
-      padding: 0 24px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 16px;
-      font-weight: 850;
-      transition:
-        transform 180ms ease,
-        filter 180ms ease,
-        border-color 180ms ease,
-        box-shadow 180ms ease;
-    }
-
-    .forge-primary-button {
-      border: 1px solid rgba(229, 255, 208, 0.8);
-      color: #090c07;
-      background: linear-gradient(
-        135deg,
-        var(--forge-green-light),
-        #afd28f 54%,
-        #8caf70
-      );
-      box-shadow:
-        0 16px 42px rgba(0, 0, 0, 0.46),
-        0 0 34px rgba(168, 200, 138, 0.24),
-        inset 0 1px 0 rgba(255, 255, 255, 0.55);
-    }
-
-    .forge-primary-button:hover {
-      color: #050705;
-      filter: brightness(1.08);
-      transform: translateY(-3px);
-      box-shadow:
-        0 21px 52px rgba(0, 0, 0, 0.55),
-        0 0 45px rgba(168, 200, 138, 0.34),
-        inset 0 1px 0 rgba(255, 255, 255, 0.65);
-    }
-
-    .forge-secondary-button {
-      border: 1px solid rgba(215, 215, 210, 0.26);
-      color: var(--silver);
-      background: rgba(8, 9, 12, 0.66);
-      backdrop-filter: blur(12px);
-    }
-
-    .forge-secondary-button:hover {
-      color: var(--moon);
-      border-color: rgba(168, 200, 138, 0.48);
-      background: rgba(168, 200, 138, 0.07);
-      transform: translateY(-3px);
-    }
-
-    .forge-hero-note {
-      margin: 20px 0 0;
-      color: var(--dim);
-      font-size: 0.84rem;
-      letter-spacing: 0.035em;
-    }
-
-    .mechanic-lab {
-      position: relative;
-      min-height: 620px;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      justify-content: center;
-      perspective: 1200px;
-    }
-
-    .mechanic-lab::before {
-      content: "";
-      position: absolute;
-      top: 58px;
-      left: 50%;
-      width: min(116%, 530px);
-      aspect-ratio: 1;
-      border: 1px solid rgba(168, 200, 138, 0.13);
-      border-radius: 50%;
-      background:
-        radial-gradient(circle, rgba(168, 200, 138, 0.13), transparent 58%),
-        repeating-radial-gradient(
-          circle,
-          transparent 0 39px,
-          rgba(215, 215, 210, 0.032) 40px 41px
-        );
-      filter: drop-shadow(0 0 62px rgba(168, 200, 138, 0.08));
-      transform: translateX(-50%);
-      animation: forge-orbit 8s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .mechanic-tabs {
-      position: relative;
-      z-index: 2;
-      margin: 0 auto 16px;
-      padding: 6px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px;
-      border: 1px solid rgba(215, 215, 210, 0.14);
-      border-radius: 16px;
-      background: rgba(5, 6, 9, 0.76);
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.34);
-      backdrop-filter: blur(16px);
-    }
-
-    .mechanic-tab {
-      appearance: none;
-      min-height: 38px;
-      padding: 0 12px;
-      border: 1px solid transparent;
-      border-radius: 11px;
-      color: var(--dim);
-      background: transparent;
-      font: inherit;
-      font-size: 0.7rem;
-      font-weight: 850;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition:
-        color 160ms ease,
-        border-color 160ms ease,
-        background 160ms ease;
-    }
-
-    .mechanic-tab:hover {
-      color: var(--silver);
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .mechanic-tab[aria-pressed="true"] {
-      border-color: var(--forge-green-border);
-      color: var(--forge-green-light);
-      background: var(--forge-green-soft);
-    }
-
-    .mechanic-preview {
-      position: relative;
-      z-index: 1;
-      width: min(100%, 430px);
-      min-height: 505px;
-      margin: 0 auto;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid rgba(215, 215, 210, 0.27);
-      border-radius: 32px;
-      background:
-        linear-gradient(
-          160deg,
-          rgba(255, 255, 255, 0.11),
-          rgba(255, 255, 255, 0.018) 42%
-        ),
-        radial-gradient(
-          circle at 72% 10%,
-          rgba(168, 200, 138, 0.18),
-          transparent 35%
-        ),
-        rgba(7, 8, 11, 0.95);
-      box-shadow:
-        0 48px 115px rgba(0, 0, 0, 0.64),
-        inset 0 1px 0 rgba(255, 255, 255, 0.09),
-        0 0 78px rgba(168, 200, 138, 0.08);
-      transform-style: preserve-3d;
-      transition:
-        transform 150ms ease-out,
-        border-color 220ms ease,
-        box-shadow 220ms ease;
-      will-change: transform;
-    }
-
-    .mechanic-preview:hover {
-      border-color: rgba(168, 200, 138, 0.5);
-      box-shadow:
-        0 52px 125px rgba(0, 0, 0, 0.69),
-        inset 0 1px 0 rgba(255, 255, 255, 0.11),
-        0 0 94px rgba(168, 200, 138, 0.13);
-    }
-
-    .mechanic-preview.is-changing .mechanic-preview-live {
-      animation: mechanic-change 340ms ease;
-    }
-
-    .mechanic-preview-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .mechanic-preview-title {
-      max-width: 315px;
-      margin: 0;
-      color: var(--forge-green-light);
-      font-size: clamp(1.7rem, 3vw, 2.18rem);
-      line-height: 1.03;
-      letter-spacing: -0.045em;
-      text-shadow: 0 0 28px rgba(168, 200, 138, 0.18);
-    }
-
-    .mechanic-preview-cost {
-      display: grid;
-      width: 44px;
-      height: 44px;
-      flex: 0 0 44px;
-      place-items: center;
-      border: 1px solid rgba(168, 200, 138, 0.4);
-      border-radius: 50%;
-      color: var(--forge-green-light);
-      background: rgba(168, 200, 138, 0.12);
-      font-size: 0.98rem;
-      font-weight: 850;
-    }
-
-    .mechanic-preview-sigil {
-      min-height: 145px;
-      margin: 20px 0;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(215, 215, 210, 0.12);
-      border-radius: 23px;
-      background:
-        radial-gradient(circle, rgba(168, 200, 138, 0.16), transparent 49%),
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.045),
-          rgba(255, 255, 255, 0.012)
-        );
-      color: var(--silver);
-      font-size: 3.35rem;
-      text-shadow: 0 0 32px rgba(168, 200, 138, 0.4);
-    }
-
-    .mechanic-preview-live {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .mechanic-preview-type {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin: 0 0 13px;
-      color: var(--silver);
-      font-size: 0.74rem;
-      font-weight: 850;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .mechanic-preview-type::before {
-      content: "";
-      width: 22px;
-      height: 1px;
-      background: var(--forge-green);
-      box-shadow: 0 0 12px rgba(168, 200, 138, 0.4);
-    }
-
-    .mechanic-preview-effect {
-      margin: 0;
-      color: var(--text);
-      font-size: 0.98rem;
-      line-height: 1.58;
-    }
-
-    .mechanic-preview-flavour {
-      margin: auto 0 0;
-      padding-top: 20px;
-      color: var(--dim);
-      font-size: 0.86rem;
-      font-style: italic;
-      line-height: 1.5;
-    }
-
-    .mechanic-preview-footer {
-      margin-top: 22px;
-      padding-top: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      border-top: 1px solid rgba(215, 215, 210, 0.11);
-    }
-
-    .next-example-button {
-      appearance: none;
-      min-height: 42px;
-      padding: 0 15px;
-      border: 1px solid var(--forge-green-border);
-      border-radius: 13px;
-      color: var(--forge-green-light);
-      background: var(--forge-green-soft);
-      font: inherit;
-      font-size: 0.78rem;
-      font-weight: 850;
-      cursor: pointer;
-      transition:
-        transform 160ms ease,
-        border-color 160ms ease,
-        background 160ms ease;
-    }
-
-    .next-example-button:hover {
-      transform: translateY(-2px);
-      border-color: rgba(168, 200, 138, 0.58);
-      background: rgba(168, 200, 138, 0.19);
-    }
-
-    .mechanic-preview-counter {
-      color: var(--dim);
-      font-size: 0.7rem;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-
-    .forge-principles {
-      margin-bottom: 32px;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .forge-principle {
-      min-height: 170px;
-      padding: 24px;
-      border: 1px solid rgba(215, 215, 210, 0.13);
-      border-radius: 21px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.055),
-          rgba(255, 255, 255, 0.012)
-        ),
-        rgba(5, 6, 9, 0.7);
-      box-shadow: 0 16px 46px rgba(0, 0, 0, 0.27);
-      backdrop-filter: blur(14px);
-      transition:
-        transform 180ms ease,
-        border-color 180ms ease;
-    }
-
-    .forge-principle:hover {
-      transform: translateY(-3px);
-      border-color: var(--forge-green-border);
-    }
-
-    .forge-principle-number {
-      color: var(--forge-green);
-      font-size: 0.68rem;
-      font-weight: 850;
-      letter-spacing: 0.14em;
-    }
-
-    .forge-principle h2 {
-      margin: 17px 0 0;
-      font-size: 1.22rem;
-      line-height: 1.15;
-      letter-spacing: -0.025em;
-    }
-
-    .forge-principle p {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.58;
-    }
-
-    .forge-section {
-      position: relative;
-      margin-bottom: 32px;
-      padding: clamp(36px, 6vw, 68px);
-      overflow: hidden;
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius-large);
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.064),
-          rgba(255, 255, 255, 0.014)
-        ),
-        var(--panel);
-      box-shadow: 0 18px 70px rgba(0, 0, 0, 0.34);
-      backdrop-filter: blur(18px);
-      scroll-margin-top: 120px;
-    }
-
-    .forge-section::after {
-      content: "";
-      position: absolute;
-      top: -190px;
-      right: -190px;
-      width: 380px;
-      height: 380px;
-      border-radius: 50%;
-      background: radial-gradient(
-        circle,
-        rgba(168, 200, 138, 0.1),
-        transparent 67%
-      );
-      pointer-events: none;
-    }
-
-    .forge-section-heading {
-      position: relative;
-      z-index: 1;
-      max-width: 820px;
-    }
-
-    .forge-section-heading h2,
-    .forge-form-heading h2,
-    .forge-outcome-heading h2 {
-      margin: 0;
-      font-size: clamp(2.2rem, 4.8vw, 4.5rem);
-      line-height: 0.99;
-      letter-spacing: -0.055em;
-      text-wrap: balance;
-    }
-
-    .forge-section-lead {
-      max-width: 780px;
-      margin: 22px 0 0;
-      color: var(--muted);
-      font-size: 1.04rem;
-      line-height: 1.7;
-    }
-
-    .inspiration-layout {
-      position: relative;
-      z-index: 1;
-      margin-top: 40px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.04fr) minmax(300px, 0.66fr);
-      gap: 20px;
-    }
-
-    .prompt-generator,
-    .submission-checklist {
-      padding: 30px;
-      border: 1px solid rgba(215, 215, 210, 0.13);
-      border-radius: 24px;
-      background:
-        linear-gradient(
-          155deg,
-          rgba(255, 255, 255, 0.055),
-          rgba(255, 255, 255, 0.012)
-        ),
-        rgba(0, 0, 0, 0.22);
-    }
-
-    .prompt-generator {
-      display: flex;
-      flex-direction: column;
-      min-height: 310px;
-      border-color: var(--forge-green-border);
-      background:
-        radial-gradient(
-          circle at 85% 12%,
-          rgba(168, 200, 138, 0.13),
-          transparent 34%
-        ),
-        linear-gradient(
-          155deg,
-          rgba(255, 255, 255, 0.06),
-          rgba(255, 255, 255, 0.012)
-        ),
-        rgba(0, 0, 0, 0.24);
-    }
-
-    .prompt-kicker {
-      margin: 0;
-      color: var(--forge-green);
-      font-size: 0.67rem;
-      font-weight: 850;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .prompt-text {
-      max-width: 650px;
-      margin: 26px 0;
-      color: var(--text);
-      font-size: clamp(1.45rem, 3vw, 2.25rem);
-      font-weight: 780;
-      line-height: 1.22;
-      letter-spacing: -0.035em;
-    }
-
-    .prompt-actions {
-      margin-top: auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 11px;
-    }
-
-    .prompt-button,
-    .prompt-submit-link {
-      min-height: 48px;
-      padding: 0 17px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 14px;
-      font-size: 0.86rem;
-      font-weight: 850;
-      transition:
-        transform 160ms ease,
-        border-color 160ms ease,
-        background 160ms ease,
-        filter 160ms ease;
-    }
-
-    .prompt-button {
-      appearance: none;
-      border: 1px solid rgba(229, 255, 208, 0.68);
-      color: #090c07;
-      background: linear-gradient(
-        135deg,
-        var(--forge-green-light),
-        #9fc17f
-      );
-      font: inherit;
-      font-weight: 850;
-      cursor: pointer;
-    }
-
-    .prompt-button:hover {
-      filter: brightness(1.08);
-      transform: translateY(-2px);
-    }
-
-    .prompt-submit-link {
-      border: 1px solid rgba(215, 215, 210, 0.22);
-      color: var(--silver);
-      background: rgba(255, 255, 255, 0.025);
-    }
-
-    .prompt-submit-link:hover {
-      border-color: var(--forge-green-border);
-      color: var(--forge-green-light);
-      transform: translateY(-2px);
-    }
-
-    .submission-checklist h3 {
-      margin: 0;
-      font-size: 1.35rem;
-      letter-spacing: -0.03em;
-    }
-
-    .submission-checklist ul {
-      margin: 24px 0 0;
-      padding: 0;
-      display: grid;
-      gap: 16px;
-      list-style: none;
-    }
-
-    .submission-checklist li {
-      position: relative;
-      padding-left: 27px;
-      color: var(--muted);
-      font-size: 0.94rem;
-      line-height: 1.55;
-    }
-
-    .submission-checklist li::before {
-      content: "✓";
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: var(--forge-green);
-      font-weight: 900;
-    }
-
-    .submission-checklist strong {
-      color: var(--text);
-    }
-
-    .forge-form-section {
-      padding: clamp(34px, 5vw, 58px);
-      background:
-        radial-gradient(
-          circle at 88% 7%,
-          rgba(168, 200, 138, 0.13),
-          transparent 30%
-        ),
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.07),
-          rgba(255, 255, 255, 0.016)
-        ),
-        var(--panel);
-    }
-
-    .forge-form-heading {
-      position: relative;
-      z-index: 1;
-      max-width: 820px;
-    }
-
-    .form-expectations {
-      position: relative;
-      z-index: 1;
-      margin: 30px 0 0;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .form-expectation {
-      padding: 16px;
-      border: 1px solid rgba(215, 215, 210, 0.11);
-      border-radius: 16px;
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    .form-expectation strong {
-      display: block;
-      color: var(--forge-green-light);
-      font-size: 0.77rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-    }
-
-    .form-expectation span {
-      display: block;
-      margin-top: 5px;
-      color: var(--dim);
-      font-size: 0.8rem;
-      line-height: 1.4;
-    }
-
-    .tally-wrapper {
-      position: relative;
-      z-index: 1;
-      margin-top: 28px;
-      overflow: hidden;
-      border: 1px solid rgba(168, 200, 138, 0.22);
-      border-radius: 24px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.035),
-          rgba(255, 255, 255, 0.01)
-        ),
-        rgba(0, 0, 0, 0.3);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.035),
-        0 24px 64px rgba(0, 0, 0, 0.32);
-    }
-
-    .tally-wrapper iframe {
-      display: block;
-      width: 100%;
-      border: 0;
-    }
-
-    .privacy-note {
-      position: relative;
-      z-index: 1;
-      margin: 18px 0 0;
-      color: var(--dim);
-      font-size: 0.8rem;
-      line-height: 1.55;
-    }
-
-    .privacy-note strong {
-      color: var(--muted);
-    }
-
-    .outcome-layout {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
-      gap: clamp(36px, 6vw, 78px);
-      align-items: start;
-    }
-
-    .forge-outcome-heading p:last-child {
-      max-width: 650px;
-      margin: 22px 0 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .outcome-pipeline {
-      display: grid;
-      gap: 12px;
-    }
-
-    .outcome-step {
-      position: relative;
-      padding: 22px 22px 22px 68px;
-      border: 1px solid rgba(215, 215, 210, 0.12);
-      border-radius: 18px;
-      background: rgba(0, 0, 0, 0.22);
-    }
-
-    .outcome-step-number {
-      position: absolute;
-      top: 21px;
-      left: 20px;
-      display: grid;
-      width: 32px;
-      height: 32px;
-      place-items: center;
-      border: 1px solid var(--forge-green-border);
-      border-radius: 50%;
-      color: var(--forge-green-light);
-      background: var(--forge-green-soft);
-      font-size: 0.68rem;
-      font-weight: 850;
-    }
-
-    .outcome-step h3 {
-      margin: 0;
-      font-size: 1.05rem;
-      letter-spacing: -0.02em;
-    }
-
-    .outcome-step p {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.52;
-    }
-
-    .outcome-disclaimer {
-      margin: 18px 0 0;
-      padding: 16px 18px;
-      border-left: 2px solid var(--forge-green);
-      color: var(--dim);
-      background: rgba(168, 200, 138, 0.045);
-      font-size: 0.82rem;
-      line-height: 1.55;
-    }
-
-    .forge-closing {
-      text-align: center;
-      background:
-        radial-gradient(
-          circle at 50% 20%,
-          rgba(168, 200, 138, 0.16),
-          transparent 42%
-        ),
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.065),
-          rgba(255, 255, 255, 0.014)
-        ),
-        var(--panel);
-    }
-
-    .forge-closing .forge-section-heading {
-      max-width: 760px;
-      margin: 0 auto;
-    }
-
-    .forge-closing .forge-section-lead {
-      margin-right: auto;
-      margin-left: auto;
-    }
-
-    .forge-closing-actions {
-      position: relative;
-      z-index: 1;
-      margin-top: 28px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .footer-information {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .footer-information p {
-      margin: 0;
-    }
-
-    .visitor-counter {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      width: fit-content;
-      padding: 8px 13px;
-      border: 1px solid rgba(215, 215, 210, 0.16);
-      border-radius: 999px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.05),
-          rgba(255, 255, 255, 0.01)
-        ),
-        rgba(0, 0, 0, 0.25);
-    }
-
-    .visitor-counter-label {
-      color: var(--muted);
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .visitor-counter strong {
-      min-width: 24px;
-      color: var(--forge-green);
-      font-size: 0.95rem;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .js .reveal {
-      opacity: 0;
-      transform: translateY(25px);
-      transition:
-        opacity 650ms ease,
-        transform 650ms ease;
-    }
-
-    .js .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @keyframes forge-orbit {
-      0%,
-      100% {
-        transform: translateX(-50%) scale(0.96) rotate(0deg);
-        opacity: 0.68;
-      }
-
-      50% {
-        transform: translateX(-50%) scale(1.04) rotate(5deg);
-        opacity: 1;
-      }
-    }
-
-    @keyframes mechanic-change {
-      0% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      45% {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 1020px) {
-      .forge-hero {
-        grid-template-columns: minmax(0, 1fr) minmax(350px, 0.68fr);
-        gap: 42px;
-      }
-
-      .forge-principles,
-      .form-expectations {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 900px) {
-      .forge-hero {
-        min-height: auto;
-        grid-template-columns: 1fr;
-      }
-
-      .mechanic-lab {
-        min-height: 610px;
-      }
-
-      .inspiration-layout,
-      .outcome-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .site-header {
-        min-height: 78px;
-      }
-
-      .brand-logo {
-        width: 54px;
-        height: 54px;
-        flex-basis: 54px;
-      }
-
-      .brand-text {
-        font-size: 0.78rem;
-      }
-
-      .forge-principles {
-        grid-template-columns: 1fr;
-      }
-
-      .forge-principle {
-        min-height: auto;
-      }
-    }
-
-    @media (max-width: 620px) {
-      .site-header {
-        align-items: flex-start;
-        gap: 14px;
-      }
-
-      .brand {
-        gap: 10px;
-      }
-
-      .brand-logo {
-        width: 48px;
-        height: 48px;
-        flex-basis: 48px;
-      }
-
-      .site-nav {
-        gap: 12px;
-      }
-
-      .site-nav a {
-        font-size: 0.73rem;
-      }
-
-      .forge-hero-actions,
-      .prompt-actions,
-      .forge-closing-actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .forge-primary-button,
-      .forge-secondary-button,
-      .prompt-button,
-      .prompt-submit-link {
-        width: 100%;
-      }
-
-      .form-expectations {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .forge-hero,
-      .forge-section,
-      .forge-principles {
-        width: min(100% - 28px, var(--max-width));
-      }
-
-      .forge-hero {
-        padding: 42px 0 54px;
-      }
-
-      .forge-hero h1 {
-        font-size: clamp(3rem, 16.5vw, 4.65rem);
-      }
-
-      .mechanic-lab {
-        min-height: 570px;
-      }
-
-      .mechanic-tabs {
-        border-radius: 14px;
-      }
-
-      .mechanic-tab {
-        padding-right: 9px;
-        padding-left: 9px;
-        font-size: 0.63rem;
-      }
-
-      .mechanic-preview {
-        min-height: 490px;
-        padding: 21px;
-        border-radius: 25px;
-      }
-
-      .mechanic-preview-title {
-        font-size: 1.68rem;
-      }
-
-      .mechanic-preview-sigil {
-        min-height: 118px;
-      }
-
-      .mechanic-preview-footer {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .mechanic-preview-counter {
-        align-self: flex-end;
-      }
-
-      .forge-section,
-      .forge-form-section {
-        padding: 28px;
-      }
-
-      .prompt-generator,
-      .submission-checklist {
-        padding: 23px;
-      }
-
-      .tally-wrapper {
-        border-radius: 18px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
-      }
-
-      .js .reveal {
-        opacity: 1;
-        transform: none;
-      }
-    }
-  </style>
-
 </head>
-
-<body>
-  <header class="site-header">
-    <a
-      class="brand"
-      href="index.html"
-      aria-label="Moonvine Forge Studios home"
-    >
-      <img
-        class="brand-logo"
-        src="assets/moonvine-forge-logo.jpg"
-        alt=""
-      />
-
- 
-  <span class="brand-text">Moonvine Forge</span>
+<body class="card-forge-page">
+<header class="site-header">
+<a aria-label="Moonvine Forge Studios home" class="brand" href="index.html">
+<img alt="" class="brand-logo" src="assets/moonvine-forge-logo.jpg"/>
+<span class="brand-text">Moonvine Forge</span>
 </a>
-
-<nav class="site-nav" aria-label="Main navigation">
-  <a href="index.html">Home</a>
-  <a href="index.html#project">Projects</a>
-  <a href="card-forge.html" aria-current="page">Card Forge</a>
-  <a href="index.html#principles">Approach</a>
-  <a href="index.html#about">About</a>
-  <a href="index.html#contact">Contact</a>
+<nav aria-label="Main navigation" class="site-nav">
+<a href="index.html">Home</a>
+<a href="index.html#project">Projects</a>
+<a aria-current="page" href="card-forge.html">Card Forge</a>
+<a href="index.html#principles">Approach</a>
+<a href="index.html#about">About</a>
+<a href="index.html#contact">Contact</a>
 </nav>
- 
-
-  </header>
-
-  <main class="forge-main">
-    <section class="forge-hero" aria-labelledby="forge-title">
-      <div>
-        <p class="forge-eyebrow">Community Card Forge</p>
-
- 
-    <h1 id="forge-title">
-      Forge something the engine
-      <span>was not prepared for.</span>
-    </h1>
-
-    <p class="forge-hero-copy">
-      Submit a card, relic, enemy action, resource, status, or complete
-      turn-based mechanic. <strong>No code, artwork, or perfect balance is
-      required.</strong> A clear idea is enough to challenge the engine.
-    </p>
-
-    <div class="forge-hero-actions">
-      <a
-        class="forge-primary-button"
-        href="#submit"
-        data-goatcounter-click="card-forge-hero-start"
-      >
-        Start your submission &rarr;
-      </a>
-
-      <a
-        class="forge-secondary-button"
-        href="#inspiration"
-        data-goatcounter-click="card-forge-hero-inspiration"
-      >
-        Give me an idea first
-      </a>
-    </div>
-
-    <p class="forge-hero-note">
-      Simple concepts are welcome. Complicated interactions are welcome.
-      Dangerous edge cases are especially welcome.
-    </p>
-  </div>
-
-  <div class="mechanic-lab" aria-label="Interactive mechanic examples">
-    <div class="mechanic-tabs" aria-label="Choose a mechanic type">
-      <button
-        class="mechanic-tab"
-        type="button"
-        data-mechanic-type="card"
-        aria-pressed="true"
-      >
-        Card
-      </button>
-
-      <button
-        class="mechanic-tab"
-        type="button"
-        data-mechanic-type="relic"
-        aria-pressed="false"
-      >
-        Relic
-      </button>
-
-      <button
-        class="mechanic-tab"
-        type="button"
-        data-mechanic-type="enemy"
-        aria-pressed="false"
-      >
-        Enemy
-      </button>
-
-      <button
-        class="mechanic-tab"
-        type="button"
-        data-mechanic-type="resource"
-        aria-pressed="false"
-      >
-        Resource
-      </button>
-
-      <button
-        class="mechanic-tab"
-        type="button"
-        data-mechanic-type="status"
-        aria-pressed="false"
-      >
-        Status
-      </button>
-    </div>
-
-    <article class="mechanic-preview" id="mechanic-preview">
-      <div class="mechanic-preview-top">
-        <h2 class="mechanic-preview-title" id="mechanic-name">
-          Recursive Petition
-        </h2>
-
-        <span
-          class="mechanic-preview-cost"
-          id="mechanic-cost"
-          aria-label="Mechanic cost"
-        >
-          2
-        </span>
-      </div>
-
-      <div
-        class="mechanic-preview-sigil"
-        id="mechanic-sigil"
-        aria-hidden="true"
-      >
-        &#8634;
-      </div>
-
-      <div class="mechanic-preview-live" aria-live="polite">
-        <p class="mechanic-preview-type" id="mechanic-type">
-          Skill card
+</header>
+<main class="forge-main">
+<section aria-labelledby="forge-title" class="forge-hero">
+<div>
+<p class="forge-eyebrow">Community Card Forge</p>
+<h1 id="forge-title">
+          Forge something the engine
+          <span>was not prepared for.</span>
+</h1>
+<p class="forge-hero-copy">
+          Submit a card, relic, enemy action, resource, status, or complete
+          turn-based mechanic. <strong>No code, artwork, or perfect balance is
+          required.</strong> A clear idea is enough to challenge the engine.
         </p>
-
-        <p class="mechanic-preview-effect" id="mechanic-effect">
-          Choose a card in your discard pile. Resolve its first non-damage
-          effect without paying its cost. If that effect would invoke
-          Recursive Petition again, stop the chain and Exhaust both cards.
+<div class="forge-hero-actions">
+<a class="forge-primary-button" data-goatcounter-click="card-forge-hero-start" href="#submit">
+            Start your submission →
+          </a>
+<a class="forge-secondary-button" data-goatcounter-click="card-forge-hero-inspiration" href="#inspiration">
+            Give me an idea first
+          </a>
+</div>
+<p class="forge-hero-note">
+          Simple concepts are welcome. Complicated interactions are welcome.
+          Dangerous edge cases are especially welcome.
         </p>
-
-        <p class="mechanic-preview-flavour" id="mechanic-flavour">
-          “Please refer to the request referring to this request.”
-        </p>
-      </div>
-
-      <div class="mechanic-preview-footer">
-        <button
-          class="next-example-button"
-          id="next-example"
-          type="button"
-          data-goatcounter-click="card-forge-next-example"
-        >
-          Another example of this type
-        </button>
-
-        <span class="mechanic-preview-counter" id="mechanic-counter">
-          01 / 03
-        </span>
-      </div>
-    </article>
-  </div>
+</div>
+<div aria-label="Interactive mechanic examples" class="mechanic-lab">
+<div aria-label="Choose a mechanic type" class="mechanic-tabs">
+<button aria-pressed="true" class="mechanic-tab" data-mechanic-type="card" type="button">
+            Card
+          </button>
+<button aria-pressed="false" class="mechanic-tab" data-mechanic-type="relic" type="button">
+            Relic
+          </button>
+<button aria-pressed="false" class="mechanic-tab" data-mechanic-type="enemy" type="button">
+            Enemy
+          </button>
+<button aria-pressed="false" class="mechanic-tab" data-mechanic-type="resource" type="button">
+            Resource
+          </button>
+<button aria-pressed="false" class="mechanic-tab" data-mechanic-type="status" type="button">
+            Status
+          </button>
+</div>
+<article class="mechanic-preview" id="mechanic-preview">
+<div class="mechanic-preview-top">
+<h2 class="mechanic-preview-title" id="mechanic-name">
+              Recursive Petition
+            </h2>
+<span aria-label="Mechanic cost" class="mechanic-preview-cost" id="mechanic-cost">
+              2
+            </span>
+</div>
+<div aria-hidden="true" class="mechanic-preview-sigil" id="mechanic-sigil">
+            ↺
+          </div>
+<div aria-live="polite" class="mechanic-preview-live">
+<p class="mechanic-preview-type" id="mechanic-type">
+              Skill card
+            </p>
+<p class="mechanic-preview-effect" id="mechanic-effect">
+              Choose a card in your discard pile. Resolve its first non-damage
+              effect without paying its cost. If that effect would invoke
+              Recursive Petition again, stop the chain and Exhaust both cards.
+            </p>
+<p class="mechanic-preview-flavour" id="mechanic-flavour">
+              “Please refer to the request referring to this request.”
+            </p>
+</div>
+<div class="mechanic-preview-footer">
+<button class="next-example-button" data-goatcounter-click="card-forge-next-example" id="next-example" type="button">
+              Another example of this type
+            </button>
+<span class="mechanic-preview-counter" id="mechanic-counter">
+              01 / 03
+            </span>
+</div>
+</article>
+</div>
 </section>
-
-<section class="forge-principles reveal" aria-label="How to participate">
-  <article class="forge-principle">
-    <span class="forge-principle-number">01</span>
-    <h2>Imagine it</h2>
-    <p>
-      Start with the interaction you would enjoy seeing, not with what is
-      easiest to implement.
-    </p>
-  </article>
-
-  <article class="forge-principle">
-    <span class="forge-principle-number">02</span>
-    <h2>Describe it</h2>
-    <p>
-      Explain what triggers it, what it changes, who it targets, and what
-      price or drawback keeps it interesting.
-    </p>
-  </article>
-
-  <article class="forge-principle">
-    <span class="forge-principle-number">03</span>
-    <h2>Submit it</h2>
-    <p>
-      Text is enough. Numbers can be approximate, and unanswered details
-      can remain open for interpretation.
-    </p>
-  </article>
-
-  <article class="forge-principle">
-    <span class="forge-principle-number">04</span>
-    <h2>Challenge the core</h2>
-    <p>
-      Useful ideas reveal missing building blocks, awkward edge cases, and
-      opportunities for more modular systems.
-    </p>
-  </article>
+<section aria-label="How to participate" class="forge-principles reveal">
+<article class="forge-principle">
+<span class="forge-principle-number">01</span>
+<h2>Imagine it</h2>
+<p>
+          Start with the interaction you would enjoy seeing, not with what is
+          easiest to implement.
+        </p>
+</article>
+<article class="forge-principle">
+<span class="forge-principle-number">02</span>
+<h2>Describe it</h2>
+<p>
+          Explain what triggers it, what it changes, who it targets, and what
+          price or drawback keeps it interesting.
+        </p>
+</article>
+<article class="forge-principle">
+<span class="forge-principle-number">03</span>
+<h2>Submit it</h2>
+<p>
+          Text is enough. Numbers can be approximate, and unanswered details
+          can remain open for interpretation.
+        </p>
+</article>
+<article class="forge-principle">
+<span class="forge-principle-number">04</span>
+<h2>Challenge the core</h2>
+<p>
+          Useful ideas reveal missing building blocks, awkward edge cases, and
+          opportunities for more modular systems.
+        </p>
+</article>
 </section>
-
-<section id="inspiration" class="forge-section reveal">
-  <div class="forge-section-heading">
-    <p class="forge-section-label">Need a spark?</p>
-    <h2>Begin with a design problem, not an empty form.</h2>
-    <p class="forge-section-lead">
-      Generate a prompt, twist it into something personal, or ignore it
-      completely. The goal is to get from “I have no idea” to one mechanic
-      worth explaining.
-    </p>
-  </div>
-
-  <div class="inspiration-layout">
-    <article class="prompt-generator">
-      <p class="prompt-kicker">Current design prompt</p>
-
-      <p class="prompt-text" id="prompt-text" aria-live="polite">
-        Design a relic that remembers the order in which cards changed
-        zones, then rewards one specific sequence.
+<section class="forge-section reveal" id="inspiration">
+<div class="forge-section-heading">
+<p class="forge-section-label">Need a spark?</p>
+<h2>Begin with a design problem, not an empty form.</h2>
+<p class="forge-section-lead">
+          Generate a prompt, twist it into something personal, or ignore it
+          completely. The goal is to get from “I have no idea” to one mechanic
+          worth explaining.
+        </p>
+</div>
+<div class="inspiration-layout">
+<article class="prompt-generator">
+<p class="prompt-kicker">Current design prompt</p>
+<p aria-live="polite" class="prompt-text" id="prompt-text">
+            Design a relic that remembers the order in which cards changed
+            zones, then rewards one specific sequence.
+          </p>
+<div class="prompt-actions">
+<button class="prompt-button" data-goatcounter-click="card-forge-new-prompt" id="new-prompt" type="button">
+              Generate another prompt
+            </button>
+<a class="prompt-submit-link" data-goatcounter-click="card-forge-prompt-to-form" href="#submit">
+              Use this as a starting point →
+            </a>
+</div>
+</article>
+<aside class="submission-checklist">
+<h3>A strong submission can include</h3>
+<ul>
+<li><strong>A trigger:</strong> when, why, or how it activates.</li>
+<li><strong>An effect:</strong> what changes when it resolves.</li>
+<li><strong>A target:</strong> who or what it can affect.</li>
+<li><strong>A cost:</strong> energy, health, cards, time, or risk.</li>
+<li><strong>A purpose:</strong> which strategy it should support.</li>
+<li><strong>An edge case:</strong> the strange interaction you hope works.</li>
+</ul>
+</aside>
+</div>
+</section>
+<section class="forge-section forge-form-section reveal" id="submit">
+<div class="forge-form-heading">
+<p class="forge-section-label">Submit your idea</p>
+<h2>Open the forge.</h2>
+<p class="forge-section-lead">
+          The form guides you from the broad concept to its effects, costs,
+          targets, drawbacks, and intended role. Complete only the detail you
+          actually have.
+        </p>
+</div>
+<div aria-label="Submission expectations" class="form-expectations">
+<div class="form-expectation">
+<strong>No artwork</strong>
+<span>Text-only designs are fully valid.</span>
+</div>
+<div class="form-expectation">
+<strong>No coding</strong>
+<span>Describe behaviour in ordinary language.</span>
+</div>
+<div class="form-expectation">
+<strong>No perfect balance</strong>
+<span>Approximate numbers are enough.</span>
+</div>
+<div class="form-expectation">
+<strong>No fixed game</strong>
+<span>Invent the system your idea requires.</span>
+</div>
+</div>
+<div class="tally-wrapper">
+<iframe data-tally-src="https://tally.so/embed/zxd98a?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1" frameborder="0" height="7824" loading="lazy" marginheight="0" marginwidth="0" title="Moonvine Community Card Forge" width="100%"></iframe>
+</div>
+<p class="privacy-note">
+<strong>Credit is optional.</strong> A nickname, Reddit username, or
+        other alias is only intended for public credit when you explicitly
+        allow it in the form.
       </p>
-
-      <div class="prompt-actions">
-        <button
-          class="prompt-button"
-          id="new-prompt"
-          type="button"
-          data-goatcounter-click="card-forge-new-prompt"
-        >
-          Generate another prompt
-        </button>
-
-        <a
-          class="prompt-submit-link"
-          href="#submit"
-          data-goatcounter-click="card-forge-prompt-to-form"
-        >
-          Use this as a starting point &rarr;
-        </a>
-      </div>
-    </article>
-
-    <aside class="submission-checklist">
-      <h3>A strong submission can include</h3>
-
-      <ul>
-        <li><strong>A trigger:</strong> when, why, or how it activates.</li>
-        <li><strong>An effect:</strong> what changes when it resolves.</li>
-        <li><strong>A target:</strong> who or what it can affect.</li>
-        <li><strong>A cost:</strong> energy, health, cards, time, or risk.</li>
-        <li><strong>A purpose:</strong> which strategy it should support.</li>
-        <li><strong>An edge case:</strong> the strange interaction you hope works.</li>
-      </ul>
-    </aside>
-  </div>
 </section>
-
-<section id="submit" class="forge-section forge-form-section reveal">
-  <div class="forge-form-heading">
-    <p class="forge-section-label">Submit your idea</p>
-    <h2>Open the forge.</h2>
-    <p class="forge-section-lead">
-      The form guides you from the broad concept to its effects, costs,
-      targets, drawbacks, and intended role. Complete only the detail you
-      actually have.
-    </p>
-  </div>
-
-  <div class="form-expectations" aria-label="Submission expectations">
-    <div class="form-expectation">
-      <strong>No artwork</strong>
-      <span>Text-only designs are fully valid.</span>
-    </div>
-
-    <div class="form-expectation">
-      <strong>No coding</strong>
-      <span>Describe behaviour in ordinary language.</span>
-    </div>
-
-    <div class="form-expectation">
-      <strong>No perfect balance</strong>
-      <span>Approximate numbers are enough.</span>
-    </div>
-
-    <div class="form-expectation">
-      <strong>No fixed game</strong>
-      <span>Invent the system your idea requires.</span>
-    </div>
-  </div>
-
-  <div class="tally-wrapper">
-    <iframe
-      data-tally-src="https://tally.so/embed/zxd98a?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-      loading="lazy"
-      width="100%"
-      height="7824"
-      frameborder="0"
-      marginheight="0"
-      marginwidth="0"
-      title="Moonvine Community Card Forge"
-    ></iframe>
-  </div>
-
-  <p class="privacy-note">
-    <strong>Credit is optional.</strong> A nickname, Reddit username, or
-    other alias is only intended for public credit when you explicitly
-    allow it in the form.
-  </p>
-</section>
-
 <section class="forge-section reveal">
-  <div class="outcome-layout">
-    <div class="forge-outcome-heading">
-      <p class="forge-section-label">What happens next?</p>
-      <h2>From unusual idea to useful pressure test.</h2>
-      <p>
-        Submissions can reveal recurring mechanic patterns, missing engine
-        capabilities, balance risks, and interactions that deserve a more
-        general solution.
-      </p>
-
-      <p class="outcome-disclaimer">
-        Submission does not guarantee implementation or inclusion in a
-        future game. An idea may instead be used as inspiration, balancing
-        data, or an architectural test case.
-      </p>
-    </div>
-
-    <div class="outcome-pipeline" aria-label="Submission process">
-      <article class="outcome-step">
-        <span class="outcome-step-number">01</span>
-        <h3>Submitted</h3>
-        <p>The concept enters the community design collection.</p>
-      </article>
-
-      <article class="outcome-step">
-        <span class="outcome-step-number">02</span>
-        <h3>Reviewed</h3>
-        <p>Its trigger, cost, target, effect, and edge cases are examined.</p>
-      </article>
-
-      <article class="outcome-step">
-        <span class="outcome-step-number">03</span>
-        <h3>Translated into an engine challenge</h3>
-        <p>The idea is reduced to reusable capabilities the core may need.</p>
-      </article>
-
-      <article class="outcome-step">
-        <span class="outcome-step-number">04</span>
-        <h3>Possibly prototyped</h3>
-        <p>Selected concepts may inform tests, experiments, or future content.</p>
-      </article>
-    </div>
-  </div>
+<div class="outcome-layout">
+<div class="forge-outcome-heading">
+<p class="forge-section-label">What happens next?</p>
+<h2>From unusual idea to useful pressure test.</h2>
+<p>
+            Submissions can reveal recurring mechanic patterns, missing engine
+            capabilities, balance risks, and interactions that deserve a more
+            general solution.
+          </p>
+<p class="outcome-disclaimer">
+            Submission does not guarantee implementation or inclusion in a
+            future game. An idea may instead be used as inspiration, balancing
+            data, or an architectural test case.
+          </p>
+</div>
+<div aria-label="Submission process" class="outcome-pipeline">
+<article class="outcome-step">
+<span class="outcome-step-number">01</span>
+<h3>Submitted</h3>
+<p>The concept enters the community design collection.</p>
+</article>
+<article class="outcome-step">
+<span class="outcome-step-number">02</span>
+<h3>Reviewed</h3>
+<p>Its trigger, cost, target, effect, and edge cases are examined.</p>
+</article>
+<article class="outcome-step">
+<span class="outcome-step-number">03</span>
+<h3>Translated into an engine challenge</h3>
+<p>The idea is reduced to reusable capabilities the core may need.</p>
+</article>
+<article class="outcome-step">
+<span class="outcome-step-number">04</span>
+<h3>Possibly prototyped</h3>
+<p>Selected concepts may inform tests, experiments, or future content.</p>
+</article>
+</div>
+</div>
 </section>
-
 <section class="forge-section forge-closing reveal">
-  <div class="forge-section-heading">
-    <p class="forge-section-label">The difficult ideas are useful</p>
-    <h2>Build the mechanic you would want to discover during a run.</h2>
-    <p class="forge-section-lead">
-      A small elegant interaction can be as valuable as a complicated
-      system. What matters is that it creates a decision, a risk, a
-      surprise, or a new way to build.
-    </p>
-  </div>
-
-  <div class="forge-closing-actions">
-    <a
-      class="forge-primary-button"
-      href="#submit"
-      data-goatcounter-click="card-forge-closing-start"
-    >
-      Forge your mechanic &rarr;
-    </a>
-
-    <a
-      class="forge-secondary-button"
-      href="https://github.com/Paranoidgrinch/RogueDeck-Core"
-      target="_blank"
-      rel="noopener noreferrer"
-      data-goatcounter-click="card-forge-view-core"
-    >
-      Inspect RogueDeck Core
-    </a>
-  </div>
+<div class="forge-section-heading">
+<p class="forge-section-label">The difficult ideas are useful</p>
+<h2>Build the mechanic you would want to discover during a run.</h2>
+<p class="forge-section-lead">
+          A small elegant interaction can be as valuable as a complicated
+          system. What matters is that it creates a decision, a risk, a
+          surprise, or a new way to build.
+        </p>
+</div>
+<div class="forge-closing-actions">
+<a class="forge-primary-button" data-goatcounter-click="card-forge-closing-start" href="#submit">
+          Forge your mechanic →
+        </a>
+<a class="forge-secondary-button" data-goatcounter-click="card-forge-view-core" href="https://github.com/Paranoidgrinch/RogueDeck-Core" rel="noopener noreferrer" target="_blank">
+          Inspect RogueDeck Core
+        </a>
+</div>
 </section>
- 
-
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-information">
-      <p>
+</main>
+<footer class="site-footer">
+<div class="footer-information">
+<p>
         © <span id="year">2026</span> Moonvine Forge Studios.
         All rights reserved.
       </p>
-
- 
-  <p class="visitor-counter">
-    <span class="visitor-counter-label">Visitors to the Forge</span>
-    <strong id="visitor-count" aria-live="polite">—</strong>
-  </p>
+<p class="visitor-counter">
+<span class="visitor-counter-label">Visitors to the Forge</span>
+<strong aria-live="polite" id="visitor-count">—</strong>
+</p>
 </div>
-
 <nav aria-label="Legal navigation">
-  <a href="impressum.html">Impressum</a>
-  <a href="datenschutz.html">Datenschutz</a>
+<a href="impressum.html">Impressum</a>
+<a href="datenschutz.html">Datenschutz</a>
 </nav>
- 
-
-  </footer>
-
-  <script>
+</footer>
+<script>
     var tallyDocument = document;
     var tallyScriptUrl = "https://tally.so/widgets/embed.js";
 
@@ -1737,14 +328,8 @@
       tallyDocument.body.appendChild(tallyScript);
     }
   </script>
-
-  <script
-    data-goatcounter="https://moonvineforge.goatcounter.com/count"
-    async
-    src="https://gc.zgo.at/count.js"
-  ></script>
-
-  <script>
+<script async="" data-goatcounter="https://moonvineforge.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script>
+<script>
     document.getElementById("year").textContent =
       new Date().getFullYear();
 
@@ -2105,6 +690,5 @@
 
     loadVisitorCount();
   </script>
-
 </body>
 </html>
