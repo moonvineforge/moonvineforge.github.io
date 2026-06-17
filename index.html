@@ -162,12 +162,12 @@
     }
 
     .landing-hero {
-      min-height: 720px;
-      padding: 76px 0;
+      min-height: 760px;
+      padding: 70px 0 82px;
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.72fr);
+      grid-template-columns: minmax(0, 1fr) minmax(390px, 0.78fr);
       align-items: center;
-      gap: clamp(48px, 8vw, 104px);
+      gap: clamp(46px, 6vw, 82px);
     }
 
     .hero-copy {
@@ -195,9 +195,9 @@
     }
 
     .landing-hero h1 {
-      max-width: 780px;
+      max-width: 720px;
       margin: 0;
-      font-size: clamp(3.55rem, 8vw, 7.6rem);
+      font-size: clamp(3.55rem, 7.5vw, 7.25rem);
       line-height: 0.91;
       letter-spacing: -0.065em;
       text-wrap: balance;
@@ -212,7 +212,7 @@
     }
 
     .hero-intro {
-      max-width: 670px;
+      max-width: 650px;
       margin: 32px 0 0;
       color: var(--muted);
       font-size: clamp(1.05rem, 1.8vw, 1.22rem);
@@ -246,7 +246,7 @@
       gap: 3px;
       border: 1px solid rgba(229, 255, 208, 0.82);
       border-radius: 16px;
-      color: #0b0e09 !important;
+      color: #0b0e09;
       background:
         linear-gradient(
           135deg,
@@ -280,7 +280,7 @@
     }
 
     .hero-actions .hero-forge-button:hover {
-      color: #070907 !important;
+      color: #070907;
       filter: brightness(1.08);
       transform: translateY(-4px) scale(1.015);
       box-shadow:
@@ -329,7 +329,7 @@
 
     .idea-stage {
       position: relative;
-      min-height: 540px;
+      min-height: 640px;
       display: grid;
       place-items: center;
       perspective: 1200px;
@@ -338,51 +338,51 @@
     .idea-stage::before {
       content: "";
       position: absolute;
-      width: min(100%, 440px);
+      width: min(112%, 520px);
       aspect-ratio: 1;
       border: 1px solid rgba(168, 200, 138, 0.14);
       border-radius: 50%;
       background:
         radial-gradient(
           circle,
-          rgba(168, 200, 138, 0.13),
+          rgba(168, 200, 138, 0.14),
           transparent 58%
         ),
         repeating-radial-gradient(
           circle,
-          transparent 0 34px,
-          rgba(215, 215, 210, 0.035) 35px 36px
+          transparent 0 39px,
+          rgba(215, 215, 210, 0.035) 40px 41px
         );
-      filter: drop-shadow(0 0 54px rgba(168, 200, 138, 0.08));
+      filter: drop-shadow(0 0 64px rgba(168, 200, 138, 0.1));
       animation: moon-pulse 7s ease-in-out infinite;
     }
 
     .idea-card {
       position: relative;
       z-index: 1;
-      width: min(100%, 360px);
-      min-height: 488px;
-      padding: 24px;
+      width: min(100%, 430px);
+      min-height: 590px;
+      padding: 28px;
       display: flex;
       flex-direction: column;
-      border: 1px solid rgba(215, 215, 210, 0.24);
-      border-radius: 30px;
+      border: 1px solid rgba(215, 215, 210, 0.28);
+      border-radius: 32px;
       background:
         linear-gradient(
           160deg,
-          rgba(255, 255, 255, 0.105),
+          rgba(255, 255, 255, 0.11),
           rgba(255, 255, 255, 0.018) 42%
         ),
         radial-gradient(
-          circle at 72% 12%,
-          rgba(168, 200, 138, 0.16),
-          transparent 34%
+          circle at 72% 10%,
+          rgba(168, 200, 138, 0.18),
+          transparent 35%
         ),
-        rgba(7, 8, 11, 0.94);
+        rgba(7, 8, 11, 0.95);
       box-shadow:
-        0 42px 100px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        0 0 70px rgba(168, 200, 138, 0.06);
+        0 48px 115px rgba(0, 0, 0, 0.64),
+        inset 0 1px 0 rgba(255, 255, 255, 0.09),
+        0 0 78px rgba(168, 200, 138, 0.08);
       transform-style: preserve-3d;
       transition:
         transform 150ms ease-out,
@@ -392,87 +392,115 @@
     }
 
     .idea-card:hover {
-      border-color: rgba(168, 200, 138, 0.45);
+      border-color: rgba(168, 200, 138, 0.5);
       box-shadow:
-        0 46px 110px rgba(0, 0, 0, 0.66),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 0 82px rgba(168, 200, 138, 0.11);
+        0 52px 125px rgba(0, 0, 0, 0.69),
+        inset 0 1px 0 rgba(255, 255, 255, 0.11),
+        0 0 94px rgba(168, 200, 138, 0.13);
     }
 
-    .idea-card.is-changing .idea-card-content {
-      animation: card-change 320ms ease;
+    .idea-card.is-changing .idea-card-live {
+      animation: card-change 340ms ease;
     }
 
-    .idea-card-topline,
-    .idea-card-footer {
+    .idea-card-topline {
+      min-height: 76px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      gap: 16px;
+      gap: 18px;
     }
 
-    .idea-type,
-    .idea-cost {
-      color: var(--forge-green);
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+    .idea-card-title {
+      max-width: 320px;
+      margin: 0;
+      color: var(--forge-green-light);
+      font-size: clamp(1.72rem, 3vw, 2.2rem);
+      line-height: 1.03;
+      letter-spacing: -0.045em;
+      text-shadow: 0 0 28px rgba(168, 200, 138, 0.18);
     }
 
     .idea-cost {
       display: grid;
-      width: 38px;
-      height: 38px;
+      width: 44px;
+      height: 44px;
+      flex: 0 0 44px;
       place-items: center;
-      border: 1px solid var(--forge-green-border);
+      border: 1px solid rgba(168, 200, 138, 0.4);
       border-radius: 50%;
-      background: var(--forge-green-soft);
-      font-size: 0.9rem;
-      letter-spacing: 0;
+      color: var(--forge-green-light);
+      background: rgba(168, 200, 138, 0.12);
+      font-size: 1rem;
+      font-weight: 850;
+      box-shadow: inset 0 0 18px rgba(168, 200, 138, 0.06);
     }
 
     .idea-sigil {
-      min-height: 145px;
-      margin: 20px 0;
+      min-height: 172px;
+      margin: 19px 0 21px;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(215, 215, 210, 0.1);
-      border-radius: 22px;
+      border: 1px solid rgba(215, 215, 210, 0.12);
+      border-radius: 23px;
       background:
         radial-gradient(
           circle,
-          rgba(168, 200, 138, 0.14),
-          transparent 48%
+          rgba(168, 200, 138, 0.16),
+          transparent 49%
         ),
         linear-gradient(
           145deg,
-          rgba(255, 255, 255, 0.04),
-          rgba(255, 255, 255, 0.01)
+          rgba(255, 255, 255, 0.045),
+          rgba(255, 255, 255, 0.012)
         );
       color: var(--silver);
-      font-size: 3.1rem;
-      text-shadow: 0 0 28px rgba(168, 200, 138, 0.36);
+      font-size: 3.5rem;
+      text-shadow: 0 0 32px rgba(168, 200, 138, 0.4);
     }
 
-    .idea-card-content {
+    .idea-card-live {
       flex: 1;
       display: flex;
       flex-direction: column;
     }
 
-    .idea-card h2 {
-      margin: 0;
-      font-size: clamp(1.65rem, 3vw, 2.2rem);
-      line-height: 1.06;
-      letter-spacing: -0.04em;
+    .idea-type-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .idea-type-label {
+      color: var(--dim);
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .idea-type {
+      color: var(--silver);
+      font-size: 0.86rem;
+      font-weight: 850;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .idea-type-row::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: var(--forge-green);
+      box-shadow: 0 0 12px rgba(168, 200, 138, 0.4);
     }
 
     .idea-effect {
-      margin: 18px 0 0;
+      margin: 0;
       color: var(--text);
-      font-size: 1rem;
-      line-height: 1.55;
+      font-size: 1.01rem;
+      line-height: 1.58;
     }
 
     .idea-flavour {
@@ -485,33 +513,65 @@
     }
 
     .idea-card-footer {
-      margin-top: 22px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(215, 215, 210, 0.1);
+      margin-top: 24px;
+      padding-top: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid rgba(215, 215, 210, 0.11);
     }
 
     .draw-idea-button {
       appearance: none;
-      padding: 0;
-      border: 0;
-      color: var(--silver);
-      background: transparent;
+      min-height: 52px;
+      padding: 0 18px;
+      border: 1px solid rgba(229, 255, 208, 0.72);
+      border-radius: 15px;
+      color: #090c07;
+      background:
+        linear-gradient(
+          135deg,
+          var(--forge-green-light),
+          #a8cc89 58%,
+          #88aa6d
+        );
+      box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.34),
+        0 0 24px rgba(168, 200, 138, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
       font: inherit;
-      font-size: 0.8rem;
-      font-weight: 750;
-      letter-spacing: 0.04em;
+      font-size: 0.9rem;
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: 0.01em;
       cursor: pointer;
-      transition: color 160ms ease;
+      transition:
+        transform 170ms ease,
+        filter 170ms ease,
+        box-shadow 170ms ease;
     }
 
     .draw-idea-button:hover {
-      color: var(--forge-green);
+      color: #050705;
+      filter: brightness(1.08);
+      transform: translateY(-2px);
+      box-shadow:
+        0 16px 34px rgba(0, 0, 0, 0.42),
+        0 0 34px rgba(168, 200, 138, 0.27),
+        inset 0 1px 0 rgba(255, 255, 255, 0.58);
     }
 
     .idea-card-number {
+      min-width: 62px;
+      padding: 9px 10px;
+      border: 1px solid rgba(215, 215, 210, 0.12);
+      border-radius: 999px;
       color: var(--dim);
+      background: rgba(255, 255, 255, 0.025);
       font-size: 0.72rem;
       font-variant-numeric: tabular-nums;
+      text-align: center;
     }
 
     .forge-status-strip {
@@ -1052,6 +1112,17 @@
       }
     }
 
+    @media (max-width: 1040px) {
+      .landing-hero {
+        grid-template-columns: minmax(0, 1fr) minmax(350px, 0.72fr);
+        gap: 42px;
+      }
+
+      .idea-card {
+        width: min(100%, 400px);
+      }
+    }
+
     @media (max-width: 920px) {
       .landing-hero {
         min-height: auto;
@@ -1060,7 +1131,7 @@
       }
 
       .idea-stage {
-        min-height: 510px;
+        min-height: 610px;
       }
 
       .community-section,
@@ -1178,18 +1249,34 @@
       }
 
       .idea-stage {
-        min-height: 465px;
+        min-height: 560px;
       }
 
       .idea-card {
-        min-height: 442px;
-        padding: 20px;
-        border-radius: 24px;
+        min-height: 530px;
+        padding: 21px;
+        border-radius: 25px;
+      }
+
+      .idea-card-topline {
+        min-height: 66px;
+      }
+
+      .idea-card-title {
+        font-size: 1.72rem;
       }
 
       .idea-sigil {
-        min-height: 118px;
-        margin: 16px 0;
+        min-height: 128px;
+        margin: 15px 0 18px;
+      }
+
+      .idea-card-footer {
+        grid-template-columns: 1fr;
+      }
+
+      .idea-card-number {
+        justify-self: end;
       }
 
       .landing-section {
@@ -1284,7 +1371,7 @@
       Moonvine Forge builds
       <strong>modular roguelike systems</strong>,
       unusual classes, and atmospheric worlds where mechanics create
-      stories. The forge is open—and curious ideas are welcome.
+      stories. The forge is open, and curious ideas are welcome.
     </p>
 
     <div class="hero-actions">
@@ -1298,7 +1385,7 @@
         </span>
 
         <span class="hero-forge-title">
-          Forge your own card →
+          Forge your own card &rarr;
         </span>
       </a>
 
@@ -1319,7 +1406,9 @@
   <div class="idea-stage" aria-label="Interactive roguelike card idea">
     <article class="idea-card" id="idea-card">
       <div class="idea-card-topline">
-        <span class="idea-type" id="idea-type">Skill</span>
+        <h2 class="idea-card-title" id="idea-name">
+          Unauthorized Shortcut
+        </h2>
 
         <span
           class="idea-cost"
@@ -1331,11 +1420,14 @@
       </div>
 
       <div class="idea-sigil" id="idea-sigil" aria-hidden="true">
-        ⌁
+        &#8761;
       </div>
 
-      <div class="idea-card-content" aria-live="polite">
-        <h2 id="idea-name">Unauthorized Shortcut</h2>
+      <div class="idea-card-live" id="idea-card-live" aria-live="polite">
+        <div class="idea-type-row">
+          <span class="idea-type-label">Card type</span>
+          <span class="idea-type" id="idea-type">Skill</span>
+        </div>
 
         <p class="idea-effect" id="idea-effect">
           Gain 2 Momentum. The next card you play costs 0, then becomes
@@ -1354,11 +1446,11 @@
           type="button"
           data-goatcounter-click="landing-draw-card-idea"
         >
-          Draw another strange idea ↻
+          Draw another strange idea &#8635;
         </button>
 
         <span class="idea-card-number" id="idea-card-number">
-          01 / 08
+          01 / 20
         </span>
       </div>
     </article>
@@ -1382,7 +1474,7 @@
     rel="noopener noreferrer"
     data-goatcounter-click="landing-status-github"
   >
-    Follow development →
+    Follow development &rarr;
   </a>
 </aside>
 
@@ -1426,7 +1518,7 @@
         rel="noopener noreferrer"
         data-goatcounter-click="landing-rogue-deck-core"
       >
-        Inspect the engine on GitHub →
+        Inspect the engine on GitHub &rarr;
       </a>
     </article>
 
@@ -1438,7 +1530,7 @@
       <p>
         A fantasy roguelike where magic has been consumed by
         administration. Its cards, classes, enemies, and questionable
-        paperwork exposed the limits of hardcoded combat logic—and
+        paperwork exposed the limits of hardcoded combat logic and
         inspired RogueDeck Core.
       </p>
 
@@ -1459,7 +1551,7 @@
         rel="noopener noreferrer"
         data-goatcounter-click="landing-bureaucrats-broomsticks"
       >
-        Visit the original project →
+        Visit the original project &rarr;
       </a>
     </article>
   </div>
@@ -1507,7 +1599,7 @@
       <span>Design challenge 01</span>
 
       <strong>
-        A relic that changes what “paying a cost” means.
+        A relic that changes what paying a cost means.
       </strong>
     </div>
 
@@ -1523,7 +1615,7 @@
       <span>Design challenge 03</span>
 
       <strong>
-        A resource that helps now—and causes trouble next turn.
+        A resource that helps now and causes trouble next turn.
       </strong>
     </div>
   </div>
@@ -1693,7 +1785,7 @@
         sigil: "§",
         name: "Administrative Curse",
         effect:
-          "Whenever you draw a card, create a temporary copy in your discard pile.",
+          "Whenever you draw a card, create a temporary copy in your discard pile. Copies cost 1 more and vanish after being played.",
         flavour:
           "Every action requires a duplicate."
       },
@@ -1703,7 +1795,7 @@
         sigil: "◈",
         name: "Moonlit Abacus",
         effect:
-          "The first time you gain a resource each turn, gain one different resource as well.",
+          "The first time you gain a resource each turn, gain 1 of a different resource. Cycle through all available resource types before repeating.",
         flavour:
           "It counts possibilities instead of numbers."
       },
@@ -1713,7 +1805,7 @@
         sigil: "✦",
         name: "Polite Catastrophe",
         effect:
-          "Deal 4 damage. If the enemy intends to attack, repeat this once and apologize.",
+          "Deal 4 damage. If the target intends to attack, repeat this once and apply 1 Apology. Apology reduces its next attack by 2.",
         flavour:
           "The apology is mandatory."
       },
@@ -1723,7 +1815,7 @@
         sigil: "☾",
         name: "Borrowed Tomorrow",
         effect:
-          "Draw 2 cards now. At the start of your next turn, draw 2 fewer cards.",
+          "Draw 2 cards now. At the start of your next turn, draw 2 fewer cards. If that would reduce your draw below 1, gain 1 Debt instead.",
         flavour:
           "The future has filed a complaint."
       },
@@ -1733,7 +1825,7 @@
         sigil: "⌬",
         name: "Audit the Living",
         effect:
-          "Gain 3 Block for each different status currently affecting the player.",
+          "Gain 3 Block for each different status affecting the player. Then copy the shortest remaining duration among those statuses onto yourself.",
         flavour:
           "Your condition has been carefully documented."
       },
@@ -1743,7 +1835,7 @@
         sigil: "◇",
         name: "Unstable Favor",
         effect:
-          "Spend it as any resource. If it remains unspent, transform it into 2 Doubt next turn.",
+          "Spend this as any resource. If it remains unspent at turn end, transform it into 2 Doubt. Doubt increases the next card cost by 1.",
         flavour:
           "Generosity with an expiration date."
       },
@@ -1753,9 +1845,129 @@
         sigil: "※",
         name: "Fine Print",
         effect:
-          "Unplayable. When Exhausted, return a random Banished card to your hand.",
+          "Unplayable. When Exhausted, return a random Banished card to your hand, set its cost to 0 this turn, then add a copy of Fine Print to your discard pile.",
         flavour:
           "Nobody reads the useful clause."
+      },
+      {
+        type: "Skill",
+        cost: "2",
+        sigil: "↺",
+        name: "Recursive Petition",
+        effect:
+          "Choose a card in your discard pile. Resolve its first non-damage effect without paying its cost. If that effect would invoke Recursive Petition again, stop the chain and Exhaust both cards.",
+        flavour:
+          "Please refer to the request referring to this request."
+      },
+      {
+        type: "Power",
+        cost: "2",
+        sigil: "¤",
+        name: "Contingency Budget",
+        effect:
+          "At turn end, store up to 2 unspent Energy as Budget. When you cannot fully pay a card cost, spend Budget first. Any unpaid remainder becomes Debt next turn.",
+        flavour:
+          "Funding exists, provided the emergency is sufficiently inconvenient."
+      },
+      {
+        type: "Relic",
+        cost: "◆",
+        sigil: "⌘",
+        name: "Chain of Custody",
+        effect:
+          "Whenever a card changes zones twice during one effect chain, mark it. The next time that card leaves a zone, repeat its non-damage effects at 50 percent value, then remove the mark.",
+        flavour:
+          "Nothing is lost. It is merely transferred repeatedly."
+      },
+      {
+        type: "Skill",
+        cost: "1",
+        sigil: "⚖",
+        name: "Deferred Verdict",
+        effect:
+          "Apply 8 Judgment to an enemy. At the end of its next turn, deal that much damage if it did not damage you. Otherwise remove Judgment and gain that much Block.",
+        flavour:
+          "The ruling depends on subsequent conduct."
+      },
+      {
+        type: "Attack",
+        cost: "2",
+        sigil: "⟁",
+        name: "Hostile Merger",
+        effect:
+          "Deal 7 damage. Move one debuff from every other enemy to the target. Merge matching stacks and keep the longest remaining duration.",
+        flavour:
+          "Consolidation creates efficiency."
+      },
+      {
+        type: "Power",
+        cost: "3",
+        sigil: "∞",
+        name: "Closed Loop",
+        effect:
+          "The first time each round an effect would trigger itself within the same chain, prevent that trigger and gain 1 Insight. At 3 Insight, draw 2 cards and reset Insight.",
+        flavour:
+          "Circular reasoning, now with safeguards."
+      },
+      {
+        type: "Skill",
+        cost: "X",
+        sigil: "✣",
+        name: "Emergency Appropriation",
+        effect:
+          "Spend all remaining resources. For each different resource type spent, choose: gain 3 Block or deal 2 damage to all enemies. If at least three types were spent, repeat your final choice.",
+        flavour:
+          "The crisis has unlocked several previously impossible accounts."
+      },
+      {
+        type: "Curse",
+        cost: "—",
+        sigil: "▧",
+        name: "Redacted Clause",
+        effect:
+          "Its effect is hidden when drawn. Retain it to reveal the clause next turn. Playing it while revealed grants the benefit; discarding it unrevealed applies the penalty instead.",
+        flavour:
+          "The missing sentence is legally considered present."
+      },
+      {
+        type: "Relic",
+        cost: "◆",
+        sigil: "◎",
+        name: "Consensus Engine",
+        effect:
+          "After you play an Attack, a Skill, and a Power in any order during one turn, the next card repeats its first secondary effect. Reset the sequence if a card type repeats.",
+        flavour:
+          "Agreement is easiest when everyone acts exactly once."
+      },
+      {
+        type: "Power",
+        cost: "1",
+        sigil: "⌖",
+        name: "Risk Register",
+        effect:
+          "Whenever a random target is selected, record every eligible target not chosen. Future random selections exclude recorded targets until all eligible targets have been selected once.",
+        flavour:
+          "Chance remains acceptable when properly documented."
+      },
+      {
+        type: "Skill",
+        cost: "1",
+        sigil: "◌",
+        name: "Last Known Position",
+        effect:
+          "Choose a Banished card. Create an Echo of it in your draw pile. The Echo has no cost, resolves only the original card's first effect, then ceases to exist.",
+        flavour:
+          "The archive insists it was here recently."
+      },
+      {
+        type: "Enemy Action",
+        cost: "?",
+        sigil: "⚙",
+        name: "Unscheduled Maintenance",
+        effect:
+          "Disable the highest-cost card in the player's hand until turn end. If the player ends the turn without attempting to play it, upgrade this action permanently.",
+        flavour:
+          "Downtime was announced several seconds in advance."
       }
     ];
 
@@ -1763,15 +1975,20 @@
     const drawIdeaButton = document.getElementById("draw-idea");
 
     let currentIdeaIndex = 0;
+    let changeTimer = null;
 
     function renderIdea(index) {
       const idea = cardIdeas[index];
+
+      if (changeTimer !== null) {
+        window.clearTimeout(changeTimer);
+      }
 
       ideaCard.classList.remove("is-changing");
       void ideaCard.offsetWidth;
       ideaCard.classList.add("is-changing");
 
-      window.setTimeout(() => {
+      changeTimer = window.setTimeout(function () {
         document.getElementById("idea-type").textContent =
           idea.type;
 
@@ -1791,12 +2008,16 @@
           idea.flavour;
 
         document.getElementById("idea-card-number").textContent =
-          `${String(index + 1).padStart(2, "0")} / ` +
-          `${String(cardIdeas.length).padStart(2, "0")}`;
-      }, 130);
+          String(index + 1).padStart(2, "0") +
+          " / " +
+          String(cardIdeas.length).padStart(2, "0");
+
+        ideaCard.classList.remove("is-changing");
+        changeTimer = null;
+      }, 145);
     }
 
-    drawIdeaButton.addEventListener("click", () => {
+    drawIdeaButton.addEventListener("click", function () {
       let nextIndex = currentIdeaIndex;
 
       while (nextIndex === currentIdeaIndex) {
@@ -1818,7 +2039,7 @@
     ).matches;
 
     if (!reducedMotion && finePointer) {
-      ideaCard.addEventListener("pointermove", (event) => {
+      ideaCard.addEventListener("pointermove", function (event) {
         const bounds = ideaCard.getBoundingClientRect();
 
         const x =
@@ -1828,12 +2049,14 @@
           (event.clientY - bounds.top) / bounds.height - 0.5;
 
         ideaCard.style.transform =
-          `rotateX(${(-y * 7).toFixed(2)}deg) ` +
-          `rotateY(${(x * 9).toFixed(2)}deg) ` +
-          "translateY(-2px)";
+          "rotateX(" +
+          (-y * 6).toFixed(2) +
+          "deg) rotateY(" +
+          (x * 8).toFixed(2) +
+          "deg) translateY(-2px)";
       });
 
-      ideaCard.addEventListener("pointerleave", () => {
+      ideaCard.addEventListener("pointerleave", function () {
         ideaCard.style.transform = "";
       });
     }
@@ -1845,13 +2068,13 @@
       reducedMotion ||
       !("IntersectionObserver" in window)
     ) {
-      revealElements.forEach((element) => {
+      revealElements.forEach(function (element) {
         element.classList.add("is-visible");
       });
     } else {
       const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
-          entries.forEach((entry) => {
+        function (entries, observer) {
+          entries.forEach(function (entry) {
             if (!entry.isIntersecting) {
               return;
             }
@@ -1865,7 +2088,7 @@
         }
       );
 
-      revealElements.forEach((element) => {
+      revealElements.forEach(function (element) {
         revealObserver.observe(element);
       });
     }
@@ -1885,14 +2108,14 @@
 
         if (!response.ok) {
           throw new Error(
-            `HTTP error: ${response.status}`
+            "HTTP error: " + response.status
           );
         }
 
         const data = await response.json();
 
         visitorCount.textContent =
-          data.count ?? "—";
+          data.count || "—";
       } catch (error) {
         visitorCount.textContent = "—";
 
