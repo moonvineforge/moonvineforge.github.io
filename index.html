@@ -1,19 +1,813 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Moonvine Forge Studios</title>
-
+  <title>Moonvine Forge Studios | Modular Roguelike Systems</title>
   <meta
     name="description"
-    content="Moonvine Forge Studios is an independent game studio creating atmospheric video games. Strange worlds forged in moonlight."
+    content="Moonvine Forge Studios builds modular roguelike systems, unusual mechanics, and atmospheric worlds shaped by player-driven experiments."
+  />
+
+  <meta property="og:title" content="Moonvine Forge Studios" />
+  <meta
+    property="og:description"
+    content="Build strange mechanics. Break predictable worlds. Enter the Community Card Forge and follow the development of RogueDeck Core."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://moonvineforge.com/" />
+  <meta
+    property="og:image"
+    content="https://moonvineforge.com/assets/moonvine-forge-logo.jpg"
   />
 
   <link rel="stylesheet" href="style.css" />
 
+  <script>
+    document.documentElement.classList.add("js");
+  </script>
+
   <style>
+    :root {
+      --forge-green: #a8c88a;
+      --forge-green-soft: rgba(168, 200, 138, 0.13);
+      --forge-green-border: rgba(168, 200, 138, 0.28);
+      --forge-violet: #aaa2c7;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--forge-green);
+      outline-offset: 4px;
+    }
+
+    .site-nav a {
+      position: relative;
+    }
+
+    .site-nav a::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -7px;
+      left: 0;
+      height: 1px;
+      background: var(--forge-green);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 180ms ease;
+    }
+
+    .site-nav a:hover::after,
+    .site-nav a:focus-visible::after {
+      transform: scaleX(1);
+    }
+
+    .landing-main {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .landing-main::before,
+    .landing-main::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      opacity: 0.19;
+    }
+
+    .landing-main::before {
+      top: 80px;
+      right: -280px;
+      background: var(--forge-green);
+    }
+
+    .landing-main::after {
+      top: 980px;
+      left: -340px;
+      background: var(--forge-violet);
+    }
+
+    .landing-hero,
+    .landing-section,
+    .forge-status-strip {
+      width: min(var(--max-width), calc(100% - 40px));
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .landing-hero {
+      min-height: 720px;
+      padding: 92px 0 76px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.72fr);
+      align-items: center;
+      gap: clamp(48px, 8vw, 104px);
+    }
+
+    .hero-copy {
+      position: relative;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 24px;
+      color: var(--forge-green);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      box-shadow: 0 0 14px currentColor;
+    }
+
+    .landing-hero h1 {
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(3.55rem, 8vw, 7.6rem);
+      line-height: 0.91;
+      letter-spacing: -0.065em;
+      text-wrap: balance;
+    }
+
+    .landing-hero h1 span {
+      display: block;
+      color: var(--silver);
+      font-size: 0.53em;
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+    }
+
+    .hero-intro {
+      max-width: 670px;
+      margin: 32px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1.8vw, 1.22rem);
+      line-height: 1.7;
+    }
+
+    .hero-intro strong {
+      color: var(--text);
+      font-weight: 650;
+    }
+
+    .hero-actions {
+      margin-top: 38px;
+    }
+
+    .hero-actions .button.primary {
+      border-color: var(--forge-green-border);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(168, 200, 138, 0.22),
+          rgba(168, 200, 138, 0.06)
+        ),
+        rgba(7, 9, 8, 0.88);
+      box-shadow: 0 14px 42px rgba(0, 0, 0, 0.38);
+    }
+
+    .hero-actions .button.primary:hover {
+      border-color: rgba(168, 200, 138, 0.58);
+      box-shadow:
+        0 18px 54px rgba(0, 0, 0, 0.48),
+        0 0 34px rgba(168, 200, 138, 0.1);
+    }
+
+    .hero-note {
+      margin: 22px 0 0;
+      color: var(--dim);
+      font-size: 0.83rem;
+      letter-spacing: 0.04em;
+    }
+
+    .idea-stage {
+      position: relative;
+      min-height: 540px;
+      display: grid;
+      place-items: center;
+      perspective: 1200px;
+    }
+
+    .idea-stage::before {
+      content: "";
+      position: absolute;
+      width: min(100%, 440px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(168, 200, 138, 0.14);
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          circle,
+          rgba(168, 200, 138, 0.13),
+          transparent 58%
+        ),
+        repeating-radial-gradient(
+          circle,
+          transparent 0 34px,
+          rgba(215, 215, 210, 0.035) 35px 36px
+        );
+      filter: drop-shadow(0 0 54px rgba(168, 200, 138, 0.08));
+      animation: moon-pulse 7s ease-in-out infinite;
+    }
+
+    .idea-card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 360px);
+      min-height: 488px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(215, 215, 210, 0.24);
+      border-radius: 30px;
+      background:
+        linear-gradient(
+          160deg,
+          rgba(255, 255, 255, 0.105),
+          rgba(255, 255, 255, 0.018) 42%
+        ),
+        radial-gradient(
+          circle at 72% 12%,
+          rgba(168, 200, 138, 0.16),
+          transparent 34%
+        ),
+        rgba(7, 8, 11, 0.94);
+      box-shadow:
+        0 42px 100px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 0 70px rgba(168, 200, 138, 0.06);
+      transform-style: preserve-3d;
+      transition:
+        transform 150ms ease-out,
+        border-color 220ms ease,
+        box-shadow 220ms ease;
+      will-change: transform;
+    }
+
+    .idea-card:hover {
+      border-color: rgba(168, 200, 138, 0.45);
+      box-shadow:
+        0 46px 110px rgba(0, 0, 0, 0.66),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 82px rgba(168, 200, 138, 0.11);
+    }
+
+    .idea-card.is-changing .idea-card-content {
+      animation: card-change 320ms ease;
+    }
+
+    .idea-card-topline,
+    .idea-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .idea-type,
+    .idea-cost {
+      color: var(--forge-green);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .idea-cost {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 1px solid var(--forge-green-border);
+      border-radius: 50%;
+      background: var(--forge-green-soft);
+      font-size: 0.9rem;
+      letter-spacing: 0;
+    }
+
+    .idea-sigil {
+      min-height: 145px;
+      margin: 20px 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(215, 215, 210, 0.1);
+      border-radius: 22px;
+      background:
+        radial-gradient(
+          circle,
+          rgba(168, 200, 138, 0.14),
+          transparent 48%
+        ),
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.04),
+          rgba(255, 255, 255, 0.01)
+        );
+      color: var(--silver);
+      font-size: 3.1rem;
+      text-shadow: 0 0 28px rgba(168, 200, 138, 0.36);
+    }
+
+    .idea-card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .idea-card h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.2rem);
+      line-height: 1.06;
+      letter-spacing: -0.04em;
+    }
+
+    .idea-effect {
+      margin: 18px 0 0;
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    .idea-flavour {
+      margin: auto 0 0;
+      padding-top: 22px;
+      color: var(--dim);
+      font-size: 0.88rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .idea-card-footer {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(215, 215, 210, 0.1);
+    }
+
+    .draw-idea-button {
+      appearance: none;
+      padding: 0;
+      border: 0;
+      color: var(--silver);
+      background: transparent;
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 750;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: color 160ms ease;
+    }
+
+    .draw-idea-button:hover {
+      color: var(--forge-green);
+    }
+
+    .idea-card-number {
+      color: var(--dim);
+      font-size: 0.72rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .forge-status-strip {
+      margin-bottom: 32px;
+      padding: 18px 24px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 18px;
+      border: 1px solid var(--panel-border);
+      border-radius: 20px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.055),
+          rgba(255, 255, 255, 0.012)
+        ),
+        rgba(5, 6, 9, 0.72);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(16px);
+    }
+
+    .status-light {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--forge-green);
+      box-shadow: 0 0 18px rgba(168, 200, 138, 0.72);
+    }
+
+    .forge-status-strip p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .forge-status-strip strong {
+      color: var(--text);
+    }
+
+    .forge-status-strip a {
+      color: var(--silver);
+      font-size: 0.86rem;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .landing-section {
+      position: relative;
+      margin-bottom: 32px;
+      padding: clamp(36px, 6vw, 68px);
+      overflow: hidden;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-large);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.064),
+          rgba(255, 255, 255, 0.014)
+        ),
+        var(--panel);
+      box-shadow: 0 18px 70px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(18px);
+      scroll-margin-top: 110px;
+    }
+
+    .landing-section::after {
+      content: "";
+      position: absolute;
+      top: -180px;
+      right: -180px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(168, 200, 138, 0.1),
+        transparent 67%
+      );
+      pointer-events: none;
+    }
+
+    .section-heading {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+    }
+
+    .section-kicker {
+      margin: 0 0 16px;
+      color: var(--forge-green);
+      font-size: 0.71rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .landing-section h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4.5vw, 4.25rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+      text-wrap: balance;
+    }
+
+    .section-lead {
+      max-width: 760px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .project-grid {
+      position: relative;
+      z-index: 1;
+      margin-top: 42px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .project-panel {
+      min-height: 355px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(215, 215, 210, 0.13);
+      border-radius: 24px;
+      background:
+        linear-gradient(
+          155deg,
+          rgba(255, 255, 255, 0.055),
+          rgba(255, 255, 255, 0.012)
+        ),
+        rgba(0, 0, 0, 0.2);
+      transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease;
+    }
+
+    .project-panel:hover {
+      transform: translateY(-4px);
+      border-color: var(--forge-green-border);
+      background:
+        linear-gradient(
+          155deg,
+          rgba(168, 200, 138, 0.09),
+          rgba(255, 255, 255, 0.012)
+        ),
+        rgba(0, 0, 0, 0.24);
+    }
+
+    .project-panel.primary-project {
+      border-color: var(--forge-green-border);
+    }
+
+    .project-state {
+      width: fit-content;
+      margin-bottom: 28px;
+      padding: 7px 10px;
+      border: 1px solid rgba(215, 215, 210, 0.12);
+      border-radius: 999px;
+      color: var(--dim);
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .primary-project .project-state {
+      border-color: var(--forge-green-border);
+      color: var(--forge-green);
+      background: var(--forge-green-soft);
+    }
+
+    .project-panel h3 {
+      margin: 0;
+      font-size: clamp(1.55rem, 2.8vw, 2.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .project-panel p {
+      margin: 18px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .project-tags {
+      margin: 24px 0 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .project-tags li {
+      padding: 7px 10px;
+      border: 1px solid rgba(215, 215, 210, 0.1);
+      border-radius: 999px;
+      color: var(--pewter);
+      background: rgba(255, 255, 255, 0.025);
+      font-size: 0.72rem;
+    }
+
+    .project-link {
+      width: fit-content;
+      margin-top: auto;
+      padding-top: 30px;
+      color: var(--silver);
+      font-size: 0.88rem;
+      font-weight: 750;
+    }
+
+    .project-link:hover {
+      color: var(--forge-green);
+    }
+
+    .community-section {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.68fr);
+      align-items: center;
+      gap: clamp(42px, 7vw, 92px);
+      background:
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(168, 200, 138, 0.14),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 12% 88%,
+          rgba(170, 162, 199, 0.13),
+          transparent 42%
+        ),
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.07),
+          rgba(255, 255, 255, 0.015)
+        ),
+        var(--panel);
+    }
+
+    .community-section .section-heading {
+      max-width: 650px;
+    }
+
+    .community-actions {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .challenge-stack {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+    }
+
+    .challenge-card {
+      padding: 20px 22px;
+      border: 1px solid rgba(215, 215, 210, 0.12);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.22);
+      transform: translateX(var(--offset, 0));
+      transition:
+        transform 180ms ease,
+        border-color 180ms ease;
+    }
+
+    .challenge-card:nth-child(2) {
+      --offset: 18px;
+    }
+
+    .challenge-card:nth-child(3) {
+      --offset: 5px;
+    }
+
+    .challenge-card:hover {
+      transform: translateX(var(--offset, 0)) translateY(-3px);
+      border-color: var(--forge-green-border);
+    }
+
+    .challenge-card span {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--forge-green);
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .challenge-card strong {
+      display: block;
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .principles-grid {
+      position: relative;
+      z-index: 1;
+      margin-top: 42px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .principle {
+      padding: 26px;
+      border-top: 1px solid var(--forge-green-border);
+      background: linear-gradient(
+        to bottom,
+        rgba(168, 200, 138, 0.045),
+        transparent 75%
+      );
+    }
+
+    .principle-number {
+      color: var(--forge-green);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .principle h3 {
+      margin: 18px 0 0;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .principle p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.65;
+    }
+
+    .about-compact {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: clamp(34px, 6vw, 72px);
+      align-items: center;
+    }
+
+    .about-emblem {
+      position: relative;
+      width: 180px;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 1px solid rgba(215, 215, 210, 0.16);
+      border-radius: 50%;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.44);
+    }
+
+    .about-emblem img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.25) contrast(1.03);
+    }
+
+    .about-copy p {
+      max-width: 760px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.7;
+    }
+
+    .contact-compact {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .contact-compact p {
+      max-width: 700px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .contact-link-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .contact-email {
+      color: var(--silver);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 750;
+    }
+
+    .contact-small-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .contact-small-links a {
+      color: var(--dim);
+      font-size: 0.78rem;
+    }
+
+    .contact-small-links a:hover,
+    .contact-email:hover {
+      color: var(--forge-green);
+    }
+
     .footer-information {
       display: flex;
       flex-direction: column;
@@ -51,192 +845,547 @@
 
     .visitor-counter strong {
       min-width: 24px;
-      color: var(--silver);
+      color: var(--forge-green);
       font-size: 0.95rem;
       font-variant-numeric: tabular-nums;
     }
+
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition:
+        opacity 650ms ease,
+        transform 650ms ease;
+    }
+
+    .js .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes moon-pulse {
+      0%,
+      100% {
+        transform: scale(0.96) rotate(0deg);
+        opacity: 0.68;
+      }
+
+      50% {
+        transform: scale(1.04) rotate(5deg);
+        opacity: 1;
+      }
+    }
+
+    @keyframes card-change {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      45% {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 920px) {
+      .landing-hero {
+        min-height: auto;
+        padding-top: 62px;
+        grid-template-columns: 1fr;
+      }
+
+      .idea-stage {
+        min-height: 510px;
+      }
+
+      .community-section,
+      .contact-compact {
+        grid-template-columns: 1fr;
+      }
+
+      .project-grid,
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-panel {
+        min-height: auto;
+      }
+
+      .contact-link-group {
+        align-items: flex-start;
+      }
+
+      .contact-small-links {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .forge-status-strip {
+        grid-template-columns: auto 1fr;
+      }
+
+      .forge-status-strip a {
+        grid-column: 2;
+      }
+
+      .about-compact {
+        grid-template-columns: 1fr;
+      }
+
+      .about-emblem {
+        width: 132px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .landing-hero,
+      .landing-section,
+      .forge-status-strip {
+        width: min(100% - 28px, var(--max-width));
+      }
+
+      .landing-hero {
+        padding: 42px 0 48px;
+      }
+
+      .landing-hero h1 {
+        font-size: clamp(3rem, 17vw, 4.7rem);
+      }
+
+      .hero-intro {
+        font-size: 1rem;
+      }
+
+      .idea-stage {
+        min-height: 465px;
+      }
+
+      .idea-card {
+        min-height: 442px;
+        padding: 20px;
+        border-radius: 24px;
+      }
+
+      .idea-sigil {
+        min-height: 118px;
+        margin: 16px 0;
+      }
+
+      .landing-section {
+        padding: 28px;
+      }
+
+      .project-panel,
+      .principle {
+        padding: 22px;
+      }
+
+      .challenge-card:nth-child(2),
+      .challenge-card:nth-child(3) {
+        --offset: 0;
+      }
+
+      .community-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .community-actions .button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .js .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
   </style>
 </head>
+
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Moonvine Forge Studios home">
+    <a
+      class="brand"
+      href="index.html"
+      aria-label="Moonvine Forge Studios home"
+    >
       <span class="brand-mark">MVF</span>
       <span class="brand-text">Moonvine Forge</span>
     </a>
 
     <nav class="site-nav" aria-label="Main navigation">
+      <a href="#project">Projects</a>
+      <a href="#community">Card Forge</a>
+      <a href="#principles">Approach</a>
       <a href="#about">About</a>
-      <a href="#project">Project</a>
-      <a href="card-forge.html">Card Forge</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
-  <a
-    class="github-follow-banner"
-    href="https://github.com/Paranoidgrinch"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Follow Moonvine Forge development on GitHub"
-  >
-    <span class="github-follow-kicker">Development log</span>
-    <strong>Follow on GitHub</strong>
-    <span>Stay up to date with builds, systems and experiments →</span>
-  </a>
+  <main class="landing-main">
+    <section class="landing-hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="hero-kicker">A modular roguelike is being forged</p>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <p class="eyebrow">Independent Game Studio</p>
-        <h1>Moonvine Forge Studios</h1>
-        <p class="tagline">Strange worlds forged in moonlight.</p>
+        <h1 id="hero-title">
+          Build strange mechanics.
+          <span>Break predictable worlds.</span>
+        </h1>
 
-        <p class="hero-text">
-          We create atmospheric video games shaped by memorable worlds,
-          strong systems, and carefully crafted player experiences.
+        <p class="hero-intro">
+          Moonvine Forge builds
+          <strong>modular roguelike systems</strong>,
+          unusual classes, and atmospheric worlds where mechanics create
+          stories. The forge is open—and curious ideas are welcome.
         </p>
 
         <div class="hero-actions">
           <a
             class="button primary"
-            href="https://github.com/Paranoidgrinch/bureaucrats-and-broomsticks-v2"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="card-forge.html"
+            data-goatcounter-click="landing-open-card-forge"
           >
-            View first project
-          </a>
-
-          <a class="button secondary" href="card-forge.html">
-            Open Card Forge
+            Forge your own card
           </a>
 
           <a
             class="button secondary"
-            href="mailto:contact@moonvineforge.com"
+            href="#project"
+            data-goatcounter-click="landing-explore-projects"
           >
-            Contact us
+            Explore the projects
+          </a>
+        </div>
+
+        <p class="hero-note">
+          No artwork required. Balanced ideas welcome. Broken ideas encouraged.
+        </p>
+      </div>
+
+      <div class="idea-stage" aria-label="Interactive roguelike card idea">
+        <article class="idea-card" id="idea-card">
+          <div class="idea-card-topline">
+            <span class="idea-type" id="idea-type">Skill</span>
+            <span
+              class="idea-cost"
+              id="idea-cost"
+              aria-label="Card cost"
+            >
+              1
+            </span>
+          </div>
+
+          <div class="idea-sigil" id="idea-sigil" aria-hidden="true">⌁</div>
+
+          <div class="idea-card-content" aria-live="polite">
+            <h2 id="idea-name">Unauthorized Shortcut</h2>
+
+            <p class="idea-effect" id="idea-effect">
+              Gain 2 Momentum. The next card you play costs 0, then becomes
+              Banished.
+            </p>
+
+            <p class="idea-flavour" id="idea-flavour">
+              “The approved route was taking too long.”
+            </p>
+          </div>
+
+          <div class="idea-card-footer">
+            <button
+              class="draw-idea-button"
+              id="draw-idea"
+              type="button"
+              data-goatcounter-click="landing-draw-card-idea"
+            >
+              Draw another strange idea ↻
+            </button>
+
+            <span class="idea-card-number" id="idea-card-number">
+              01 / 08
+            </span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <aside
+      class="forge-status-strip reveal"
+      aria-label="Current development status"
+    >
+      <span class="status-light" aria-hidden="true"></span>
+
+      <p>
+        <strong>Currently forging:</strong>
+        RogueDeck Core, a deterministic and modular C# combat engine.
+      </p>
+
+      <a
+        href="https://github.com/Paranoidgrinch/RogueDeck-Core"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-goatcounter-click="landing-status-github"
+      >
+        Follow development →
+      </a>
+    </aside>
+
+    <section id="project" class="landing-section reveal">
+      <div class="section-heading">
+        <p class="section-kicker">Currently forging</p>
+
+        <h2>One engine. Many strange worlds.</h2>
+
+        <p class="section-lead">
+          Moonvine Forge began with a playable fantasy roguelike prototype.
+          Its limits led to a larger goal: a reusable engine where new
+          mechanics extend the game instead of forcing the combat system to
+          be rewritten.
+        </p>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-panel primary-project">
+          <span class="project-state">Active development</span>
+
+          <h3>RogueDeck Core</h3>
+
+          <p>
+            A deterministic C# engine for roguelike deckbuilders, designed
+            around reusable effects, event-driven triggers, modular content,
+            and UI-independent game logic.
+          </p>
+
+          <ul class="project-tags" aria-label="RogueDeck Core features">
+            <li>C# / .NET</li>
+            <li>Modular effects</li>
+            <li>Seeded runs</li>
+            <li>Automated tests</li>
+          </ul>
+
+          <a
+            class="project-link"
+            href="https://github.com/Paranoidgrinch/RogueDeck-Core"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-goatcounter-click="landing-rogue-deck-core"
+          >
+            Inspect the engine on GitHub →
+          </a>
+        </article>
+
+        <article class="project-panel">
+          <span class="project-state">Playable origin</span>
+
+          <h3>Bureaucrats &amp; Broomsticks</h3>
+
+          <p>
+            A fantasy roguelike where magic has been consumed by
+            administration. Its cards, classes, enemies, and questionable
+            paperwork exposed the limits of hardcoded combat logic—and
+            inspired RogueDeck Core.
+          </p>
+
+          <ul
+            class="project-tags"
+            aria-label="Bureaucrats and Broomsticks features"
+          >
+            <li>Nine classes</li>
+            <li>Five acts</li>
+            <li>Relics &amp; events</li>
+            <li>Balance bots</li>
+          </ul>
+
+          <a
+            class="project-link"
+            href="https://github.com/Paranoidgrinch/bureaucrats-and-broomsticks-v2"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-goatcounter-click="landing-bureaucrats-broomsticks"
+          >
+            Visit the original project →
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section
+      id="community"
+      class="landing-section community-section reveal"
+    >
+      <div class="section-heading">
+        <p class="section-kicker">Community Card Forge</p>
+
+        <h2>Your strange idea becomes a real design challenge.</h2>
+
+        <p class="section-lead">
+          Submit a card, relic, spell, status, enemy action, resource,
+          passive ability, or turn-based mechanic. No existing game and no
+          artwork are required. Each idea can become a test of what the
+          engine is capable of.
+        </p>
+
+        <div class="community-actions">
+          <a
+            class="button primary"
+            href="card-forge.html"
+            data-goatcounter-click="landing-community-open-forge"
+          >
+            Enter the Card Forge
+          </a>
+
+          <a
+            class="button secondary"
+            href="https://github.com/Paranoidgrinch"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-goatcounter-click="landing-community-follow-github"
+          >
+            Follow the experiments
           </a>
         </div>
       </div>
 
-      <aside
-        class="hero-logo-card"
-        aria-label="Moonvine Forge Studios emblem"
-      >
-        <img
-          class="studio-logo"
-          src="assets/moonvine-forge-logo.jpg"
-          alt="Moonvine Forge Studios logo"
-        />
-      </aside>
+      <div class="challenge-stack" aria-label="Example design challenges">
+        <div class="challenge-card">
+          <span>Design challenge 01</span>
+          <strong>
+            A relic that changes what “paying a cost” means.
+          </strong>
+        </div>
+
+        <div class="challenge-card">
+          <span>Design challenge 02</span>
+          <strong>
+            An enemy action that becomes stronger whenever you heal.
+          </strong>
+        </div>
+
+        <div class="challenge-card">
+          <span>Design challenge 03</span>
+          <strong>
+            A resource that helps now—and causes trouble next turn.
+          </strong>
+        </div>
+      </div>
     </section>
 
-    <section id="about" class="section">
-      <div class="section-label">About</div>
+    <section id="principles" class="landing-section reveal">
+      <div class="section-heading">
+        <p class="section-kicker">How the forge works</p>
 
-      <div class="section-content">
+        <h2>Systems first. Personality always.</h2>
+
+        <p class="section-lead">
+          The goal is not to produce interchangeable deckbuilders. It is to
+          build flexible foundations that still leave room for unusual
+          mechanics, memorable worlds, and meaningful player experiments.
+        </p>
+      </div>
+
+      <div class="principles-grid">
+        <article class="principle">
+          <span class="principle-number">01</span>
+
+          <h3>Modular by design</h3>
+
+          <p>
+            Cards, statuses, resources, triggers, and targets are assembled
+            from reusable systems instead of being locked into one game.
+          </p>
+        </article>
+
+        <article class="principle">
+          <span class="principle-number">02</span>
+
+          <h3>Deterministic at the core</h3>
+
+          <p>
+            Seeded runs and explicit effect resolution make complex
+            interactions reproducible, testable, and easier to understand.
+          </p>
+        </article>
+
+        <article class="principle">
+          <span class="principle-number">03</span>
+
+          <h3>Built for strange ideas</h3>
+
+          <p>
+            Community concepts are not decoration. They are architecture
+            tests that reveal where the engine must become more flexible.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="landing-section about-compact reveal">
+      <div class="about-emblem" aria-hidden="true">
+        <img src="assets/moonvine-forge-logo.jpg" alt="" />
+      </div>
+
+      <div class="about-copy">
+        <p class="section-kicker">Moonvine Forge Studios</p>
+
         <h2>Small studio. Careful craft. Unusual worlds.</h2>
 
         <p>
-          Moonvine Forge Studios is an independent game studio focused on
-          creating atmospheric video games with a distinct identity.
-        </p>
-
-        <p>
-          Our work draws inspiration from moonlit places, strange growth,
-          old stories, hidden rituals, and the quiet tension between delicate
-          worlds and brutal power systems.
+          Moonvine Forge is an independent game-development project focused
+          on systemic roguelike design, atmospheric fantasy, reusable
+          architecture, and mechanics that make players ask:
+          “What happens if I try this?”
         </p>
       </div>
     </section>
 
-    <section id="project" class="section project-card">
-      <div class="section-label">First Project</div>
+    <section id="contact" class="landing-section contact-compact reveal">
+      <div>
+        <p class="section-kicker">Contact</p>
 
-      <div class="section-content">
-        <h2>Currently in development</h2>
-
-        <p>
-          Our first game is currently in development.
-        </p>
+        <h2>Questions, ideas, or unusual proposals?</h2>
 
         <p>
-          More details will be revealed as the project takes shape. For now,
-          Moonvine Forge is focused on building a strong foundation:
-          distinctive gameplay, a clear visual identity, and a world worth
-          returning to. Any progress can be checken on GitHub.
+          Use the general address for first contact. More specific channels
+          remain available for business, press, support, and reproducible bug
+          reports.
         </p>
-
-        <p class="status-note">More information coming soon.</p>
       </div>
-    </section>
 
-    <section id="contact" class="section contact-section">
-      <div class="section-label">Contact</div>
+      <div class="contact-link-group">
+        <a
+          class="contact-email"
+          href="mailto:contact@moonvineforge.com"
+        >
+          contact@moonvineforge.com
+        </a>
 
-      <div class="section-content">
-        <h2>Contact & inquiries</h2>
-
-        <p class="contact-intro">
-          For general questions, business matters, press requests, support,
-          or bug reports, please use the address that best fits your inquiry.
-        </p>
-
-        <div class="contact-grid">
-          <a
-            class="contact-card contact-card-primary"
-            href="mailto:contact@moonvineforge.com"
-          >
-            <span class="contact-card-label">General contact</span>
-            <strong>contact@moonvineforge.com</strong>
-
-            <span class="contact-card-text">
-              General questions, first contact, and anything that does not fit
-              another category.
-            </span>
-          </a>
-
-          <a
-            class="contact-card"
-            href="mailto:business@moonvineforge.com"
-          >
-            <span class="contact-card-label">Business</span>
-            <strong>business@moonvineforge.com</strong>
-
-            <span class="contact-card-text">
-              Publishing, partnerships, store pages, and commercial inquiries.
-            </span>
-          </a>
-
-          <a class="contact-card" href="mailto:press@moonvineforge.com">
-            <span class="contact-card-label">Press</span>
-            <strong>press@moonvineforge.com</strong>
-
-            <span class="contact-card-text">
-              Press requests, media contact, keys, statements, and future
-              announcements.
-            </span>
-          </a>
-
-          <a class="contact-card" href="mailto:support@moonvineforge.com">
-            <span class="contact-card-label">Support</span>
-            <strong>support@moonvineforge.com</strong>
-
-            <span class="contact-card-text">
-              Player support, account questions, technical issues, and general
-              help.
-            </span>
-          </a>
-
-          <a class="contact-card" href="mailto:bugs@moonvineforge.com">
-            <span class="contact-card-label">Bug reports</span>
-            <strong>bugs@moonvineforge.com</strong>
-
-            <span class="contact-card-text">
-              Bugs, crashes, errors, broken features, and reproducible
-              problems.
-            </span>
-          </a>
+        <div class="contact-small-links">
+          <a href="mailto:business@moonvineforge.com">Business</a>
+          <a href="mailto:press@moonvineforge.com">Press</a>
+          <a href="mailto:support@moonvineforge.com">Support</a>
+          <a href="mailto:bugs@moonvineforge.com">Bug reports</a>
         </div>
       </div>
     </section>
@@ -261,11 +1410,6 @@
     </nav>
   </footer>
 
-  <script>
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-  </script>
-
   <script
     data-goatcounter="https://moonvineforge.goatcounter.com/count"
     async
@@ -273,8 +1417,193 @@
   ></script>
 
   <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    const cardIdeas = [
+      {
+        type: "Skill",
+        cost: "1",
+        sigil: "⌁",
+        name: "Unauthorized Shortcut",
+        effect:
+          "Gain 2 Momentum. The next card you play costs 0, then becomes Banished.",
+        flavour:
+          "“The approved route was taking too long.”"
+      },
+      {
+        type: "Power",
+        cost: "2",
+        sigil: "§",
+        name: "Administrative Curse",
+        effect:
+          "Whenever you draw a card, create a temporary copy in your discard pile.",
+        flavour:
+          "Every action requires a duplicate."
+      },
+      {
+        type: "Relic",
+        cost: "◆",
+        sigil: "◈",
+        name: "Moonlit Abacus",
+        effect:
+          "The first time you gain a resource each turn, gain one different resource as well.",
+        flavour:
+          "It counts possibilities instead of numbers."
+      },
+      {
+        type: "Attack",
+        cost: "0",
+        sigil: "✦",
+        name: "Polite Catastrophe",
+        effect:
+          "Deal 4 damage. If the enemy intends to attack, repeat this once and apologize.",
+        flavour:
+          "The apology is mandatory."
+      },
+      {
+        type: "Status",
+        cost: "—",
+        sigil: "☾",
+        name: "Borrowed Tomorrow",
+        effect:
+          "Draw 2 cards now. At the start of your next turn, draw 2 fewer cards.",
+        flavour:
+          "The future has filed a complaint."
+      },
+      {
+        type: "Enemy Action",
+        cost: "?",
+        sigil: "⌬",
+        name: "Audit the Living",
+        effect:
+          "Gain 3 Block for each different status currently affecting the player.",
+        flavour:
+          "Your condition has been carefully documented."
+      },
+      {
+        type: "Resource",
+        cost: "+",
+        sigil: "◇",
+        name: "Unstable Favor",
+        effect:
+          "Spend it as any resource. If it remains unspent, transform it into 2 Doubt next turn.",
+        flavour:
+          "Generosity with an expiration date."
+      },
+      {
+        type: "Curse",
+        cost: "1",
+        sigil: "※",
+        name: "Fine Print",
+        effect:
+          "Unplayable. When Exhausted, return a random Banished card to your hand.",
+        flavour:
+          "Nobody reads the useful clause."
+      }
+    ];
+
+    const ideaCard = document.getElementById("idea-card");
+    const drawIdeaButton = document.getElementById("draw-idea");
+
+    let currentIdeaIndex = 0;
+
+    function renderIdea(index) {
+      const idea = cardIdeas[index];
+
+      ideaCard.classList.remove("is-changing");
+      void ideaCard.offsetWidth;
+      ideaCard.classList.add("is-changing");
+
+      window.setTimeout(() => {
+        document.getElementById("idea-type").textContent = idea.type;
+        document.getElementById("idea-cost").textContent = idea.cost;
+        document.getElementById("idea-sigil").textContent = idea.sigil;
+        document.getElementById("idea-name").textContent = idea.name;
+        document.getElementById("idea-effect").textContent = idea.effect;
+        document.getElementById("idea-flavour").textContent =
+          idea.flavour;
+
+        document.getElementById("idea-card-number").textContent =
+          `${String(index + 1).padStart(2, "0")} / ` +
+          `${String(cardIdeas.length).padStart(2, "0")}`;
+      }, 130);
+    }
+
+    drawIdeaButton.addEventListener("click", () => {
+      let nextIndex = currentIdeaIndex;
+
+      while (nextIndex === currentIdeaIndex) {
+        nextIndex = Math.floor(Math.random() * cardIdeas.length);
+      }
+
+      currentIdeaIndex = nextIndex;
+      renderIdea(currentIdeaIndex);
+    });
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const finePointer = window.matchMedia(
+      "(pointer: fine)"
+    ).matches;
+
+    if (!reducedMotion && finePointer) {
+      ideaCard.addEventListener("pointermove", (event) => {
+        const bounds = ideaCard.getBoundingClientRect();
+
+        const x =
+          (event.clientX - bounds.left) / bounds.width - 0.5;
+
+        const y =
+          (event.clientY - bounds.top) / bounds.height - 0.5;
+
+        ideaCard.style.transform =
+          `rotateX(${(-y * 7).toFixed(2)}deg) ` +
+          `rotateY(${(x * 9).toFixed(2)}deg) ` +
+          "translateY(-2px)";
+      });
+
+      ideaCard.addEventListener("pointerleave", () => {
+        ideaCard.style.transform = "";
+      });
+    }
+
+    const revealElements = document.querySelectorAll(".reveal");
+
+    if (
+      reducedMotion ||
+      !("IntersectionObserver" in window)
+    ) {
+      revealElements.forEach((element) => {
+        element.classList.add("is-visible");
+      });
+    } else {
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        },
+        {
+          threshold: 0.12
+        }
+      );
+
+      revealElements.forEach((element) => {
+        revealObserver.observe(element);
+      });
+    }
+
     async function loadVisitorCount() {
-      const visitorCount = document.getElementById("visitor-count");
+      const visitorCount =
+        document.getElementById("visitor-count");
 
       if (!visitorCount) {
         return;
@@ -293,7 +1622,10 @@
         visitorCount.textContent = data.count ?? "—";
       } catch (error) {
         visitorCount.textContent = "—";
-        console.error("Could not load visitor count:", error);
+        console.error(
+          "Could not load visitor count:",
+          error
+        );
       }
     }
 
@@ -301,3 +1633,4 @@
   </script>
 </body>
 </html>
+```
