@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -16,6 +16,12 @@
     document.documentElement.classList.add("js");
   </script>
 
+  <!-- Social preview metadata -->
+  <meta property="og:title" content="Community Card Forge">
+  <meta property="og:description" content="Submit cards, relics, enemy actions, statuses, resources, and mechanics for Moonvine Forge.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://moonvineforge.com/card-forge.html">
+  <meta name="twitter:card" content="summary">
 </head>
 <body class="card-forge-page">
 <header class="site-header">
@@ -47,7 +53,7 @@
         </p>
 <div class="forge-hero-actions">
 <a class="forge-primary-button" data-goatcounter-click="card-forge-hero-start" href="#submit">
-            Start your submission →
+            Start your submission â†’
           </a>
 <a class="forge-secondary-button" data-goatcounter-click="card-forge-hero-inspiration" href="#inspiration">
             Give me an idea first
@@ -86,7 +92,7 @@
             </span>
 </div>
 <div aria-hidden="true" class="mechanic-preview-sigil" id="mechanic-sigil">
-            ↺
+            â†º
           </div>
 <div aria-live="polite" class="mechanic-preview-live">
 <p class="mechanic-preview-type" id="mechanic-type">
@@ -98,7 +104,7 @@
               Recursive Petition again, stop the chain and Exhaust both cards.
             </p>
 <p class="mechanic-preview-flavour" id="mechanic-flavour">
-              “Please refer to the request referring to this request.”
+              â€œPlease refer to the request referring to this request.â€
             </p>
 </div>
 <div class="mechanic-preview-footer">
@@ -152,7 +158,7 @@
 <h2>Begin with a design problem, not an empty form.</h2>
 <p class="forge-section-lead">
           Generate a prompt, twist it into something personal, or ignore it
-          completely. The goal is to get from “I have no idea” to one mechanic
+          completely. The goal is to get from â€œI have no ideaâ€ to one mechanic
           worth explaining.
         </p>
 </div>
@@ -168,7 +174,7 @@
               Generate another prompt
             </button>
 <a class="prompt-submit-link" data-goatcounter-click="card-forge-prompt-to-form" href="#submit">
-              Use this as a starting point →
+              Use this as a starting point â†’
             </a>
 </div>
 </article>
@@ -274,7 +280,7 @@
 </div>
 <div class="forge-closing-actions">
 <a class="forge-primary-button" data-goatcounter-click="card-forge-closing-start" href="#submit">
-          Forge your mechanic →
+          Forge your mechanic â†’
         </a>
 <a class="forge-secondary-button" data-goatcounter-click="card-forge-view-core" href="https://github.com/Paranoidgrinch/RogueDeck-Core" rel="noopener noreferrer" target="_blank">
           Inspect RogueDeck Core
@@ -285,7 +291,7 @@
 <footer class="site-footer">
 <div class="footer-information">
 <p>
-        © <span id="year">2026</span> Moonvine Forge Studios.
+        Â© <span id="year">2026</span> Moonvine Forge Studios.
         All rights reserved.
       </p>
 <div class="visitor-counter" aria-label="Moonvine Forge visitor counter">
@@ -339,160 +345,160 @@
         {
           name: "Recursive Petition",
           cost: "2",
-          sigil: "↺",
+          sigil: "â†º",
           type: "Skill card",
           effect:
             "Choose a card in your discard pile. Resolve its first non-damage effect without paying its cost. If that effect would invoke Recursive Petition again, stop the chain and Exhaust both cards.",
           flavour:
-            "“Please refer to the request referring to this request.”"
+            "â€œPlease refer to the request referring to this request.â€"
         },
         {
           name: "Deferred Verdict",
           cost: "1",
-          sigil: "⚖",
+          sigil: "âš–",
           type: "Skill card",
           effect:
             "Apply 8 Judgment to an enemy. At the end of its next turn, deal that much damage if it did not damage you. Otherwise remove Judgment and gain that much Block.",
           flavour:
-            "“The ruling depends on subsequent conduct.”"
+            "â€œThe ruling depends on subsequent conduct.â€"
         },
         {
           name: "Emergency Appropriation",
           cost: "X",
-          sigil: "✣",
+          sigil: "âœ£",
           type: "Variable-cost card",
           effect:
             "Spend all remaining resources. For each different resource type spent, choose to gain 3 Block or deal 2 damage to all enemies. If at least three types were spent, repeat your final choice.",
           flavour:
-            "“The crisis has unlocked several impossible accounts.”"
+            "â€œThe crisis has unlocked several impossible accounts.â€"
         }
       ],
       relic: [
         {
           name: "Chain of Custody",
-          cost: "◆",
-          sigil: "⌘",
+          cost: "â—†",
+          sigil: "âŒ˜",
           type: "Relic",
           effect:
             "Whenever a card changes zones twice during one effect chain, mark it. The next time that card leaves a zone, repeat its first non-damage effect at half value, then remove the mark.",
           flavour:
-            "“Nothing is lost. It is merely transferred repeatedly.”"
+            "â€œNothing is lost. It is merely transferred repeatedly.â€"
         },
         {
           name: "Consensus Engine",
-          cost: "◆",
-          sigil: "◎",
+          cost: "â—†",
+          sigil: "â—Ž",
           type: "Relic",
           effect:
             "After you play an Attack, a Skill, and a Power in any order during one turn, the next card repeats its first secondary effect. Reset the sequence if a card type repeats.",
           flavour:
-            "“Agreement is easiest when everyone acts exactly once.”"
+            "â€œAgreement is easiest when everyone acts exactly once.â€"
         },
         {
           name: "Risk Register",
-          cost: "◆",
-          sigil: "⌖",
+          cost: "â—†",
+          sigil: "âŒ–",
           type: "Relic",
           effect:
             "Whenever a random target is selected, record every eligible target not chosen. Future random selections exclude recorded targets until every eligible target has been chosen once.",
           flavour:
-            "“Chance remains acceptable when properly documented.”"
+            "â€œChance remains acceptable when properly documented.â€"
         }
       ],
       enemy: [
         {
           name: "Audit the Living",
           cost: "?",
-          sigil: "⌬",
+          sigil: "âŒ¬",
           type: "Enemy action",
           effect:
             "Gain 3 Block for each different status affecting the player. Then copy the shortest remaining duration among those statuses onto this enemy.",
           flavour:
-            "“Your condition has been carefully documented.”"
+            "â€œYour condition has been carefully documented.â€"
         },
         {
           name: "Unscheduled Maintenance",
           cost: "?",
-          sigil: "⚙",
+          sigil: "âš™",
           type: "Enemy action",
           effect:
             "Disable the highest-cost card in the player's hand until turn end. If the player ends the turn without attempting to play it, permanently improve this action.",
           flavour:
-            "“Downtime was announced several seconds in advance.”"
+            "â€œDowntime was announced several seconds in advance.â€"
         },
         {
           name: "Hostile Reconciliation",
           cost: "?",
-          sigil: "⟁",
+          sigil: "âŸ",
           type: "Enemy reaction",
           effect:
             "After the player gains Block from two different sources in one turn, remove half of that Block and convert the removed amount into delayed damage for the start of the next round.",
           flavour:
-            "“Your accounts now balance. Unfortunately.”"
+            "â€œYour accounts now balance. Unfortunately.â€"
         }
       ],
       resource: [
         {
           name: "Unstable Favor",
           cost: "+",
-          sigil: "◇",
+          sigil: "â—‡",
           type: "Resource",
           effect:
             "Spend this as any resource. If it remains unspent at turn end, transform it into 2 Doubt. Each Doubt increases the next card cost by 1, then disappears.",
           flavour:
-            "“Generosity with an expiration date.”"
+            "â€œGenerosity with an expiration date.â€"
         },
         {
           name: "Contingency Budget",
           cost: "+",
-          sigil: "¤",
+          sigil: "Â¤",
           type: "Stored resource",
           effect:
             "At turn end, store up to 2 unspent Energy as Budget. When you cannot fully pay a card cost, spend Budget first. Any unpaid remainder becomes Debt next turn.",
           flavour:
-            "“Funding exists when the emergency becomes inconvenient enough.”"
+            "â€œFunding exists when the emergency becomes inconvenient enough.â€"
         },
         {
           name: "Echo Credit",
           cost: "+",
-          sigil: "◌",
+          sigil: "â—Œ",
           type: "Temporary resource",
           effect:
             "Whenever a card resolves without being played, gain 1 Echo Credit. Spend 3 to repeat the next triggered effect, but suppress every trigger created by that repetition.",
           flavour:
-            "“The copy is valid. Its consequences are not.”"
+            "â€œThe copy is valid. Its consequences are not.â€"
         }
       ],
       status: [
         {
           name: "Borrowed Tomorrow",
-          cost: "—",
-          sigil: "☾",
+          cost: "â€”",
+          sigil: "â˜¾",
           type: "Player status",
           effect:
             "Draw 2 cards now. At the start of your next turn, draw 2 fewer cards. If that would reduce your draw below 1, gain 1 Debt for each prevented reduction instead.",
           flavour:
-            "“The future has filed a complaint.”"
+            "â€œThe future has filed a complaint.â€"
         },
         {
           name: "Closed Loop",
-          cost: "—",
-          sigil: "∞",
+          cost: "â€”",
+          sigil: "âˆž",
           type: "Protective status",
           effect:
             "The first time each round an effect would trigger itself within the same chain, prevent that trigger and gain 1 Insight. At 3 Insight, draw 2 cards and reset Insight.",
           flavour:
-            "“Circular reasoning, now with safeguards.”"
+            "â€œCircular reasoning, now with safeguards.â€"
         },
         {
           name: "Redacted Clause",
-          cost: "—",
-          sigil: "▧",
+          cost: "â€”",
+          sigil: "â–§",
           type: "Hidden status",
           effect:
             "Its effect is hidden when applied. Retain it for one turn to reveal the benefit. Removing it before revelation applies the hidden penalty instead.",
           flavour:
-            "“The missing sentence is legally considered present.”"
+            "â€œThe missing sentence is legally considered present.â€"
         }
       ]
     };
@@ -668,3 +674,4 @@
   </script>
 </body>
 </html>
+
