@@ -2264,3 +2264,20 @@ h2 {
       .submission-checklist { padding: 23px; }
   .tally-wrapper { border-radius: 18px; }
 }
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 1000;
+  transform: translateY(-200%);
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: var(--surface-strong, #ffffff);
+  color: var(--ink, #111111);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
