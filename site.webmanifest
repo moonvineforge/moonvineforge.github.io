@@ -1,0 +1,10 @@
+﻿{
+  "name": "Moonvine Forge",
+  "short_name": "Moonvine",
+  "description": "A community forge for roguelike deckbuilder ideas and modular game systems.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#101018",
+  "theme_color": "#b68cff",
+  "icons": []
+}
