@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -16,6 +16,12 @@
     document.documentElement.classList.add("js");
   </script>
 
+  <!-- Social preview metadata -->
+  <meta property="og:title" content="Moonvine Forge Studios">
+  <meta property="og:description" content="Modular roguelike systems, community card ideas, and unusual deckbuilder mechanics.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://moonvineforge.com/">
+  <meta name="twitter:card" content="summary">
 </head>
 <body class="landing-page">
 <header class="site-header">
@@ -53,7 +59,7 @@
               Community Card Forge
             </span>
 <span class="hero-forge-title">
-              Forge your own card →
+              Forge your own card â†’
             </span>
 </a>
 <a class="button secondary hero-secondary-button" data-goatcounter-click="landing-explore-projects" href="#project">
@@ -75,7 +81,7 @@
             </span>
 </div>
 <div aria-hidden="true" class="idea-sigil" id="idea-sigil">
-            ∹
+            âˆ¹
           </div>
 <div aria-live="polite" class="idea-card-live" id="idea-card-live">
 <div class="idea-type-row">
@@ -87,12 +93,12 @@
               Banished.
             </p>
 <p class="idea-flavour" id="idea-flavour">
-              “The approved route was taking too long.”
+              â€œThe approved route was taking too long.â€
             </p>
 </div>
 <div class="idea-card-footer">
 <button class="draw-idea-button" data-goatcounter-click="landing-draw-card-idea" id="draw-idea" type="button">
-              Draw another strange idea ↻
+              Draw another strange idea â†»
             </button>
 <span class="idea-card-number" id="idea-card-number">
               01 / 20
@@ -108,7 +114,7 @@
         RogueDeck Core, a deterministic and modular C# combat engine.
       </p>
 <a data-goatcounter-click="landing-status-github" href="https://github.com/Paranoidgrinch/RogueDeck-Core" rel="noopener noreferrer" target="_blank">
-        Follow development →
+        Follow development â†’
       </a>
 </aside>
 <section class="landing-section reveal" id="project">
@@ -138,7 +144,7 @@
 <li>Automated tests</li>
 </ul>
 <a class="project-link" data-goatcounter-click="landing-rogue-deck-core" href="https://github.com/Paranoidgrinch/RogueDeck-Core" rel="noopener noreferrer" target="_blank">
-            Inspect the engine on GitHub →
+            Inspect the engine on GitHub â†’
           </a>
 </article>
 <article class="project-panel">
@@ -157,7 +163,7 @@
 <li>Balance bots</li>
 </ul>
 <a class="project-link" data-goatcounter-click="landing-bureaucrats-broomsticks" href="https://github.com/Paranoidgrinch/bureaucrats-and-broomsticks-v2" rel="noopener noreferrer" target="_blank">
-            Visit the original project →
+            Visit the original project â†’
           </a>
 </article>
 </div>
@@ -250,7 +256,7 @@
           Moonvine Forge is an independent game-development project focused
           on systemic roguelike design, atmospheric fantasy, reusable
           architecture, and mechanics that make players ask:
-          “What happens if I try this?”
+          â€œWhat happens if I try this?â€
         </p>
 </div>
 </section>
@@ -288,7 +294,7 @@
 <footer class="site-footer">
 <div class="footer-information">
 <p>
-        © <span id="year">2026</span> Moonvine Forge Studios.
+        Â© <span id="year">2026</span> Moonvine Forge Studios.
         All rights reserved.
       </p>
 <div class="visitor-counter" aria-label="Moonvine Forge visitor counter">
@@ -311,17 +317,17 @@
       {
         type: "Skill",
         cost: "1",
-        sigil: "⌁",
+        sigil: "âŒ",
         name: "Unauthorized Shortcut",
         effect:
           "Gain 2 Momentum. The next card you play costs 0, then becomes Banished.",
         flavour:
-          "“The approved route was taking too long.”"
+          "â€œThe approved route was taking too long.â€"
       },
       {
         type: "Power",
         cost: "2",
-        sigil: "§",
+        sigil: "Â§",
         name: "Administrative Curse",
         effect:
           "Whenever you draw a card, create a temporary copy in your discard pile. Copies cost 1 more and vanish after being played.",
@@ -330,8 +336,8 @@
       },
       {
         type: "Relic",
-        cost: "◆",
-        sigil: "◈",
+        cost: "â—†",
+        sigil: "â—ˆ",
         name: "Moonlit Abacus",
         effect:
           "The first time you gain a resource each turn, gain 1 of a different resource. Cycle through all available resource types before repeating.",
@@ -341,7 +347,7 @@
       {
         type: "Attack",
         cost: "0",
-        sigil: "✦",
+        sigil: "âœ¦",
         name: "Polite Catastrophe",
         effect:
           "Deal 4 damage. If the target intends to attack, repeat this once and apply 1 Apology. Apology reduces its next attack by 2.",
@@ -350,8 +356,8 @@
       },
       {
         type: "Status",
-        cost: "—",
-        sigil: "☾",
+        cost: "â€”",
+        sigil: "â˜¾",
         name: "Borrowed Tomorrow",
         effect:
           "Draw 2 cards now. At the start of your next turn, draw 2 fewer cards. If that would reduce your draw below 1, gain 1 Debt instead.",
@@ -361,7 +367,7 @@
       {
         type: "Enemy Action",
         cost: "?",
-        sigil: "⌬",
+        sigil: "âŒ¬",
         name: "Audit the Living",
         effect:
           "Gain 3 Block for each different status affecting the player. Then copy the shortest remaining duration among those statuses onto yourself.",
@@ -371,7 +377,7 @@
       {
         type: "Resource",
         cost: "+",
-        sigil: "◇",
+        sigil: "â—‡",
         name: "Unstable Favor",
         effect:
           "Spend this as any resource. If it remains unspent at turn end, transform it into 2 Doubt. Doubt increases the next card cost by 1.",
@@ -381,7 +387,7 @@
       {
         type: "Curse",
         cost: "1",
-        sigil: "※",
+        sigil: "â€»",
         name: "Fine Print",
         effect:
           "Unplayable. When Exhausted, return a random Banished card to your hand, set its cost to 0 this turn, then add a copy of Fine Print to your discard pile.",
@@ -391,7 +397,7 @@
       {
         type: "Skill",
         cost: "2",
-        sigil: "↺",
+        sigil: "â†º",
         name: "Recursive Petition",
         effect:
           "Choose a card in your discard pile. Resolve its first non-damage effect without paying its cost. If that effect would invoke Recursive Petition again, stop the chain and Exhaust both cards.",
@@ -401,7 +407,7 @@
       {
         type: "Power",
         cost: "2",
-        sigil: "¤",
+        sigil: "Â¤",
         name: "Contingency Budget",
         effect:
           "At turn end, store up to 2 unspent Energy as Budget. When you cannot fully pay a card cost, spend Budget first. Any unpaid remainder becomes Debt next turn.",
@@ -410,8 +416,8 @@
       },
       {
         type: "Relic",
-        cost: "◆",
-        sigil: "⌘",
+        cost: "â—†",
+        sigil: "âŒ˜",
         name: "Chain of Custody",
         effect:
           "Whenever a card changes zones twice during one effect chain, mark it. The next time that card leaves a zone, repeat its non-damage effects at 50 percent value, then remove the mark.",
@@ -421,7 +427,7 @@
       {
         type: "Skill",
         cost: "1",
-        sigil: "⚖",
+        sigil: "âš–",
         name: "Deferred Verdict",
         effect:
           "Apply 8 Judgment to an enemy. At the end of its next turn, deal that much damage if it did not damage you. Otherwise remove Judgment and gain that much Block.",
@@ -431,7 +437,7 @@
       {
         type: "Attack",
         cost: "2",
-        sigil: "⟁",
+        sigil: "âŸ",
         name: "Hostile Merger",
         effect:
           "Deal 7 damage. Move one debuff from every other enemy to the target. Merge matching stacks and keep the longest remaining duration.",
@@ -441,7 +447,7 @@
       {
         type: "Power",
         cost: "3",
-        sigil: "∞",
+        sigil: "âˆž",
         name: "Closed Loop",
         effect:
           "The first time each round an effect would trigger itself within the same chain, prevent that trigger and gain 1 Insight. At 3 Insight, draw 2 cards and reset Insight.",
@@ -451,7 +457,7 @@
       {
         type: "Skill",
         cost: "X",
-        sigil: "✣",
+        sigil: "âœ£",
         name: "Emergency Appropriation",
         effect:
           "Spend all remaining resources. For each different resource type spent, choose: gain 3 Block or deal 2 damage to all enemies. If at least three types were spent, repeat your final choice.",
@@ -460,8 +466,8 @@
       },
       {
         type: "Curse",
-        cost: "—",
-        sigil: "▧",
+        cost: "â€”",
+        sigil: "â–§",
         name: "Redacted Clause",
         effect:
           "Its effect is hidden when drawn. Retain it to reveal the clause next turn. Playing it while revealed grants the benefit; discarding it unrevealed applies the penalty instead.",
@@ -470,8 +476,8 @@
       },
       {
         type: "Relic",
-        cost: "◆",
-        sigil: "◎",
+        cost: "â—†",
+        sigil: "â—Ž",
         name: "Consensus Engine",
         effect:
           "After you play an Attack, a Skill, and a Power in any order during one turn, the next card repeats its first secondary effect. Reset the sequence if a card type repeats.",
@@ -481,7 +487,7 @@
       {
         type: "Power",
         cost: "1",
-        sigil: "⌖",
+        sigil: "âŒ–",
         name: "Risk Register",
         effect:
           "Whenever a random target is selected, record every eligible target not chosen. Future random selections exclude recorded targets until all eligible targets have been selected once.",
@@ -491,7 +497,7 @@
       {
         type: "Skill",
         cost: "1",
-        sigil: "◌",
+        sigil: "â—Œ",
         name: "Last Known Position",
         effect:
           "Choose a Banished card. Create an Echo of it in your draw pile. The Echo has no cost, resolves only the original card's first effect, then ceases to exist.",
@@ -501,7 +507,7 @@
       {
         type: "Enemy Action",
         cost: "?",
-        sigil: "⚙",
+        sigil: "âš™",
         name: "Unscheduled Maintenance",
         effect:
           "Disable the highest-cost card in the player's hand until turn end. If the player ends the turn without attempting to play it, upgrade this action permanently.",
@@ -635,3 +641,4 @@
   </script>
 </body>
 </html>
+
