@@ -2311,3 +2311,9 @@ h2 {
   display: grid;
   gap: 1rem;
 }
+
+/* Accessibility: visible keyboard focus */
+:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+}
