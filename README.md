@@ -56,3 +56,4 @@ Additional project notes:
 - `MAINTENANCE.md` - static-site maintenance notes
 - `docs/` - Card Forge reference documentation
 - `examples/` - structured example ideas
+

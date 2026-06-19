@@ -17,3 +17,4 @@ Website bugs can be reported with the bug report issue template.
 ## Contributions
 
 Small pull requests are welcome. Please read `CONTRIBUTING.md` before making larger changes.
+

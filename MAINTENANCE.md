@@ -13,3 +13,4 @@ Moonvine Forge is a small static website. Most safe changes should be easy to re
 ## Preferred pull request size
 
 Small pull requests are easier to review. Prefer one focused change per pull request.
+

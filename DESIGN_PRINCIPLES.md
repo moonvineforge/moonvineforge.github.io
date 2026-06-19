@@ -20,3 +20,4 @@ Strong mechanic ideas often involve:
 - target choice
 - resource conversion
 - interaction with statuses or relics
+
