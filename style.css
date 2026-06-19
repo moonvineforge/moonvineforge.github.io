@@ -2317,3 +2317,14 @@ h2 {
   outline: 3px solid currentColor;
   outline-offset: 4px;
 }
+
+/* Accessibility: reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
