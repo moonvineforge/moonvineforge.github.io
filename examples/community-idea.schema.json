@@ -1,0 +1,24 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Moonvine Forge Community Idea",
+  "type": "object",
+  "required": ["type", "name", "concept"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Idea category such as Card, Relic, Enemy Action, Status, Resource, or Mechanic."
+    },
+    "name": {
+      "type": "string",
+      "description": "Short readable name for the idea."
+    },
+    "concept": {
+      "type": "string",
+      "description": "One clear sentence explaining what the idea does."
+    },
+    "design_goal": {
+      "type": "string",
+      "description": "The player choice, tension, or fantasy this idea is meant to create."
+    }
+  }
+}
