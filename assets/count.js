@@ -1,4 +1,4 @@
-// GoatCounter-compatible local tracking client for Moonvine Forge.
+﻿// GoatCounter-compatible local tracking client for Moonvine Forge.
 // Endpoint contract: https://www.goatcounter.com/help/pixel
 // The original GoatCounter count.js is ISC licensed.
 ;(function () {
@@ -386,3 +386,4 @@
     });
   }
 })();
+

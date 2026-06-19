@@ -24,3 +24,4 @@ All notable changes to the Moonvine Forge website will be documented here.
 - External link safety.
 - Image loading hints.
 - Meta descriptions.
+

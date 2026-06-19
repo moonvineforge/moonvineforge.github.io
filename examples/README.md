@@ -10,3 +10,4 @@ The examples are not game data yet. They are lightweight reference material for:
 - future tooling experiments
 
 The public website remains static and does not depend on these files.
+

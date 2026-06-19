@@ -18,3 +18,4 @@ Describe the change in one or two sentences.
 - [ ] The Tally form embed is not broken.
 - [ ] The visitor counter is not broken.
 - [ ] The page was checked locally in a browser.
+

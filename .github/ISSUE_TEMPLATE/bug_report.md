@@ -31,3 +31,4 @@ Please add your browser and device if relevant.
 ## Screenshots
 
 Add screenshots if they help explain the issue.
+

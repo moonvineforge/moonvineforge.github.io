@@ -17,3 +17,4 @@ Please keep contributions small and focused. A good pull request changes one cle
 Please avoid changes that break existing public pages, the Tally form embed, the visitor counter, or legal pages.
 
 Before opening a pull request, check the changed page locally in a browser.
+

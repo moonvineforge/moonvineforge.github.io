@@ -25,3 +25,4 @@ A tracked value that can be gained, spent, transformed, or checked by effects.
 ## Mechanic
 
 A broader rule idea that may later become part of cards, relics, enemies, or encounters.
+

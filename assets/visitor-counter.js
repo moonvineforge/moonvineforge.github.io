@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   "use strict";
 
   var counterElements = document.querySelectorAll("[data-visitor-count]");
@@ -43,3 +43,4 @@
       console.warn("Could not refresh the local visitor count:", error);
     });
 })();
+

@@ -19,3 +19,4 @@ A good example usually includes:
 - a type
 - a simple effect
 - a visible player choice or tradeoff
+
