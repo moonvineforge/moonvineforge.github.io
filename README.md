@@ -34,3 +34,13 @@ Small, focused improvements are welcome. Good contributions include:
 - visual polish that does not break the existing static site
 
 Please keep pull requests small and easy to review.
+
+## Local preview
+
+This is a static website. To preview changes locally, open `index.html` in a browser.
+
+For a closer GitHub Pages-style preview, run a small local server from the repository root:
+
+    python -m http.server 8000
+
+Then open `http://localhost:8000`.
