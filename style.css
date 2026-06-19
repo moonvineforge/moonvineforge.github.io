@@ -1,4 +1,4 @@
-/*
+﻿/*
 Moonvine Forge stylesheet
 
 Structure:
@@ -2004,7 +2004,7 @@ h2 {
         line-height: 1.55;
 }
 .submission-checklist li::before {
-  content: "✓";
+  content: "âœ“";
         position: absolute;
         top: 0;
         left: 0;
@@ -2295,42 +2295,6 @@ h2 {
   transform: translateY(0);
 }
 
-.sample-card,
-.faq-item {
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  border-radius: 1.25rem;
-  padding: 1.25rem;
-  background: var(--surface, rgba(255, 255, 255, 0.06));
-  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.18);
-}
-
-.sample-card h3,
-.faq-item h3 {
-  margin-top: 0.4rem;
-}
-
-.card-type {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  padding: 0.25rem 0.65rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.faq-list {
-  display: grid;
-  gap: 1rem;
-}
-
-/* Accessibility: visible keyboard focus */
-:focus-visible {
-  outline: 3px solid currentColor;
-  outline-offset: 4px;
-}
-
 /* Accessibility: reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -2355,3 +2319,11 @@ h2 {
   }
 }
 
+
+/* Accessibility: conservative focus styling */
+a:focus-visible,
+button:focus-visible,
+iframe:focus-visible {
+  outline: 2px solid rgba(240, 239, 234, 0.85);
+  outline-offset: 3px;
+}
