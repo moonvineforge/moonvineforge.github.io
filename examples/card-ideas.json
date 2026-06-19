@@ -1,0 +1,20 @@
+﻿[
+  {
+    "type": "Attack",
+    "name": "Audit Strike",
+    "concept": "Deal damage and gain block if the target has a debuff.",
+    "design_goal": "Reward setup without requiring a complex rules exception."
+  },
+  {
+    "type": "Relic",
+    "name": "Borrowed Lantern",
+    "concept": "Reveal extra information about the first enemy action.",
+    "design_goal": "Make planning feel stronger without increasing raw damage."
+  },
+  {
+    "type": "Status",
+    "name": "Delayed",
+    "concept": "Trigger a small penalty at the end of the round.",
+    "design_goal": "Create tension around timing and round structure."
+  }
+]
