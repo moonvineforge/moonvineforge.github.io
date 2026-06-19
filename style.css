@@ -1,3 +1,16 @@
+/*
+Moonvine Forge stylesheet
+
+Structure:
+- global variables
+- layout
+- navigation
+- hero sections
+- cards
+- responsive adjustments
+- accessibility helpers
+*/
+
 /* =============================================================
    Moonvine Forge Studios
    Shared design system for the landing page, Community Card Forge,
@@ -2341,3 +2354,4 @@ h2 {
     display: none;
   }
 }
+
