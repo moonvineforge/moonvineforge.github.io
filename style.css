@@ -2328,3 +2328,16 @@ h2 {
     scroll-behavior: auto !important;
   }
 }
+
+/* Print optimization */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  nav,
+  .hero-actions {
+    display: none;
+  }
+}
