@@ -12,6 +12,9 @@
 <meta content="https://moonvineforge.com/card-forge.html" property="og:url"/>
 <meta content="https://moonvineforge.com/assets/moonvine-forge-logo.jpg" property="og:image"/>
 <link href="style.css" rel="stylesheet"/>
+<link href="assets/forge-editor.css" rel="stylesheet"/>
+<script defer src="assets/forge-schema.js"></script>
+<script defer src="assets/forge-editor.js"></script>
 <script>
     document.documentElement.classList.add("js");
   </script>
@@ -213,9 +216,154 @@
 <span>Invent the system your idea requires.</span>
 </div>
 </div>
+<p class="forge-editor-intro-note">
+<strong>Compact editor prototype:</strong> the new editor below saves a draft only in this browser and creates a local validated preview. It does not send data yet. The current Tally form remains available as a fallback.
+</p>
+<div class="forge-editor-shell" data-forge-editor>
+<div class="forge-editor-panel">
+<p class="forge-editor-fatal-status" id="forge-editor-fatal-status" hidden></p>
+<p class="forge-restore-notice" id="forge-restore-notice" hidden></p>
+<form id="forge-editor-form" novalidate>
+<fieldset class="forge-fieldset">
+<legend class="forge-legend">What are you forging?</legend>
+<p class="forge-field-help">Card is selected by default. Change it only when another category fits better.</p>
+<div class="forge-type-grid">
+<label class="forge-type-choice"><input checked name="forge-content-type" type="radio" value="card"/><span>Card</span></label>
+<label class="forge-type-choice"><input name="forge-content-type" type="radio" value="relic"/><span>Relic</span></label>
+<label class="forge-type-choice"><input name="forge-content-type" type="radio" value="enemy"/><span>Enemy or action</span></label>
+<label class="forge-type-choice"><input name="forge-content-type" type="radio" value="resource"/><span>Resource</span></label>
+<label class="forge-type-choice"><input name="forge-content-type" type="radio" value="status"/><span>Status</span></label>
+<label class="forge-type-choice"><input name="forge-content-type" type="radio" value="mechanic"/><span>Complete mechanic</span></label>
+</div>
+</fieldset>
+
+<section class="forge-editor-section" aria-labelledby="forge-core-heading">
+<h3 class="forge-editor-section-title" id="forge-core-heading">Describe the idea</h3>
+<p class="forge-editor-section-copy">Only the behaviour is required. A name and every other field can stay empty.</p>
+<div class="forge-field-grid">
+<label class="forge-field forge-field-wide">
+<span class="forge-field-label">Name <span class="forge-optional">optional</span></span>
+<input class="forge-input" id="forge-name" maxlength="100" type="text"/>
+</label>
+<label class="forge-field forge-field-wide">
+<span class="forge-field-label">What does it do?</span>
+<textarea class="forge-input" id="forge-rules-text" maxlength="6000" minlength="3" required rows="7" placeholder="Explain the interaction as you would describe it to another player. Approximate numbers and unfinished details are completely fine."></textarea>
+<span class="forge-character-row"><span class="forge-readiness is-waiting" id="forge-readiness">Describe what the mechanic does to make the idea ready.</span><span id="forge-rules-counter">0 / 6000</span></span>
+</label>
+</div>
+
+<details class="forge-advanced-section">
+<summary>Add card or mechanic details</summary>
+<div class="forge-advanced-content">
+<div class="forge-field-grid">
+<label class="forge-field">
+<span class="forge-field-label" id="forge-subtype-label">Card type</span>
+<input class="forge-input" id="forge-subtype" maxlength="100" placeholder="For example: Skill" type="text"/>
+</label>
+<label class="forge-field">
+<span class="forge-field-label">Cost <span class="forge-optional">optional</span></span>
+<input class="forge-input" id="forge-cost" maxlength="100" placeholder="2, X, Lose 4 HP..." type="text"/>
+</label>
+<label class="forge-field">
+<span class="forge-field-label">Rarity or category <span class="forge-optional">optional</span></span>
+<input class="forge-input" id="forge-rarity" maxlength="100" placeholder="Rare, Boss, Event..." type="text"/>
+</label>
+<label class="forge-field forge-field-wide">
+<span class="forge-field-label">Upgrade or alternate version <span class="forge-optional">optional</span></span>
+<textarea class="forge-input" id="forge-upgrade-text" maxlength="3000" rows="3"></textarea>
+</label>
+<label class="forge-field forge-field-wide">
+<span class="forge-field-label">Flavour text <span class="forge-optional">optional</span></span>
+<textarea class="forge-input" id="forge-flavour-text" maxlength="1000" rows="2"></textarea>
+</label>
+</div>
+</div>
+</details>
+</section>
+
+<section class="forge-editor-section" aria-labelledby="forge-details-heading">
+<div class="forge-detail-heading">
+<div>
+<h3 class="forge-editor-section-title" id="forge-details-heading">Make it as precise as you want</h3>
+<p class="forge-editor-section-copy">The idea is already valid without these blocks. Add only details that clarify a complicated interaction.</p>
+</div>
+<span class="forge-field-help" id="forge-detail-counter">0 / 24 details</span>
+</div>
+<div class="forge-detail-actions" aria-label="Add an optional detail">
+<button class="forge-chip-button" data-add-detail="trigger" type="button">+ Trigger</button>
+<button class="forge-chip-button" data-add-detail="effect" type="button">+ Another effect</button>
+<button class="forge-chip-button" data-add-detail="target" type="button">+ Target</button>
+<button class="forge-chip-button" data-add-detail="condition" type="button">+ Condition</button>
+<button class="forge-chip-button" data-add-detail="drawback" type="button">+ Drawback</button>
+<button class="forge-chip-button" data-add-detail="edge_case" type="button">+ Edge case</button>
+<button class="forge-chip-button" data-add-detail="custom" type="button">+ Custom detail</button>
+</div>
+<p class="forge-detail-limit-status" id="forge-detail-limit-status" hidden></p>
+<div class="forge-detail-list" id="forge-detail-list"></div>
+</section>
+
+<details class="forge-credit-section">
+<summary>Add optional credit</summary>
+<div class="forge-credit-content">
+<label class="forge-field">
+<span class="forge-field-label">Name or alias</span>
+<input class="forge-input" id="forge-credit-alias" maxlength="100" placeholder="Nickname, Reddit, GitHub..." type="text"/>
+</label>
+<label class="forge-checkbox">
+<input id="forge-public-credit" type="checkbox"/>
+<span>You may publicly credit me under this name.</span>
+</label>
+</div>
+</details>
+
+<div class="forge-editor-footer">
+<div>
+<button class="forge-action-button primary" data-goatcounter-click="card-forge-local-preview" type="submit">Preview submission</button>
+<button class="forge-action-button secondary" id="forge-clear-draft" type="button">Clear draft</button>
+</div>
+<p class="forge-draft-status" id="forge-draft-status" aria-live="polite">Drafts are saved only in this browser.</p>
+</div>
+<div class="forge-validation-status" id="forge-validation-status" aria-live="polite" hidden>
+<p id="forge-validation-message"></p>
+<ul class="forge-validation-errors" id="forge-validation-errors"></ul>
+</div>
+</form>
+</div>
+
+<aside class="forge-live-preview" aria-label="Live mechanic preview">
+<div class="forge-preview-surface">
+<div class="forge-preview-topline">
+<div>
+<p class="forge-preview-kicker">Live preview</p>
+<h3 class="forge-preview-name" id="forge-preview-name">Untitled Card</h3>
+</div>
+<span class="forge-preview-cost" id="forge-preview-cost">-</span>
+</div>
+<p class="forge-preview-type" id="forge-preview-type">Card</p>
+<p class="forge-preview-rules" id="forge-preview-rules">Describe the behaviour of your idea and it will appear here immediately.</p>
+<div class="forge-preview-details" id="forge-preview-details"></div>
+<p class="forge-preview-note">This preview is illustrative. Your original wording remains the authoritative submission.</p>
+</div>
+</aside>
+</div>
+
+<section class="forge-local-output" id="forge-local-output" hidden aria-labelledby="forge-local-output-heading">
+<div class="forge-local-output-header">
+<div>
+<h3 id="forge-local-output-heading">Validated local submission</h3>
+<p>This is the exact structured data the future endpoint will receive. Nothing has been sent.</p>
+</div>
+</div>
+<pre class="forge-output-json" id="forge-output-json"></pre>
+</section>
+
+<details class="forge-legacy-form">
+<summary>Use the current Tally form</summary>
+<p class="forge-legacy-form-copy">Until the private submission endpoint is connected, only this legacy form sends an idea to Moonvine Forge.</p>
 <div class="tally-wrapper">
 <iframe data-tally-src="https://tally.so/embed/zxd98a?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1" frameborder="0" height="7824" loading="lazy" marginheight="0" marginwidth="0" title="Moonvine Community Card Forge" width="100%"></iframe>
 </div>
+</details>
 <p class="privacy-note">
 <strong>Credit is optional.</strong> A nickname, Reddit username, or
         other alias is only intended for public credit when you explicitly
