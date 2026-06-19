@@ -44,3 +44,15 @@ For a closer GitHub Pages-style preview, run a small local server from the repos
     python -m http.server 8000
 
 Then open `http://localhost:8000`.
+
+## Project documentation
+
+Additional project notes:
+
+- `CONTRIBUTING.md` - contribution guidelines
+- `CONTENT_GUIDELINES.md` - writing and example guidance
+- `DESIGN_PRINCIPLES.md` - mechanic design principles
+- `ACCESSIBILITY.md` - accessibility notes
+- `MAINTENANCE.md` - static-site maintenance notes
+- `docs/` - Card Forge reference documentation
+- `examples/` - structured example ideas
