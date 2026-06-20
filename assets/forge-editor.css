@@ -21,8 +21,7 @@
 
 .forge-editor-panel,
 .forge-live-preview,
-.forge-local-output,
-.forge-legacy-form {
+.forge-local-output {
     border: 1px solid rgba(215, 215, 210, 0.16);
     border-radius: 24px;
     background:
@@ -43,8 +42,7 @@
 
 .forge-editor-fatal-status,
 .forge-validation-status,
-.forge-detail-limit-status,
-.forge-restore-notice {
+.forge-detail-limit-status {
     margin: 0 0 16px;
     padding: 12px 14px;
     border: 1px solid rgba(215, 215, 210, 0.2);
@@ -257,8 +255,7 @@ textarea.forge-input {
 }
 
 .forge-advanced-section summary,
-.forge-credit-section summary,
-.forge-legacy-form summary {
+.forge-credit-section summary {
     padding: 16px 18px;
     color: var(--silver);
     font-weight: 800;
@@ -501,20 +498,30 @@ textarea.forge-input {
     word-break: break-word;
 }
 
-.forge-legacy-form {
-    margin-top: 24px;
-    overflow: hidden;
-}
-
-.forge-legacy-form-copy {
-    margin: 0;
-    padding: 0 18px 18px;
+.forge-submission-notice {
+    margin: 20px 0;
+    padding: 16px 18px;
+    border: 1px solid rgba(215, 215, 210, 0.16);
+    border-radius: 16px;
     color: var(--muted);
+    background: rgba(0, 0, 0, 0.24);
     font-size: 0.9rem;
 }
 
-.forge-legacy-form .tally-wrapper {
-    padding: 0 18px 18px;
+.forge-submission-notice h3 {
+    margin: 0 0 10px;
+    color: var(--silver);
+    font-size: 1rem;
+}
+
+.forge-submission-notice p {
+    margin: 8px 0 0;
+}
+
+.forge-submission-notice a {
+    color: var(--silver);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
 }
 
 @media (max-width: 940px) {

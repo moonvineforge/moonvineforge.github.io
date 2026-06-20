@@ -93,7 +93,7 @@
     if (!endpoint || !editorApi) {
       if (fatalStatus) {
         fatalStatus.textContent =
-          "Direct submission could not be initialized. Your draft is still safe, and the legacy form remains available below.";
+          "Direct submission could not be initialized. Your current entry remains in this open tab. Reload the page and try again.";
         fatalStatus.hidden = false;
       }
 
@@ -210,7 +210,7 @@
     function completeFailure(result) {
       var message =
         clean(result && result.message) ||
-        "The Forge could not confirm this submission. Your draft is still safe in this browser.";
+        "The Forge could not confirm this submission. Your current entry remains in this open tab.";
 
       showStatus(
         message,
@@ -277,7 +277,7 @@
           window.location.hostname !== "127.0.0.1"
         ) {
           showStatus(
-            "Direct submission requires the secure Moonvine Forge website. Your draft is still safe.",
+            "Direct submission requires the secure Moonvine Forge website. Your current entry remains in this open tab.",
             false,
             []
           );
@@ -342,7 +342,7 @@
             cleanupRequest(request);
             completeFailure({
               message:
-                "The Forge did not answer in time. Your draft is still safe in this browser, so you can try again."
+                "The Forge did not answer in time. Your current entry remains in this open tab, so you can try again."
             });
           },
           RESPONSE_TIMEOUT_MILLISECONDS

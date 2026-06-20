@@ -309,20 +309,32 @@ test(
 );
 
 test(
-  "the Tally fallback remains during testing",
+  "direct submission has no legacy fallback dependency",
   () => {
     assert.equal(
-      occurrences(html, "data-tally-src="),
-      1
+      html.includes("data-tally-src="),
+      false
+    );
+    assert.equal(
+      html.includes("forge-legacy-form"),
+      false
+    );
+    assert.equal(
+      submission.includes("legacy form"),
+      false
+    );
+    assert.equal(
+      submission.includes("Your draft is still safe"),
+      false
     );
     assert.ok(
-      html.includes(
-        "Use the current Tally form"
+      submission.includes(
+        "Your current entry remains in this open tab."
       )
     );
     assert.ok(
-      html.includes(
-        "If direct submission does not work"
+      submission.includes(
+        "outputCode.textContent"
       )
     );
   }

@@ -1,8 +1,6 @@
 (function () {
     "use strict";
 
-    var STORAGE_KEY = "moonvine-forge-draft-v1";
-    var RESTORE_MESSAGE = "Draft restored from this browser.";
     var TYPE_FIELD_LABELS = {
         card: "Card type",
         relic: "Relic type",
@@ -28,42 +26,14 @@
         if (target) target.hidden = hidden;
     }
 
-    function safeLoad(schema) {
-        try {
-            var raw = window.localStorage.getItem(STORAGE_KEY);
-            if (!raw) return null;
-            return schema.normalizeSubmission(JSON.parse(raw));
-        } catch (error) {
-            window.localStorage.removeItem(STORAGE_KEY);
-            return null;
-        }
-    }
-
-    function safeSave(submission) {
-        try {
-            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(submission));
-            return true;
-        } catch (error) {
-            return false;
-        }
-    }
-
-    function safeClear() {
-        try {
-            window.localStorage.removeItem(STORAGE_KEY);
-        } catch (error) {
-            return;
-        }
-    }
-
-    function initializeEditor() {
+  function initializeEditor() {
         var root = document.querySelector("[data-forge-editor]");
         if (!root) return;
 
         var schema = window.MoonvineForgeSchema;
         var fatalStatus = element("forge-editor-fatal-status");
         if (!schema) {
-            setText(fatalStatus, "The Forge editor could not load its data schema. Use the legacy form below.");
+            setText(fatalStatus, "The Forge editor could not load its data schema. Reload the page. If the problem continues, contact Moonvine Forge.");
             setHidden(fatalStatus, false);
             return;
         }
@@ -83,13 +53,11 @@
         var detailLimitStatus = element("forge-detail-limit-status");
         var readiness = element("forge-readiness");
         var draftStatus = element("forge-draft-status");
-        var restoreNotice = element("forge-restore-notice");
         var validationStatus = element("forge-validation-status");
         var validationMessage = element("forge-validation-message");
         var validationList = element("forge-validation-errors");
         var outputPanel = element("forge-local-output");
-        var outputCode = element("forge-output-json");
-        var clearButton = element("forge-clear-draft");
+        var resetButton = element("forge-reset-form");
         var previewName = element("forge-preview-name");
         var previewCost = element("forge-preview-cost");
         var previewType = element("forge-preview-type");
@@ -100,8 +68,7 @@
         var promptLink = document.querySelector(".prompt-submit-link");
         var promptText = element("prompt-text");
 
-        var restored = safeLoad(schema);
-        var state = restored || schema.createSubmission();
+        var state = schema.createSubmission();
 
         function selectedContentType() {
             var checked = form.querySelector('input[name="forge-content-type"]:checked');
@@ -184,7 +151,7 @@
                     state.details = state.details.filter(function (candidate) {
                         return candidate.id !== detail.id;
                     });
-                    persistAndRender();
+                    updateAndRender();
                     renderDetails();
                 });
 
@@ -238,15 +205,15 @@
                     if (detail.kind !== "custom") detail.label = "";
                     customField.hidden = detail.kind !== "custom";
                     customInput.value = detail.label;
-                    persistAndRender();
+                    updateAndRender();
                 });
                 customInput.addEventListener("input", function () {
                     detail.label = customInput.value;
-                    persistAndRender();
+                    updateAndRender();
                 });
                 textArea.addEventListener("input", function () {
                     detail.text = textArea.value;
-                    persistAndRender();
+                    updateAndRender();
                 });
 
                 grid.append(kindField, customField, textField);
@@ -266,7 +233,7 @@
             }
             state.details.push(schema.createDetail(kind));
             renderDetails();
-            persistAndRender();
+            updateAndRender();
             var latest = detailsList.lastElementChild;
             if (latest) latest.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
@@ -331,20 +298,15 @@
             updateTypeSpecificLabels();
         }
 
-        function persistAndRender() {
-            updateBaseState();
-            var saved = safeSave(state);
-            setText(
-                draftStatus,
-                saved ? "Draft saved in this browser." : "Draft could not be saved in this browser."
-            );
-            renderPreview();
-            setHidden(outputPanel, true);
-            validationStatus.classList.remove("is-success");
-            setHidden(validationStatus, true);
-        }
+  function updateAndRender() {
+    updateBaseState();
+    renderPreview();
+    setHidden(outputPanel, true);
+    validationStatus.classList.remove("is-success");
+    setHidden(validationStatus, true);
+  }
 
-        function showValidation(errors) {
+  function showValidation(errors) {
             validationList.replaceChildren();
             validationStatus.classList.remove("is-success");
             if (!errors.length) {
@@ -363,56 +325,32 @@
 
         form.addEventListener("input", function (event) {
             if (event.target.closest(".forge-detail-card")) return;
-            persistAndRender();
+            updateAndRender();
         });
 
         form.addEventListener("change", function (event) {
             if (event.target.closest(".forge-detail-card")) return;
-            persistAndRender();
+            updateAndRender();
         });
 
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
-            updateBaseState();
-            var prepared = schema.prepareSubmission(state);
-            showValidation(prepared.errors);
+  resetButton.addEventListener("click", function () {
+    var shouldReset = window.confirm("Reset the current Forge form?");
+    if (!shouldReset) return;
 
-            if (!prepared.valid) {
-                setHidden(outputPanel, true);
-                var firstError = validationList.firstElementChild;
-                if (firstError) firstError.scrollIntoView({ behavior: "smooth", block: "center" });
-                return;
-            }
+    state = schema.createSubmission();
+    form.reset();
+    hydrateBaseFields();
+    renderDetails();
+    renderPreview();
+    setHidden(outputPanel, true);
+    showValidation([]);
+    setText(
+      draftStatus,
+      "Your entry exists only in this open tab. Reloading or closing the page will discard it."
+    );
+  });
 
-            state = prepared.submission;
-            safeSave(state);
-            hydrateBaseFields();
-            renderDetails();
-            renderPreview();
-            outputCode.textContent = JSON.stringify(state, null, 2);
-            setHidden(outputPanel, false);
-            setText(
-                validationMessage,
-                "Local preview created. This prototype has not sent anything to Moonvine Forge."
-            );
-            validationStatus.classList.add("is-success");
-            setHidden(validationStatus, false);
-            outputPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        });
-
-        clearButton.addEventListener("click", function () {
-            var shouldClear = window.confirm("Discard the current local Forge draft?");
-            if (!shouldClear) return;
-            safeClear();
-            state = schema.createSubmission();
-            hydrateBaseFields();
-            renderDetails();
-            persistAndRender();
-            setHidden(restoreNotice, true);
-            showValidation([]);
-        });
-
-        root.querySelectorAll("[data-add-detail]").forEach(function (button) {
+  root.querySelectorAll("[data-add-detail]").forEach(function (button) {
             button.addEventListener("click", function () {
                 addDetail(button.dataset.addDetail);
             });
@@ -422,7 +360,7 @@
             promptLink.addEventListener("click", function () {
                 if (clean(rulesInput.value)) return;
                 rulesInput.value = clean(promptText.textContent);
-                persistAndRender();
+                updateAndRender();
             });
         }
 
@@ -435,25 +373,28 @@
       showValidation(Array.isArray(errors) ? errors : []);
     },
     resetAfterSubmission: function () {
-      safeClear();
+
       state = schema.createSubmission();
       form.reset();
       hydrateBaseFields();
       renderDetails();
       renderPreview();
-      setHidden(restoreNotice, true);
       setHidden(outputPanel, true);
       showValidation([]);
-      setText(draftStatus, "Drafts are saved only in this browser.");
+      setText(
+      draftStatus,
+      "Your entry exists only in this open tab. Reloading or closing the page will discard it."
+    );
     }
   });
 
   hydrateBaseFields();
   renderDetails();
   renderPreview();
-  setHidden(restoreNotice, !restored);
-        if (restored) setText(restoreNotice, RESTORE_MESSAGE);
-        setText(draftStatus, restored ? RESTORE_MESSAGE : "Drafts are saved only in this browser.");
+  setText(
+    draftStatus,
+    "Your entry exists only in this open tab. Reloading or closing the page will discard it."
+  );
     }
 
     if (document.readyState === "loading") {
