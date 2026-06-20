@@ -42,7 +42,6 @@ jobs:
               --retry 2 \
               --retry-all-errors \
               --max-time 60 \
-              --request POST \
               --data-urlencode "adminAction=process_new" \
               --data-urlencode "processorToken=${FORGE_PROCESSOR_TOKEN}" \
               --output "${response_file}" \
