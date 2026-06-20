@@ -4,7 +4,15 @@ const FORGE_BACKEND = Object.freeze({
   maxRequestCharacters: 60000,
   maxPayloadCharacters: 40000,
   lockTimeoutMilliseconds: 10000,
-  allowedOrigins: Object.freeze([ "https://moonvineforge.com", "https://www.moonvineforge.com", "https://moonvineforge.github.io", "http://localhost:8000", "http://127.0.0.1:8000" ]),
+  processorBatchLimit: 50,
+  processorTokenProperty: "FORGE_PROCESSOR_TOKEN",
+  allowedOrigins: Object.freeze([
+    "https://moonvineforge.com",
+    "https://www.moonvineforge.com",
+    "https://moonvineforge.github.io",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000"
+  ]),
   contentTypes: Object.freeze([
     "card",
     "relic",
@@ -122,7 +130,13 @@ function doGet() {
 }
 
 function doPost(event) {
-  const parameters = event && event.parameter ? event.parameter : {};
+  const parameters = event && event.parameter
+    ? event.parameter
+    : {};
+
+  if (normalizeText_(parameters.adminAction)) {
+    return handleForgeAdminPost_(parameters);
+  }
   const responseToken = normalizeResponseToken_(parameters.responseToken);
   const requestedOrigin = normalizeText_(parameters.origin);
   const responseOrigin = isAllowedOrigin_(requestedOrigin) ? requestedOrigin : "*";
@@ -187,6 +201,364 @@ function doPost(event) {
       errors: Array.isArray(error && error.forgeErrors) ? error.forgeErrors : []
     });
   }
+}
+
+
+function generateForgeProcessorToken() {
+  const properties = PropertiesService.getScriptProperties();
+  const propertyName = FORGE_BACKEND.processorTokenProperty;
+  const existing = normalizeText_(properties.getProperty(propertyName));
+
+  if (existing) {
+    throw new Error(
+      "A Forge processor token already exists. Do not regenerate it unless you intend to rotate the GitHub secret."
+    );
+  }
+
+  const token = (
+    Utilities.getUuid() +
+    Utilities.getUuid()
+  ).replace(/-/g, "");
+
+  properties.setProperty(propertyName, token);
+  console.log(propertyName + "=" + token);
+  return token;
+}
+
+function handleForgeAdminPost_(parameters) {
+  const action = normalizeText_(parameters.adminAction);
+  const suppliedToken = normalizeText_(parameters.processorToken);
+  const properties = PropertiesService.getScriptProperties();
+  const expectedToken = normalizeText_(
+    properties.getProperty(FORGE_BACKEND.processorTokenProperty)
+  );
+
+  if (
+    !expectedToken ||
+    !secureTokensEqual_(expectedToken, suppliedToken)
+  ) {
+    return createForgeJsonResponse_({
+      ok: false,
+      code: "processor_unauthorized",
+      message: "Unauthorized."
+    });
+  }
+
+  if (action !== "process_new") {
+    return createForgeJsonResponse_({
+      ok: false,
+      code: "processor_action_unknown",
+      message: "Unknown processor action."
+    });
+  }
+
+  try {
+    const result = processNewForgeSubmissions_();
+
+    return createForgeJsonResponse_({
+      ok: true,
+      code: "processor_complete",
+      scanned: result.scanned,
+      processed: result.processed,
+      needsReview: result.needsReview,
+      invalid: result.invalid,
+      errors: result.errors,
+      remaining: result.remaining
+    });
+  } catch (error) {
+    console.error(error && error.stack ? error.stack : error);
+
+    return createForgeJsonResponse_({
+      ok: false,
+      code: "processor_error",
+      message: "The private Forge processor failed."
+    });
+  }
+}
+
+function processNewForgeSubmissions_() {
+  const properties = PropertiesService.getScriptProperties();
+  const spreadsheetId = properties.getProperty(
+    "FORGE_SPREADSHEET_ID"
+  );
+  const sheetName =
+    properties.getProperty("FORGE_SHEET_NAME") ||
+    FORGE_BACKEND.sheetName;
+
+  if (!spreadsheetId) {
+    throw new Error(
+      "The Forge backend has not been configured yet."
+    );
+  }
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(FORGE_BACKEND.lockTimeoutMilliseconds);
+
+  try {
+    const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+    const sheet = spreadsheet.getSheetByName(sheetName);
+
+    if (!sheet) {
+      throw new Error("The Forge submission sheet is missing.");
+    }
+
+    ensureForgeHeaders_(sheet);
+
+    const lastRow = sheet.getLastRow();
+
+    if (lastRow < 2) {
+      return {
+        scanned: 0,
+        processed: 0,
+        needsReview: 0,
+        invalid: 0,
+        errors: 0,
+        remaining: 0
+      };
+    }
+
+    const rows = sheet
+      .getRange(
+        2,
+        1,
+        lastRow - 1,
+        FORGE_BACKEND.headers.length
+      )
+      .getValues();
+
+    let totalNew = 0;
+    let processed = 0;
+    let needsReview = 0;
+    let invalid = 0;
+    let errors = 0;
+
+    rows.forEach(function (row, index) {
+      const currentStatus = normalizeText_(row[17]);
+
+      if (currentStatus !== "new") {
+        return;
+      }
+
+      totalNew += 1;
+
+      if (processed >= FORGE_BACKEND.processorBatchLimit) {
+        return;
+      }
+
+      const rowNumber = index + 2;
+      const publicReference = normalizeText_(String(row[1] || ""));
+      const processedAtUtc = Utilities.formatDate(
+        new Date(),
+        "UTC",
+        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+      );
+      const reviewReference = publicReference
+        ? "REVIEW-" + publicReference
+        : "REVIEW-ROW-" + rowNumber;
+
+      let status = "error";
+      let notes =
+        "Automated intake processing failed. Review this row manually.";
+
+      try {
+        const payload = JSON.parse(String(row[20] || ""));
+        const validation = validateForgeSubmission_(payload);
+
+        if (!validation.valid) {
+          status = "invalid";
+          invalid += 1;
+          notes = createForgeValidationNotes_(validation.errors);
+        } else {
+          const review = createAutomatedForgeReview_(
+            validation.submission
+          );
+
+          status = "needs_review";
+          needsReview += 1;
+          notes = review.notes;
+        }
+      } catch (error) {
+        errors += 1;
+        console.error(
+          "Forge row " +
+            rowNumber +
+            " failed processing: " +
+            (error && error.stack ? error.stack : error)
+        );
+      }
+
+      sheet
+        .getRange(rowNumber, 18, 1, 3)
+        .setValues([
+          [
+            status,
+            processedAtUtc,
+            reviewReference
+          ]
+        ]);
+
+      sheet
+        .getRange(rowNumber, 22)
+        .setValue(notes);
+
+      processed += 1;
+    });
+
+    SpreadsheetApp.flush();
+
+    return {
+      scanned: rows.length,
+      processed: processed,
+      needsReview: needsReview,
+      invalid: invalid,
+      errors: errors,
+      remaining: Math.max(totalNew - processed, 0)
+    };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function createAutomatedForgeReview_(submission) {
+  const details = Array.isArray(submission.details)
+    ? submission.details
+    : [];
+  const kinds = [];
+
+  details.forEach(function (detail) {
+    const kind = normalizeText_(detail && detail.kind);
+
+    if (kind && kinds.indexOf(kind) === -1) {
+      kinds.push(kind);
+    }
+  });
+
+  const signalLabels = {
+    recursion: "recursion or effect-chain control",
+    memory: "stored state or historical memory",
+    sequence: "ordered multi-step resolution",
+    zone: "card-zone interaction",
+    resource: "resource interaction",
+    randomness: "random selection or probability",
+    stacking: "stacking behaviour",
+    duration: "duration or expiry behaviour",
+    edge_case: "explicit edge-case handling",
+    custom: "custom rule outside standard categories"
+  };
+
+  const signalWeights = {
+    recursion: 3,
+    memory: 2,
+    sequence: 2,
+    zone: 1,
+    resource: 1,
+    randomness: 1,
+    stacking: 1,
+    duration: 1,
+    edge_case: 1,
+    custom: 2
+  };
+
+  const signals = [];
+  let score = 1 + Math.min(details.length, 8);
+  const rulesLength = normalizeText_(
+    submission.core && submission.core.rulesText
+  ).length;
+
+  if (rulesLength >= 250) {
+    score += 1;
+  }
+
+  if (rulesLength >= 700) {
+    score += 2;
+  }
+
+  if (
+    normalizeText_(
+      submission.core && submission.core.upgradeText
+    )
+  ) {
+    score += 1;
+  }
+
+  kinds.forEach(function (kind) {
+    if (signalLabels[kind]) {
+      signals.push(signalLabels[kind]);
+      score += signalWeights[kind] || 0;
+    }
+  });
+
+  if (signals.length === 0) {
+    signals.push("straightforward effect description");
+  }
+
+  const complexity =
+    score <= 3
+      ? "low"
+      : score <= 7
+        ? "moderate"
+        : "high";
+
+  const notes = [
+    "Automated intake review",
+    "Complexity: " + complexity + " (score " + score + ")",
+    "Signals: " + signals.join(", "),
+    "Checks: schema valid; original payload preserved",
+    "Next step: manual semantic, balance, and implementation review required"
+  ].join("\n");
+
+  return {
+    complexity: complexity,
+    score: score,
+    signals: signals,
+    notes: notes
+  };
+}
+
+function createForgeValidationNotes_(errors) {
+  const issues = (Array.isArray(errors) ? errors : [])
+    .slice(0, 10)
+    .map(function (error) {
+      const path = normalizeText_(error && error.path) || "$";
+      const code =
+        normalizeText_(error && error.code) || "invalid";
+      return path + ":" + code;
+    });
+
+  return [
+    "Automated intake validation failed",
+    "Issues: " + (issues.join(", ") || "unknown validation error"),
+    "Next step: inspect the preserved payload manually"
+  ].join("\n");
+}
+
+function createForgeJsonResponse_(payload) {
+  return ContentService
+    .createTextOutput(JSON.stringify(payload))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function secureTokensEqual_(left, right) {
+  const expected = String(left || "");
+  const supplied = String(right || "");
+
+  if (
+    !expected ||
+    !supplied ||
+    expected.length !== supplied.length
+  ) {
+    return false;
+  }
+
+  let difference = 0;
+
+  for (let index = 0; index < expected.length; index += 1) {
+    difference |=
+      expected.charCodeAt(index) ^
+      supplied.charCodeAt(index);
+  }
+
+  return difference === 0;
 }
 
 function storeForgeSubmission_(submission) {
@@ -504,5 +876,7 @@ var MoonvineForgeBackendTest = Object.freeze({
   createPublicReference: createPublicReference_,
   neutralizeSheetCell: neutralizeSheetCell_,
   isAllowedOrigin: isAllowedOrigin_,
-  normalizeResponseToken: normalizeResponseToken_
+  normalizeResponseToken: normalizeResponseToken_,
+  createAutomatedReview: createAutomatedForgeReview_,
+  secureTokensEqual: secureTokensEqual_
 });

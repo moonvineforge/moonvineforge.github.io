@@ -1,0 +1,132 @@
+name: Process Forge submissions
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 * * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: process-forge-submissions
+  cancel-in-progress: false
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Trigger private Forge intake processor
+        shell: bash
+        env:
+          FORGE_PROCESSOR_ENDPOINT: https://script.google.com/macros/s/AKfycbwjPby49avdHa1EH5pgmzOPaTJHKxOTBOS70izRkenANfEWX8myI8uZJJ_qBFxe6RD6UQ/exec
+          FORGE_PROCESSOR_TOKEN: ${{ secrets.FORGE_PROCESSOR_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${FORGE_PROCESSOR_TOKEN}" ]]; then
+            echo "FORGE_PROCESSOR_TOKEN is not configured." >&2
+            exit 1
+          fi
+
+          response_file="$(mktemp)"
+          trap 'rm -f "${response_file}"' EXIT
+
+          http_code="$(
+            curl \
+              --silent \
+              --show-error \
+              --location \
+              --retry 2 \
+              --retry-all-errors \
+              --max-time 60 \
+              --request POST \
+              --data-urlencode "adminAction=process_new" \
+              --data-urlencode "processorToken=${FORGE_PROCESSOR_TOKEN}" \
+              --output "${response_file}" \
+              --write-out "%{http_code}" \
+              "${FORGE_PROCESSOR_ENDPOINT}"
+          )"
+
+          if [[ "${http_code}" != "200" ]]; then
+            echo "Forge processor returned HTTP ${http_code}." >&2
+            exit 1
+          fi
+
+          python3 - "${response_file}" "${GITHUB_STEP_SUMMARY}" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          response_path = Path(sys.argv[1])
+          summary_path = Path(sys.argv[2])
+
+          try:
+              payload = json.loads(response_path.read_text(encoding="utf-8"))
+          except (OSError, json.JSONDecodeError) as error:
+              raise SystemExit(
+                  f"Forge processor returned invalid JSON: {error}"
+              )
+
+          if payload.get("ok") is not True:
+              code = str(payload.get("code") or "unknown_error")
+              message = str(payload.get("message") or "Processor failed.")
+              raise SystemExit(f"Forge processor failed: {code}: {message}")
+
+          fields = (
+              "scanned",
+              "processed",
+              "needsReview",
+              "invalid",
+              "errors",
+              "remaining",
+          )
+
+          counts = {}
+
+          for field in fields:
+              value = payload.get(field)
+
+              if isinstance(value, bool) or not isinstance(value, int):
+                  raise SystemExit(
+                      f"Forge processor returned invalid {field!r} count."
+                  )
+
+              if value < 0:
+                  raise SystemExit(
+                      f"Forge processor returned negative {field!r} count."
+                  )
+
+              counts[field] = value
+
+          print(
+              "Forge processor completed: "
+              f"processed={counts['processed']}, "
+              f"needs_review={counts['needsReview']}, "
+              f"invalid={counts['invalid']}, "
+              f"errors={counts['errors']}, "
+              f"remaining={counts['remaining']}."
+          )
+
+          summary = "\n".join(
+              [
+                  "## Moonvine Forge intake",
+                  "",
+                  f"- Rows scanned: {counts['scanned']}",
+                  f"- Newly processed: {counts['processed']}",
+                  f"- Awaiting manual review: {counts['needsReview']}",
+                  f"- Invalid payloads: {counts['invalid']}",
+                  f"- Processing errors: {counts['errors']}",
+                  f"- Remaining new submissions: {counts['remaining']}",
+                  "",
+                  "Raw submissions and author information remain in the private Google Sheet.",
+              ]
+          )
+
+          summary_path.write_text(
+              summary + "\n",
+              encoding="utf-8",
+          )
+          PY

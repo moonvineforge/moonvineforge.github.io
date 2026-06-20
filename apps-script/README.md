@@ -37,3 +37,29 @@ The `/exec` URL remains the integration URL.
 - User-facing sheet cells are neutralized when they begin with formula characters.
 - The full normalized payload is also stored as JSON for lossless processing.
 - The web response contains no sheet contents and no Google credentials.
+
+## Private hourly intake processing
+
+The public website endpoint also contains a private processor used by GitHub Actions. The processor never returns submission text, author aliases, or payload JSON to GitHub. It writes its deterministic intake review directly into the private `Submissions` sheet.
+
+For each row whose `processing_status` is `new`, the processor:
+
+- validates the preserved JSON payload again;
+- derives a rough complexity level and engine-interaction signals;
+- writes `processed_at_utc` and a stable `review_reference`;
+- writes a short automated report to `processing_notes`;
+- changes valid rows to `needs_review`;
+- changes malformed rows to `invalid`;
+- leaves final semantic, balance, and implementation decisions to a human reviewer.
+
+### One-time processor token
+
+1. Update and redeploy the existing Apps Script web app after adding the processor code.
+2. In the Apps Script editor, run `generateForgeProcessorToken` exactly once.
+3. Copy the `FORGE_PROCESSOR_TOKEN=...` value from the private execution log.
+4. Store only the token value in the GitHub repository secret named `FORGE_PROCESSOR_TOKEN`.
+5. Never place the token in repository files, issues, workflow logs, or the public website.
+
+Running `generateForgeProcessorToken` again is intentionally blocked while a token already exists. Token rotation should be deliberate because the Apps Script property and GitHub secret must always match.
+
+The GitHub workflow runs hourly at minute 37 and can also be triggered manually after the workflow exists on the repository's default branch. Its logs and job summary contain counts only; raw submissions remain in the private Google Sheet.
