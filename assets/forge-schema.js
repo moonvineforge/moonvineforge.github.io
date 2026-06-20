@@ -8,7 +8,7 @@
 
     const SCHEMA_VERSION = 1;
     const FORM_VERSION = "1.0.0";
-    const SUBMISSION_NOTICE_VERSION = "2026-06-v1";
+    const SUBMISSION_NOTICE_VERSION = "2026-06-v2";
 
     const CONTENT_TYPES = Object.freeze({
         card: { label: "Card", placeholderName: "Untitled Card" },

@@ -25,11 +25,12 @@ test("editor assets are loaded once and in dependency order", () => {
     assert.ok(html.indexOf('src="assets/forge-schema.js"') < html.indexOf('src="assets/forge-editor.js"'));
 });
 
-test("compact editor and legacy fallback coexist", () => {
-    assert.equal(occurrences(html, "data-forge-editor"), 1);
-    assert.equal(occurrences(html, 'id="forge-editor-form"'), 1);
-    assert.equal(occurrences(html, "data-tally-src="), 1);
-    assert.ok(html.includes("Use the current Tally form"));
+test("compact editor is the only submission form", () => {
+  assert.equal(occurrences(html, "data-forge-editor"), 1);
+  assert.equal(occurrences(html, 'id="forge-editor-form"'), 1);
+  assert.equal(occurrences(html, 'id="forge-submit-button"'), 1);
+  assert.equal(html.includes("data-tally-src="), false);
+  assert.equal(html.includes("forge-legacy-form"), false);
 });
 
 test("all six content types are present", () => {
@@ -47,14 +48,21 @@ test("rules text is the only required creative text field", () => {
     assert.ok(requiredControls[0][0].includes('id="forge-rules-text"'));
 });
 
-test("editor has local-only safety boundaries", () => {
-    assert.ok(javascript.includes("window.localStorage"));
-    assert.ok(javascript.includes("schema.prepareSubmission"));
-    assert.ok(javascript.includes("textContent"));
-    assert.ok(javascript.includes("replaceChildren"));
-    assert.equal(javascript.includes("innerHTML"), false);
-    assert.equal(javascript.includes("fetch("), false);
-    assert.equal(javascript.includes("XMLHttpRequest"), false);
+test("editor keeps unfinished entries only in the open tab", () => {
+  assert.equal(javascript.includes("window.localStorage"), false);
+  assert.equal(javascript.includes("localStorage"), false);
+  assert.equal(javascript.includes("STORAGE_KEY"), false);
+  assert.equal(javascript.includes("safeSave"), false);
+  assert.equal(javascript.includes("safeLoad"), false);
+  assert.equal(javascript.includes('form.addEventListener("submit"'), false);
+  assert.ok(javascript.includes("schema.prepareSubmission"));
+  assert.ok(javascript.includes("textContent"));
+  assert.ok(javascript.includes("replaceChildren"));
+  assert.equal(javascript.includes("innerHTML"), false);
+  assert.equal(javascript.includes("fetch("), false);
+  assert.equal(javascript.includes("XMLHttpRequest"), false);
+  assert.ok(html.includes('id="forge-reset-form"'));
+  assert.ok(html.includes("Reloading or closing the page will discard it."));
 });
 
 test("details are repeatable and removable", () => {
@@ -69,9 +77,10 @@ test("prompt generator can seed an empty rules field", () => {
     assert.ok(javascript.includes("promptText.textContent"));
 });
 
-test("untrusted content is rendered as text", () => {
-    assert.ok(javascript.includes("outputCode.textContent"));
-    assert.ok(javascript.includes("text.textContent = clean(detail.text)"));
+test("untrusted preview content is rendered as text", () => {
+  assert.ok(javascript.includes("text.textContent = clean(detail.text)"));
+  assert.ok(javascript.includes("label.textContent"));
+  assert.equal(javascript.includes("innerHTML"), false);
 });
 
 test("responsive editor styles exist", () => {

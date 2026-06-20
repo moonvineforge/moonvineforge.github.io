@@ -218,12 +218,11 @@
 </div>
 </div>
 <p class="forge-editor-intro-note">
-<strong>Compact community Forge:</strong> describe the mechanic in ordinary language, add only the detail you want, and submit it directly. Your unfinished draft remains stored only in this browser until a submission succeeds.
+<strong>Compact community Forge:</strong> describe the mechanic in ordinary language, add only the detail you want, and submit it directly. Your unfinished entry exists only in this open tab and is not saved in persistent browser storage.
 </p>
 <div class="forge-editor-shell" data-forge-editor data-forge-endpoint="https://script.google.com/macros/s/AKfycbwjPby49avdHa1EH5pgmzOPaTJHKxOTBOS70izRkenANfEWX8myI8uZJJ_qBFxe6RD6UQ/exec">
 <div class="forge-editor-panel">
 <p class="forge-editor-fatal-status" id="forge-editor-fatal-status" hidden></p>
-<p class="forge-restore-notice" id="forge-restore-notice" hidden></p>
 <form id="forge-editor-form" novalidate>
 <fieldset class="forge-fieldset">
 <legend class="forge-legend">What are you forging?</legend>
@@ -312,17 +311,35 @@
 </label>
 <label class="forge-checkbox">
 <input id="forge-public-credit" type="checkbox"/>
-<span>You may publicly credit me under this name.</span>
+<span>I consent to Moonvine Forge publicly crediting this submission under the alias entered above. I can withdraw this consent for future use at any time.</span>
 </label>
 </div>
 </details>
 
+<section class="forge-submission-notice" id="forge-submission-notice" aria-labelledby="forge-submission-notice-heading">
+<h3 id="forge-submission-notice-heading">Before you submit</h3>
+<p>
+By submitting, you confirm that you may share this content and allow Moonvine Forge
+to review, adapt, combine, and use it as a design or technical reference. Submission
+does not guarantee implementation, payment, or public credit.
+</p>
+<p>
+Do not include contact details, confidential information, sensitive personal data,
+or content belonging to another person.
+</p>
+<p>
+Your submission is sent to Google Apps Script and stored in a private Google Sheet.
+Details about processing, retention, and your rights are explained in the
+<a href="datenschutz.html">Privacy Policy</a>.
+</p>
+</section>
+
 <div class="forge-editor-footer">
 <div>
-<button class="forge-action-button primary" data-goatcounter-click="card-forge-submit-attempt" id="forge-submit-button" type="submit">Submit idea</button>
-<button class="forge-action-button secondary" id="forge-clear-draft" type="button">Clear draft</button>
+<button aria-describedby="forge-submission-notice" class="forge-action-button primary" data-goatcounter-click="card-forge-submit-attempt" id="forge-submit-button" type="submit">Submit idea</button>
+<button class="forge-action-button secondary" id="forge-reset-form" type="button">Reset form</button>
 </div>
-<p class="forge-draft-status" id="forge-draft-status" aria-live="polite">Drafts are saved only in this browser.</p>
+<p class="forge-draft-status" id="forge-draft-status" aria-live="polite">Your entry exists only in this open tab. Reloading or closing the page will discard it.</p>
 </div>
 <div class="forge-validation-status" id="forge-validation-status" aria-live="polite" hidden>
 <p id="forge-validation-message"></p>
@@ -357,19 +374,9 @@
 </div>
 <pre class="forge-output-json" id="forge-output-json"></pre>
 </section>
-
-<details class="forge-legacy-form">
-<summary>Use the current Tally form</summary>
-<p class="forge-legacy-form-copy">If direct submission does not work in your browser, you can still use the legacy form below.</p>
-<div class="tally-wrapper">
-<iframe data-tally-src="https://tally.so/embed/zxd98a?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1" frameborder="0" height="7824" loading="lazy" marginheight="0" marginwidth="0" title="Moonvine Community Card Forge" width="100%"></iframe>
-</div>
-</details>
 <p class="privacy-note">
-<strong>Credit is optional.</strong> A nickname, Reddit username, or
-        other alias is only intended for public credit when you explicitly
-        allow it in the form.
-      </p>
+<strong>Keep your reference.</strong> Save the <code>MVF-...</code> reference shown after submission if you may later want to identify an anonymous entry, request deletion, or withdraw public-credit consent.
+</p>
 </section>
 <section class="forge-section reveal">
 <div class="outcome-layout">
@@ -443,40 +450,10 @@
       </div>
 </div>
 <nav aria-label="Legal navigation">
-<a href="impressum.html">Impressum</a>
-<a href="datenschutz.html">Datenschutz</a>
+<a href="impressum.html">Legal Notice</a>
+<a href="datenschutz.html">Privacy Policy</a>
 </nav>
 </footer>
-<script>
-    var tallyDocument = document;
-    var tallyScriptUrl = "https://tally.so/widgets/embed.js";
-
-    var loadTallyEmbeds = function () {
-      if (typeof Tally !== "undefined") {
-        Tally.loadEmbeds();
-      } else {
-        tallyDocument
-          .querySelectorAll("iframe[data-tally-src]:not([src])")
-          .forEach(function (frame) {
-            frame.src = frame.dataset.tallySrc;
-          });
-      }
-    };
-
-    if (typeof Tally !== "undefined") {
-      loadTallyEmbeds();
-    } else if (
-      tallyDocument.querySelector(
-        'script[src="' + tallyScriptUrl + '"]'
-      ) === null
-    ) {
-      var tallyScript = tallyDocument.createElement("script");
-      tallyScript.src = tallyScriptUrl;
-      tallyScript.onload = loadTallyEmbeds;
-      tallyScript.onerror = loadTallyEmbeds;
-      tallyDocument.body.appendChild(tallyScript);
-    }
-  </script>
 <script async data-goatcounter="https://moonvineforge.goatcounter.com/count" src="assets/count.js"></script>
 <script defer src="assets/visitor-counter.js"></script>
 <script>
