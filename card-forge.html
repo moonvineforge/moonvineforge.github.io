@@ -15,6 +15,7 @@
 <link href="assets/forge-editor.css" rel="stylesheet"/>
 <script defer src="assets/forge-schema.js"></script>
 <script defer src="assets/forge-editor.js"></script>
+<script defer src="assets/forge-submission.js"></script>
 <script>
     document.documentElement.classList.add("js");
   </script>
@@ -217,9 +218,9 @@
 </div>
 </div>
 <p class="forge-editor-intro-note">
-<strong>Compact editor prototype:</strong> the new editor below saves a draft only in this browser and creates a local validated preview. It does not send data yet. The current Tally form remains available as a fallback.
+<strong>Compact community Forge:</strong> describe the mechanic in ordinary language, add only the detail you want, and submit it directly. Your unfinished draft remains stored only in this browser until a submission succeeds.
 </p>
-<div class="forge-editor-shell" data-forge-editor>
+<div class="forge-editor-shell" data-forge-editor data-forge-endpoint="https://script.google.com/macros/s/AKfycbwjPby49avdHa1EH5pgmzOPaTJHKxOTBOS70izRkenANfEWX8myI8uZJJ_qBFxe6RD6UQ/exec">
 <div class="forge-editor-panel">
 <p class="forge-editor-fatal-status" id="forge-editor-fatal-status" hidden></p>
 <p class="forge-restore-notice" id="forge-restore-notice" hidden></p>
@@ -318,7 +319,7 @@
 
 <div class="forge-editor-footer">
 <div>
-<button class="forge-action-button primary" data-goatcounter-click="card-forge-local-preview" type="submit">Preview submission</button>
+<button class="forge-action-button primary" data-goatcounter-click="card-forge-submit-attempt" id="forge-submit-button" type="submit">Submit idea</button>
 <button class="forge-action-button secondary" id="forge-clear-draft" type="button">Clear draft</button>
 </div>
 <p class="forge-draft-status" id="forge-draft-status" aria-live="polite">Drafts are saved only in this browser.</p>
@@ -350,8 +351,8 @@
 <section class="forge-local-output" id="forge-local-output" hidden aria-labelledby="forge-local-output-heading">
 <div class="forge-local-output-header">
 <div>
-<h3 id="forge-local-output-heading">Validated local submission</h3>
-<p>This is the exact structured data the future endpoint will receive. Nothing has been sent.</p>
+<h3 id="forge-local-output-heading">Submission received</h3>
+<p>Your idea has entered the Forge. Keep the reference below if you want to identify it later.</p>
 </div>
 </div>
 <pre class="forge-output-json" id="forge-output-json"></pre>
@@ -359,7 +360,7 @@
 
 <details class="forge-legacy-form">
 <summary>Use the current Tally form</summary>
-<p class="forge-legacy-form-copy">Until the private submission endpoint is connected, only this legacy form sends an idea to Moonvine Forge.</p>
+<p class="forge-legacy-form-copy">If direct submission does not work in your browser, you can still use the legacy form below.</p>
 <div class="tally-wrapper">
 <iframe data-tally-src="https://tally.so/embed/zxd98a?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1" frameborder="0" height="7824" loading="lazy" marginheight="0" marginwidth="0" title="Moonvine Community Card Forge" width="100%"></iframe>
 </div>

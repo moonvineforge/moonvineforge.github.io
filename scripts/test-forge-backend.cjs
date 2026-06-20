@@ -132,8 +132,7 @@ test("creates exactly one value for every sheet header", () => {
 });
 
 test("allows only the configured website and local development origins", () => {
-    assert.equal(backend.isAllowedOrigin("https://moonvineforge.github.io"), true);
-    assert.equal(backend.isAllowedOrigin("http://localhost:8000"), true);
+    assert.equal(backend.isAllowedOrigin("https://moonvineforge.com"), true); assert.equal(backend.isAllowedOrigin("https://www.moonvineforge.com"), true); assert.equal(backend.isAllowedOrigin("https://moonvineforge.github.io"), true); assert.equal(backend.isAllowedOrigin("http://localhost:8000"), true);
     assert.equal(backend.isAllowedOrigin("https://example.com"), false);
 });
 

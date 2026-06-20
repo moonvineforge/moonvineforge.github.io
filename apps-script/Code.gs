@@ -4,11 +4,7 @@ const FORGE_BACKEND = Object.freeze({
   maxRequestCharacters: 60000,
   maxPayloadCharacters: 40000,
   lockTimeoutMilliseconds: 10000,
-  allowedOrigins: Object.freeze([
-    "https://moonvineforge.github.io",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000"
-  ]),
+  allowedOrigins: Object.freeze([ "https://moonvineforge.com", "https://www.moonvineforge.com", "https://moonvineforge.github.io", "http://localhost:8000", "http://127.0.0.1:8000" ]),
   contentTypes: Object.freeze([
     "card",
     "relic",
@@ -409,7 +405,7 @@ function createForgeResponse_(targetOrigin, responseToken, result) {
   const safeOriginJson = JSON.stringify(targetOrigin || "*");
   const html = "<!doctype html><html><head><meta charset=\"utf-8\"><title>Moonvine Forge</title></head>" +
     "<body><p>Returning to Moonvine Forge...</p><script>" +
-    "window.parent.postMessage(" + safeMessageJson + "," + safeOriginJson + ");" +
+    "window.top.postMessage(" + safeMessageJson + "," + safeOriginJson + ");" +
     "</script></body></html>";
 
   return HtmlService.createHtmlOutput(html)

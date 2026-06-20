@@ -325,7 +325,7 @@
             setText(
                 readiness,
                 ready
-                    ? "Ready to preview. Everything else is optional."
+                    ? "Ready to submit. Everything else is optional."
                     : "Describe what the mechanic does to make the idea ready."
             );
             updateTypeSpecificLabels();
@@ -426,10 +426,32 @@
             });
         }
 
-        hydrateBaseFields();
-        renderDetails();
-        renderPreview();
-        setHidden(restoreNotice, !restored);
+  window.MoonvineForgeEditor = Object.freeze({
+    prepareSubmission: function () {
+      updateBaseState();
+      return schema.prepareSubmission(state);
+    },
+    showValidation: function (errors) {
+      showValidation(Array.isArray(errors) ? errors : []);
+    },
+    resetAfterSubmission: function () {
+      safeClear();
+      state = schema.createSubmission();
+      form.reset();
+      hydrateBaseFields();
+      renderDetails();
+      renderPreview();
+      setHidden(restoreNotice, true);
+      setHidden(outputPanel, true);
+      showValidation([]);
+      setText(draftStatus, "Drafts are saved only in this browser.");
+    }
+  });
+
+  hydrateBaseFields();
+  renderDetails();
+  renderPreview();
+  setHidden(restoreNotice, !restored);
         if (restored) setText(restoreNotice, RESTORE_MESSAGE);
         setText(draftStatus, restored ? RESTORE_MESSAGE : "Drafts are saved only in this browser.");
     }
