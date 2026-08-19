@@ -4,6 +4,7 @@ const FORGE_BACKEND = Object.freeze({
   maxRequestCharacters: 60000,
   maxPayloadCharacters: 40000,
   lockTimeoutMilliseconds: 10000,
+  processorLockTimeoutMilliseconds: 2000,
   processorBatchLimit: 50,
   processorTokenProperty: "FORGE_PROCESSOR_TOKEN",
   allowedOrigins: Object.freeze([
@@ -228,7 +229,9 @@ function generateForgeProcessorToken() {
 function handleForgeAdminPost_(parameters) {
   const action = normalizeText_(parameters.adminAction);
   const suppliedToken = normalizeText_(parameters.processorToken);
+
   const properties = PropertiesService.getScriptProperties();
+
   const expectedToken = normalizeText_(
     properties.getProperty(FORGE_BACKEND.processorTokenProperty)
   );
@@ -265,8 +268,27 @@ function handleForgeAdminPost_(parameters) {
       errors: result.errors,
       remaining: result.remaining
     });
+
   } catch (error) {
-    console.error(error && error.stack ? error.stack : error);
+    console.error(
+      error && error.stack
+        ? error.stack
+        : error
+    );
+
+    const forgeCode =
+      error && error.forgeCode
+        ? String(error.forgeCode)
+        : "processor_error";
+
+    if (forgeCode === "processor_busy") {
+      return createForgeJsonResponse_({
+        ok: false,
+        code: "processor_busy",
+        message:
+          "The Forge submission sheet is currently busy. Try again shortly."
+      });
+    }
 
     return createForgeJsonResponse_({
       ok: false,
@@ -278,9 +300,11 @@ function handleForgeAdminPost_(parameters) {
 
 function processNewForgeSubmissions_() {
   const properties = PropertiesService.getScriptProperties();
+
   const spreadsheetId = properties.getProperty(
     "FORGE_SPREADSHEET_ID"
   );
+
   const sheetName =
     properties.getProperty("FORGE_SHEET_NAME") ||
     FORGE_BACKEND.sheetName;
@@ -292,14 +316,29 @@ function processNewForgeSubmissions_() {
   }
 
   const lock = LockService.getScriptLock();
-  lock.waitLock(FORGE_BACKEND.lockTimeoutMilliseconds);
+
+  if (
+    !lock.tryLock(
+      FORGE_BACKEND.processorLockTimeoutMilliseconds
+    )
+  ) {
+    throw createForgeError_(
+      "processor_busy",
+      "The Forge submission sheet is currently busy."
+    );
+  }
 
   try {
-    const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-    const sheet = spreadsheet.getSheetByName(sheetName);
+    const spreadsheet =
+      SpreadsheetApp.openById(spreadsheetId);
+
+    const sheet =
+      spreadsheet.getSheetByName(sheetName);
 
     if (!sheet) {
-      throw new Error("The Forge submission sheet is missing.");
+      throw new Error(
+        "The Forge submission sheet is missing."
+      );
     }
 
     ensureForgeHeaders_(sheet);
@@ -332,8 +371,11 @@ function processNewForgeSubmissions_() {
     let invalid = 0;
     let errors = 0;
 
+    const updatedRowIndexes = [];
+
     rows.forEach(function (row, index) {
-      const currentStatus = normalizeText_(row[17]);
+      const currentStatus =
+        normalizeText_(row[17]);
 
       if (currentStatus !== "new") {
         return;
@@ -341,70 +383,144 @@ function processNewForgeSubmissions_() {
 
       totalNew += 1;
 
-      if (processed >= FORGE_BACKEND.processorBatchLimit) {
+      if (
+        processed >=
+        FORGE_BACKEND.processorBatchLimit
+      ) {
         return;
       }
 
       const rowNumber = index + 2;
-      const publicReference = normalizeText_(String(row[1] || ""));
-      const processedAtUtc = Utilities.formatDate(
-        new Date(),
-        "UTC",
-        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-      );
-      const reviewReference = publicReference
-        ? "REVIEW-" + publicReference
-        : "REVIEW-ROW-" + rowNumber;
+
+      const publicReference =
+        normalizeText_(
+          String(row[1] || "")
+        );
+
+      const processedAtUtc =
+        Utilities.formatDate(
+          new Date(),
+          "UTC",
+          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        );
+
+      const reviewReference =
+        publicReference
+          ? "REVIEW-" + publicReference
+          : "REVIEW-ROW-" + rowNumber;
 
       let status = "error";
+
       let notes =
-        "Automated intake processing failed. Review this row manually.";
+        "Automated intake processing failed. " +
+        "Review this row manually.";
 
       try {
-        const payload = JSON.parse(String(row[20] || ""));
-        const validation = validateForgeSubmission_(payload);
+        const payload =
+          JSON.parse(
+            String(row[20] || "")
+          );
+
+        const validation =
+          validateForgeSubmission_(payload);
 
         if (!validation.valid) {
           status = "invalid";
+
           invalid += 1;
-          notes = createForgeValidationNotes_(validation.errors);
+
+          notes =
+            createForgeValidationNotes_(
+              validation.errors
+            );
+
         } else {
-          const review = createAutomatedForgeReview_(
-            validation.submission
-          );
+          const review =
+            createAutomatedForgeReview_(
+              validation.submission
+            );
 
           status = "needs_review";
+
           needsReview += 1;
+
           notes = review.notes;
         }
+
       } catch (error) {
         errors += 1;
+
         console.error(
           "Forge row " +
-            rowNumber +
-            " failed processing: " +
-            (error && error.stack ? error.stack : error)
+          rowNumber +
+          " failed processing: " +
+          (
+            error && error.stack
+              ? error.stack
+              : error
+          )
         );
       }
 
-      sheet
-        .getRange(rowNumber, 18, 1, 3)
-        .setValues([
-          [
-            status,
-            processedAtUtc,
-            reviewReference
-          ]
-        ]);
+      /*
+       * Work entirely in memory first.
+       *
+       * Column indexes:
+       * 17 processing_status
+       * 18 processed_at_utc
+       * 19 review_reference
+       * 20 payload_json
+       * 21 processing_notes
+       */
 
-      sheet
-        .getRange(rowNumber, 22)
-        .setValue(notes);
+      row[17] = status;
+      row[18] = processedAtUtc;
+      row[19] = reviewReference;
+      row[21] = notes;
+
+      updatedRowIndexes.push(index);
 
       processed += 1;
     });
 
-    SpreadsheetApp.flush();
+    /*
+     * Previously every processed submission caused
+     * separate Google Sheets writes.
+     *
+     * Now the complete changed block is written with
+     * a single setValues() call.
+     */
+
+    if (updatedRowIndexes.length > 0) {
+      const firstIndex =
+        updatedRowIndexes[0];
+
+      const lastIndex =
+        updatedRowIndexes[
+          updatedRowIndexes.length - 1
+        ];
+
+      const processingValues =
+        rows
+          .slice(
+            firstIndex,
+            lastIndex + 1
+          )
+          .map(function (row) {
+            return row.slice(17, 22);
+          });
+
+      sheet
+        .getRange(
+          firstIndex + 2,
+          18,
+          processingValues.length,
+          5
+        )
+        .setValues(processingValues);
+
+      SpreadsheetApp.flush();
+    }
 
     return {
       scanned: rows.length,
@@ -412,8 +528,13 @@ function processNewForgeSubmissions_() {
       needsReview: needsReview,
       invalid: invalid,
       errors: errors,
-      remaining: Math.max(totalNew - processed, 0)
+      remaining:
+        Math.max(
+          totalNew - processed,
+          0
+        )
     };
+
   } finally {
     lock.releaseLock();
   }
