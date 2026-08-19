@@ -3,10 +3,9 @@ name: Process Forge submissions
 on:
   workflow_dispatch:
   schedule:
-    - cron: "37 * * * *"
+    - cron: "21 * * * *"
 
-permissions:
-  contents: read
+permissions: {}
 
 concurrency:
   group: process-forge-submissions
@@ -21,111 +20,130 @@ jobs:
       - name: Trigger private Forge intake processor
         shell: bash
         env:
-          FORGE_PROCESSOR_ENDPOINT: https://script.google.com/macros/s/AKfycbwjPby49avdHa1EH5pgmzOPaTJHKxOTBOS70izRkenANfEWX8myI8uZJJ_qBFxe6RD6UQ/exec
           FORGE_PROCESSOR_TOKEN: ${{ secrets.FORGE_PROCESSOR_TOKEN }}
-        run: |
-          set -euo pipefail
+          FORGE_PROCESSOR_URL: "https://script.google.com/macros/s/AKfycbwjPby49avdHa1EH5pgmzOPaTJHKxOTBOS70izRkenANfEWX8myI8uZJJ_qBFxe6RD6UQ/exec"
 
-          if [[ -z "${FORGE_PROCESSOR_TOKEN}" ]]; then
-            echo "FORGE_PROCESSOR_TOKEN is not configured." >&2
+        run: |
+          set -u
+
+          if [ -z "${FORGE_PROCESSOR_TOKEN:-}" ]; then
+            echo "::error title=Forge processor::GitHub secret FORGE_PROCESSOR_TOKEN is missing."
             exit 1
           fi
 
           response_file="$(mktemp)"
-          trap 'rm -f "${response_file}"' EXIT
+          trap 'rm -f "$response_file"' EXIT
 
-          http_code="$(
-            curl \
+          for attempt in 1 2 3; do
+            echo "Forge processor attempt ${attempt}/3"
+            : > "$response_file"
+
+            if ! curl \
+              --fail-with-body \
               --silent \
               --show-error \
               --location \
-              --retry 2 \
-              --retry-all-errors \
+              --connect-timeout 10 \
               --max-time 60 \
+              --header "Accept: application/json" \
               --data-urlencode "adminAction=process_new" \
               --data-urlencode "processorToken=${FORGE_PROCESSOR_TOKEN}" \
-              --output "${response_file}" \
-              --write-out "%{http_code}" \
-              "${FORGE_PROCESSOR_ENDPOINT}"
-          )"
+              "${FORGE_PROCESSOR_URL}" \
+              --output "$response_file"
+            then
+              curl_status=$?
 
-          if [[ "${http_code}" != "200" ]]; then
-            echo "Forge processor returned HTTP ${http_code}." >&2
-            exit 1
-          fi
+              echo "::warning title=Forge processor::Request failed on attempt ${attempt}."
 
-          python3 - "${response_file}" "${GITHUB_STEP_SUMMARY}" <<'PY'
+              if [ "$attempt" -lt 3 ]; then
+                sleep $((attempt * 5))
+                continue
+              fi
+
+              echo "::error title=Forge processor::Apps Script could not be reached after three attempts."
+              exit "${curl_status:-1}"
+            fi
+
+            python3 - "$response_file" <<'PY'
           import json
           import sys
           from pathlib import Path
 
           response_path = Path(sys.argv[1])
-          summary_path = Path(sys.argv[2])
 
           try:
-              payload = json.loads(response_path.read_text(encoding="utf-8"))
-          except (OSError, json.JSONDecodeError) as error:
-              raise SystemExit(
-                  f"Forge processor returned invalid JSON: {error}"
+              payload = json.loads(
+                  response_path.read_text(encoding="utf-8")
               )
+          except Exception as exc:
+              print(
+                  "::error title=Forge processor::"
+                  f"Apps Script returned invalid JSON: {exc}"
+              )
+              raise SystemExit(2)
 
-          if payload.get("ok") is not True:
-              code = str(payload.get("code") or "unknown_error")
-              message = str(payload.get("message") or "Processor failed.")
-              raise SystemExit(f"Forge processor failed: {code}: {message}")
+          code = str(payload.get("code") or "")
+          message = str(payload.get("message") or "")
 
-          fields = (
-              "scanned",
-              "processed",
-              "needsReview",
-              "invalid",
-              "errors",
-              "remaining",
-          )
+          if payload.get("ok") is True and code == "processor_complete":
+              scanned = payload.get("scanned", 0)
+              processed = payload.get("processed", 0)
+              needs_review = payload.get("needsReview", 0)
+              invalid = payload.get("invalid", 0)
+              errors = payload.get("errors", 0)
+              remaining = payload.get("remaining", 0)
 
-          counts = {}
+              print(
+                  "::notice title=Forge processor::"
+                  f"Complete — scanned={scanned}, "
+                  f"processed={processed}, "
+                  f"needs_review={needs_review}, "
+                  f"invalid={invalid}, "
+                  f"errors={errors}, "
+                  f"remaining={remaining}"
+              )
+              raise SystemExit(0)
 
-          for field in fields:
-              value = payload.get(field)
+          if code == "processor_busy":
+              print(
+                  "::warning title=Forge processor::"
+                  "The submission sheet is currently busy. Retrying."
+              )
+              raise SystemExit(75)
 
-              if isinstance(value, bool) or not isinstance(value, int):
-                  raise SystemExit(
-                      f"Forge processor returned invalid {field!r} count."
-                  )
-
-              if value < 0:
-                  raise SystemExit(
-                      f"Forge processor returned negative {field!r} count."
-                  )
-
-              counts[field] = value
+          if code == "processor_error":
+              print(
+                  "::warning title=Forge processor::"
+                  f"Temporary processor error: {message or code}"
+              )
+              raise SystemExit(76)
 
           print(
-              "Forge processor completed: "
-              f"processed={counts['processed']}, "
-              f"needs_review={counts['needsReview']}, "
-              f"invalid={counts['invalid']}, "
-              f"errors={counts['errors']}, "
-              f"remaining={counts['remaining']}."
+              "::error title=Forge processor::"
+              f"{code or 'unknown_error'}: "
+              f"{message or 'Unknown Forge processor failure.'}"
           )
-
-          summary = "\n".join(
-              [
-                  "## Moonvine Forge intake",
-                  "",
-                  f"- Rows scanned: {counts['scanned']}",
-                  f"- Newly processed: {counts['processed']}",
-                  f"- Awaiting manual review: {counts['needsReview']}",
-                  f"- Invalid payloads: {counts['invalid']}",
-                  f"- Processing errors: {counts['errors']}",
-                  f"- Remaining new submissions: {counts['remaining']}",
-                  "",
-                  "Raw submissions and author information remain in the private Google Sheet.",
-              ]
-          )
-
-          summary_path.write_text(
-              summary + "\n",
-              encoding="utf-8",
-          )
+          raise SystemExit(1)
           PY
+
+            parser_status=$?
+
+            if [ "$parser_status" -eq 0 ]; then
+              exit 0
+            fi
+
+            if [ "$parser_status" -eq 75 ] || [ "$parser_status" -eq 76 ]; then
+              if [ "$attempt" -lt 3 ]; then
+                sleep $((attempt * 5))
+                continue
+              fi
+
+              echo "::error title=Forge processor::Processor remained unavailable after three attempts."
+              exit 1
+            fi
+
+            exit "$parser_status"
+          done
+
+          echo "::error title=Forge processor::Unexpected end of processor retry loop."
+          exit 1
