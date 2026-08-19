@@ -15,11 +15,13 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 3
 
     steps:
       - name: Check out the website repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Read the public GoatCounter total
@@ -28,19 +30,27 @@ jobs:
           set -euo pipefail
 
           response_file="$(mktemp)"
+          trap 'rm -f "$response_file"' EXIT
 
-          curl \
+          if ! curl \
             --fail \
             --silent \
             --show-error \
             --location \
-            --retry 3 \
+            --connect-timeout 10 \
+            --max-time 20 \
+            --retry 2 \
+            --retry-delay 2 \
             --retry-all-errors \
             --header "Accept: application/json" \
             "https://moonvineforge.goatcounter.com/counter/TOTAL.json" \
             --output "$response_file"
+          then
+            echo "::warning title=Visitor counter::GoatCounter is temporarily unavailable. Keeping the existing visitor count."
+            exit 0
+          fi
 
-          python3 - "$response_file" <<'PY'
+          if ! python3 - "$response_file" <<'PY'
           import json
           import sys
           from pathlib import Path
@@ -48,13 +58,26 @@ jobs:
           response_path = Path(sys.argv[1])
           output_path = Path("visitor-count.json")
 
-          with response_path.open("r", encoding="utf-8") as source:
-              payload = json.load(source)
+          try:
+              with response_path.open("r", encoding="utf-8") as source:
+                  payload = json.load(source)
+          except Exception as exc:
+              print(
+                  "::warning title=Visitor counter::"
+                  f"GoatCounter returned invalid JSON ({exc}). "
+                  "Keeping the existing visitor count."
+              )
+              raise SystemExit(1)
 
           count = payload.get("count")
 
           if isinstance(count, bool) or count is None:
-              raise SystemExit("GoatCounter response has no valid count field")
+              print(
+                  "::warning title=Visitor counter::"
+                  "GoatCounter response has no valid count field. "
+                  "Keeping the existing visitor count."
+              )
+              raise SystemExit(1)
 
           if isinstance(count, (int, float)):
               count = f"{int(count):,}"
@@ -62,13 +85,27 @@ jobs:
               count = str(count).strip()
 
           if not count:
-              raise SystemExit("GoatCounter returned an empty count")
+              print(
+                  "::warning title=Visitor counter::"
+                  "GoatCounter returned an empty count. "
+                  "Keeping the existing visitor count."
+              )
+              raise SystemExit(1)
 
           output_path.write_text(
-              json.dumps({"count": count}, indent=2, ensure_ascii=False) + "\n",
+              json.dumps(
+                  {"count": count},
+                  indent=2,
+                  ensure_ascii=False,
+              ) + "\n",
               encoding="utf-8",
           )
+
+          print(f"Visitor count received successfully: {count}")
           PY
+          then
+            exit 0
+          fi
 
       - name: Commit the count only when it changed
         shell: bash
@@ -84,6 +121,25 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git commit -m "chore: update visitor count"
-          git pull --rebase origin "$GITHUB_REF_NAME"
-          git push origin "HEAD:$GITHUB_REF_NAME"
+
+          for attempt in 1 2 3; do
+            echo "Push attempt ${attempt}/3"
+
+            git fetch origin main
+            git rebase origin/main
+
+            if git push origin HEAD:main; then
+              echo "Visitor count pushed successfully."
+              exit 0
+            fi
+
+            if [ "$attempt" -lt 3 ]; then
+              echo "Push raced with another commit. Retrying shortly."
+              sleep $((attempt * 2))
+            fi
+          done
+
+          echo "::error title=Visitor counter::Could not push visitor-count.json after three attempts."
+          exit 1
